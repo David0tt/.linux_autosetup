@@ -8,6 +8,19 @@ The main point of this repository is to automatically install my whole setup on 
 
 Before installing it might make sense to uncomment some installations in the `install_script.sh`
 
+
+# To only install the VSCode keybindings and snippets run:
+
+    # Put the VSCode config files into the appropriate locations
+    rm ~/.config/Code/User/keybindings.json
+    ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
+    rm ~/.config/Code/User/settings.json 
+    ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json 
+    # Snippets:
+    ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+
+
+
 # Components of this setup:
 - i3 window manager
 - config files to make everything to my liking

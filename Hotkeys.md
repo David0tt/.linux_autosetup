@@ -11,7 +11,6 @@ Settings can be added in settings.json (`Preferences: Open User Settings (JSON)`
     - `ctrl+shift+left/right` select by jumping through words
     - `shift+alt+left/right` smart select, select in paranthesis / brackets / to next comma, etc.
     - `Ctrl+K V` to open markdown preview to the side 
-    - `Ctrl+Shift+V` to open markdown preview
     - `Ctrl+Alt+I` Toggle copilot chat panel
     - `Ctrl+Shift+Alt+I` toggle Copilot edits panel
     - `Ctrl+J` cursor accept partial edit
@@ -39,6 +38,9 @@ Settings can be added in settings.json (`Preferences: Open User Settings (JSON)`
       - also have to edit when expression of shortcut `Jupyter: Run Selection/Line in Interactive Window` to:
         - `editorTextFocus && isWorkspaceTrusted && !findInputFocussed && !isCompositeNotebook && !notebookEditorFocused && !replaceInputFocussed && editorLangId == 'python'`
     - `ctrl+shift+enter`: Jupyter: Run To Line in Interactive Window (remove `Insert Code Cell Above` and `Insert Line Before`)
+    - `ctrl+shift+v` paste (to use same as in terminals)
+    - `ctrl+shift+c` copy (to use same as in terminals)
+    - `Ctrl+Shift+Alt+V` to open markdown preview (previously was `ctrl+shift+v`)
 - VSCode Copilot
   - `ctrl+alt+i`: toggle chat
   - `ctrl+shift+alt+i`: toggle editor chat

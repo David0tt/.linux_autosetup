@@ -334,8 +334,8 @@ ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippe
 ################################################################################
 
 # Adapt Window scaling:
-echo '*dpi: 150
-Xft.dpi: 150' >> ~/.Xresources
+echo '*dpi: 140
+Xft.dpi: 140' >> ~/.Xresources
 
 # Set dark theme for all applications using GTK
 echo '[Settings]
