@@ -51,10 +51,12 @@ git config --global user.name "David Ott"
 sudo apt install gparted
 # Diodon (Clipboard Manager)
 sudo apt install diodon -y
+set +x 
 echo "YOU MANUALLY HAVE TO EDIT THE DIODON SETTINGS"
 echo "In Diodon Preferences: (Diodon Hotkey->Preferences)"
 echo "check Use primary selection (-> Enables paste in Command lines)"
 echo "check Add Images to clipboard history (-> now also have images in history, but RAM intensive)"
+set -x
 
 # Nextcloud
 sudo apt install nextcloud-desktop -y
@@ -350,8 +352,14 @@ echo '"\C-h": backward-kill-word' >> ~/.inputrc
 echo 'if command -v xhost >/dev/null 2>&1 && [ -n "$DISPLAY" ]; then
     xhost +local:docker >/dev/null 2>&1
 fi' >> ~/.bashrc
+
+
+################################################################################
+### custom bash alises
+################################################################################
 echo 'alias nn="code ~/Nextcloud/INN/nn/"' >> ~/.bashrc
 echo 'alias rr="code ~/Nextcloud/RobotReplicationDockerfiles/"' >> ~/.bashrc
+echo 'alias th="thunar . &"' >> ~/.bashrc
 
 
 
@@ -373,20 +381,18 @@ HISTCONTROL=ignoredups:ignorespace' >> ~/.bashrc
 ################################################################################
 ###  Post Installation TODO message
 ################################################################################
+set +x
 echo "What you should do now: "
-echo ' - Log into firefox account -> should install all addons, and maybe some settings'
 echo ' - start nextcloud file syncing'
-echo ' - set up zotero file storage via nextcloud'
-echo ' - set up rustdesk login and password'
-echo ' - set up ssh keys'
+echo ' - Log into firefox account -> should install all addons, and maybe some settings'
 echo ' - set up thunderbird'
-echo ' - install VSCode extensions '
+echo ' - set up zotero file storage via nextcloud'
+echo ' - set up rustdesk login and permanent password'
+echo ' - set up ssh keys'
 echo ' - log into VSCode Copilot'
-echo ' - GNOME: Settings Appearance Dark'
 echo ' - create conda environment'
-echo ' - change the dpi scaling in ~/.Xresources'
-echo ' - set rustdesk permanent password'
-
+echo ' - OPTIONAL: change the dpi scaling in ~/.Xresources'
+echo ' '
 echo "YOU MANUALLY HAVE TO EDIT THE DIODON SETTINGS"
 echo "In Diodon Preferences: (Diodon Hotkey->Preferences)"
 echo "check Use primary selection (-> Enables paste in Command lines)"
@@ -397,18 +403,10 @@ echo "check Add Images to clipboard history (-> now also have images in history,
 
 
 
-# TODO make optional installations via user prompt / command line arguments
-# - for graphics driver -> Rather put prompt at the start: Make sure, that you have installed the graphics driver for this machine, otherwise, do this first!
-# - for docker
-# - for mullvad
-# - TODO think about whether more things should be optional
-# - TODO allow choosing the default terminal emulator
-# 
+# TODO maybe make optional installations via user prompt / command line arguments. Alternatively users can just manually comment out what they don't like from this file
 
 # TODO compare shortcuts with https://github.com/David0tt/MyShortcuts -> TODO make a check in the setup file, if we are under i3 make shortcuts using bindsym, otherwise make them using the dconf way (optionally make both, for dual desktop setups)
 # latex go to current location in pdf
 # bluetooth driver
-# TODO don't show icons in taskbar (diodon, keyboard, ethernet, ...)
-# TODO maybe put config files only with symlinks from some dotfile repository (could be good for keeping changes)
 # TODO make alias to open file explorer at current location
 
