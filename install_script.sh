@@ -30,8 +30,8 @@ echo '    sudo apt-get -y install cuda-toolkit-12-9'
 set -x
 
 # Starting:
-mkdir ~/system_installation
-cd ~/system_installation
+# mkdir ~/system_installation
+cd ~/.linux_autosetup
 
 
 
@@ -91,7 +91,7 @@ sudo make clean install
 
 # add st to available terminal emulators:
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/st 50
-
+cd ~/.linux_autosetup
 
 # Setup for bash:
 # Install ble.sh -> Syntax highlighting, command suggestions, autocomplete
