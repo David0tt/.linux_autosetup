@@ -77,7 +77,7 @@ map ctrl+minus     decrease_font_size' >>  ~/.config/kitty/kitty.conf
 
 # (st) minimal terminal (always used for fzf program search (with mod+d))
 sudo apt update
-sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev
+sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev -y
 git clone https://git.suckless.org/st
 cd st
 
