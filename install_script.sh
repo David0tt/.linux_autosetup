@@ -48,7 +48,7 @@ sudo apt install git -y
 git config --global user.email "david.ott@uni-tuebingen.de"
 git config --global user.name "David Ott"
 # gparted (partition manager, easily allows partitioning in a graphical interface)
-sudo apt install gparted
+sudo apt install gparted -y 
 # Diodon (Clipboard Manager)
 sudo apt install diodon -y
 set +x 
@@ -124,7 +124,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # this also makes the open terminal here dialogue in thunar work correctly:
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
 # sudo update-alternatives --config x-terminal-emulator # to show the currently chosen terminal-emulator
-sudo apt install xfce4-settings
+sudo apt install xfce4-settings -y 
 # this also allows running `xfce4-settings-manager`
 
 
@@ -134,10 +134,10 @@ sudo apt install xfce4-settings
 # Install i3-wm
 sudo apt install i3 -y 
 # thunar (File Manager):
-sudo apt install thunar
+sudo apt install thunar -y 
 # Audio control:
-# sudo apt install pavucontrol # GUI, but shows too much stuff
-sudo apt install pulsemixer # Minimal TUI
+# sudo apt install pavucontrol -y # GUI, but shows too much stuff
+sudo apt install pulsemixer -y  # Minimal TUI
 # flameshot (Screenshot Program)
 sudo apt install flameshot -y
 
@@ -149,23 +149,23 @@ sudo apt install flameshot -y
 ################################################################################
 # Replacements for Basic Functionality (ls, cat, grep, ...)
 # eza (better ls)
-sudo apt install eza
+sudo apt install eza -y 
 echo 'alias ls="eza"' >> ~/.bashrc
 # bat (better cat)
-sudo apt install bat
+sudo apt install bat -y 
 echo 'alias cat="batcat --paging=never"' >> ~/.bashrc
 # ripgrep (better grep)
-sudo apt-get install ripgrep
+sudo apt-get install ripgrep -y 
 echo 'alias grep="rg"' >> ~/.bashrc
 # cargo install xcp # cp alternative, however currently unstable and in beta, also no real performance gain over cp, only advantage is status bar
 # TODO not sure if I need zoxide, if I already have fzf with alt+c
-sudo apt install zoxide
+sudo apt install zoxide -y 
 eval "$(zoxide init bash --cmd cd)"
 # -> Use cdi for fuzzy search in zoxide cd, use cd similarly, but with memory and autocomplete
 # Finding stuff
 # ldconfig -p | grep <libraryname> # finding the location of libraries
 # which # finding the location of executables
-sudo apt install fd-find # fd is  a find replacement, that is faster and has better defaults
+sudo apt install fd-find -y # fd is  a find replacement, that is faster and has better defaults
 echo 'alias find="fdfind"' >> ~/.bashrc
 # Disk usage (more intuitive than df / du)
 
@@ -181,7 +181,7 @@ sudo apt install htop -y
 sudo apt install btop -y # also has performance graph. Notable alternative: bottom
 sudo apt install speedtest-cli -y
 # tree (for viewing filesystem tree)
-sudo apt install tree
+sudo apt install tree -y 
 
 
 ################################################################################
@@ -234,9 +234,9 @@ wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > pa
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 rm -f packages.microsoft.gpg
-sudo apt install apt-transport-https
+sudo apt install apt-transport-https -y 
 sudo apt update
-sudo apt install code
+sudo apt install code -y 
 # VSCode programatically install all the extensions:
 #!/bin/bash
 # List of VSCode extension IDs to install
@@ -269,7 +269,7 @@ cd ..
 sudo snap install blender --classic -y 
 
 # Rustdesk
-sudo apt install libxdo3
+sudo apt install libxdo3 -y 
 wget https://github.com/rustdesk/rustdesk/releases/download/1.4.0/rustdesk-1.4.0-x86_64.deb
 sudo dpkg -i rustdesk-1.4.0-x86_64.deb
 
@@ -304,7 +304,7 @@ sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mull
 echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable stable main" | sudo tee /etc/apt/sources.list.d/mullvad.list
 # Install the package
 sudo apt update
-sudo apt install mullvad-vpn
+sudo apt install mullvad-vpn -y 
 
 
 
