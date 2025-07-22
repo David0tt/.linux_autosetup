@@ -263,7 +263,7 @@ mkdir freecad
 cd freecad
 wget https://github.com/FreeCAD/FreeCAD/releases/download/1.0.1/FreeCAD_1.0.1-conda-Linux-x86_64-py311.AppImage
 chmod +x FreeCAD_1.0.1-conda-Linux-x86_64-py311.AppImage
-sudo ln -s ~/freecad/FreeCAD_1.0.1-conda-Linux-x86_64-py311.AppImage /usr/local/bin/freecad
+sudo ln -s ~/.linux_autosetup/freecad/FreeCAD_1.0.1-conda-Linux-x86_64-py311.AppImage /usr/local/bin/freecad
 cd ..
 
 # Blender
