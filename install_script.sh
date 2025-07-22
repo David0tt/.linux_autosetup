@@ -208,7 +208,8 @@ bash Miniconda3-latest-Linux-x86_64.sh -b
 ~/miniconda3/bin/conda init
 
 # Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # Verify
 # rustc --version
 # cargo --version
