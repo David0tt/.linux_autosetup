@@ -317,6 +317,8 @@ sudo apt install mullvad-vpn -y
 ###  Config files via symlink
 ################################################################################
 # Put all the config files
+rm -r ~/.config/i3/
+mkdir -p ~/.config/i3/
 ln -s ~/.linux_autosetup/config_files/i3/config ~/.config/i3/config
 ln -s ~/.linux_autosetup/config_files/i3/i3_grid.sh ~/.config/i3/i3_grid.sh
 ln -s ~/.linux_autosetup/config_files/i3/i3status.conf ~/.config/i3/i3status.conf
