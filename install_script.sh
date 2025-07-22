@@ -180,8 +180,8 @@ sudo apt install ncdu -y
 sudo apt install htop -y
 sudo apt install btop -y # also has performance graph. Notable alternative: bottom
 sudo apt install speedtest-cli -y
-# tree (for viewing filesystem tree)
-sudo apt install tree -y 
+# tree (for viewing filesystem tree) -> Not required, `eza -T` does the same and is more customizeable
+# sudo apt install tree -y 
 
 
 ################################################################################
