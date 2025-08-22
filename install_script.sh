@@ -363,6 +363,9 @@ fi' >> ~/.bashrc
 echo 'alias nn="code ~/Nextcloud/INN/nn/"' >> ~/.bashrc
 echo 'alias rr="code ~/Nextcloud/RobotReplicationDockerfiles/"' >> ~/.bashrc
 echo 'alias th="thunar . &"' >> ~/.bashrc
+# echo 'alias th="nautilus . &"' >> ~/.bashrc
+echo 'alias ebv="cd /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
+echo 'alias ebvc="code /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
 
 
 
