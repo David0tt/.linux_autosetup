@@ -32,7 +32,8 @@ set -x
 # Starting:
 # mkdir ~/system_installation
 cd ~/.linux_autosetup
-
+mkdir -p program_installation
+cd ~/.linux_autosetup/program_installation
 
 
 ################################################################################
@@ -91,7 +92,7 @@ sudo make clean install
 
 # add st to available terminal emulators:
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/st 50
-cd ~/.linux_autosetup
+cd ~/.linux_autosetup/program_installation
 
 # Setup for bash:
 # Install ble.sh -> Syntax highlighting, command suggestions, autocomplete
@@ -322,6 +323,11 @@ mkdir -p ~/.config/i3/
 ln -s ~/.linux_autosetup/config_files/i3/config ~/.config/i3/config
 ln -s ~/.linux_autosetup/config_files/i3/i3_grid.sh ~/.config/i3/i3_grid.sh
 ln -s ~/.linux_autosetup/config_files/i3/i3status.conf ~/.config/i3/i3status.conf
+ln -s ~/.linux_autosetup/config_files/i3/open_website_in_firefox.sh ~/.config/i3/open_website_in_firefox.sh
+ln -s ~/.linux_autosetup/config_files/i3/start_docker_workspace.sh ~/.config/i3/start_docker_workspace.sh
+# rm -r ~/.config/alacritty/
+mkdir -p ~/.config/alacritty/
+ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 
 # Put the VSCode config files into the appropriate locations
 rm ~/.config/Code/User/keybindings.json
@@ -366,6 +372,7 @@ echo 'alias th="thunar . &"' >> ~/.bashrc
 # echo 'alias th="nautilus . &"' >> ~/.bashrc
 echo 'alias ebv="cd /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
 echo 'alias ebvc="code /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
+echo 'alias ds="~/.config/i3/start_docker_workspace.sh"' >> ~/.bashrc # start up a docker container with multiple terminals
 
 
 
@@ -403,6 +410,8 @@ echo "YOU MANUALLY HAVE TO EDIT THE DIODON SETTINGS"
 echo "In Diodon Preferences: (Diodon Hotkey->Preferences)"
 echo "check Use primary selection (-> Enables paste in Command lines)"
 echo "check Add Images to clipboard history (-> now also have images in history, but RAM intensive)"
+
+echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-color|*-256color|alacritty|xterm-kitty) color_prompt=yes;; in ~/.bashrc"
 
 
 # TODO put GNOME hotkeys from https://github.com/David0tt/MyShortcuts

@@ -1,0 +1,33 @@
+[window]
+
+[font]
+normal.family = "Ubuntu Mono"
+size = 14.0
+
+[colors.primary]
+background = "#000000" # Dark grey (Terminator default)
+foreground = "#CCCCCC" # Light foreground
+
+[colors.normal]
+black   = "#2E3436"
+red     = "#CC0000"
+green   = "#4E9A06"
+yellow  = "#C4A000"
+blue    = "#3465A4"
+magenta = "#75507B"
+cyan    = "#06989A"
+white   = "#D3D7CF"
+
+[colors.bright]
+black   = "#555753"
+red     = "#EF2929"
+green   = "#8AE234"
+yellow  = "#FCE94F"
+blue    = "#729FCF"
+magenta = "#AD7FA8"
+cyan    = "#34E2E2"
+white   = "#EEEEEC"
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+unfocused_hollow = true

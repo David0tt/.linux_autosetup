@@ -92,6 +92,10 @@
         "command": "-markdown.extension.editing.toggleItalic",
         "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
     },
+    {
+        "key": "ctrl+j",
+        "command": "-workbench.action.togglePanel"
+    },
 ]
 
 

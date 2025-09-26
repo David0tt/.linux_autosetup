@@ -49,9 +49,10 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-# bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec alacritty
+bindsym Control+Mod1+t exec alacritty # for Gnome Compatability
 # bindsym $mod+Return exec terminator
-bindsym $mod+Return exec kitty
+# bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -110,7 +111,8 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# switch to workspace
+# switch to workspacehat
+
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -210,7 +212,7 @@ client.background       #000000ff
 # Making the border around new windows larger
 # new_window normal 3
 # Without title bar
-new_window pixel 3 
+new_window pixel 5
 
 
 
@@ -231,6 +233,11 @@ new_window pixel 3
 # assign [class="Thunar"] $ws4
 
 
+# Keep the Notes VS Code window on WS 9
+assign [class="Code" title=".*TODO_Lists_VSCode.*"] $ws10
+# assign [class="Code"] $ws10
+
+
 
 ################################################################################
 ###  Mouse Commands
@@ -248,7 +255,7 @@ bindsym button3 floating toggle
 bindsym --whole-window $mod+button3 floating toggle
 
 # Rearrange the windows in the current workspace to grid layout (prioritizes more columns for wide screens)
-bindsym $mod+Shift+g exec --no-startup-id ~/.config/i3/i3_grid.sh wide
+bindsym $mod+Shift+g exec --no-startup-id ~/.config/i3/i3_grid.sh
 
 
 
@@ -288,3 +295,36 @@ bindsym $mod+v exec --no-startup-id /usr/bin/diodon
 
 # Screenshot
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui
+
+
+# Open Different websites in Firefox on Workspace 9
+# Reuses an existing Firefox window on WS 9 if present, else opens a new one
+bindsym Control+Shift+Mod1+c exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://chatgpt.com/
+bindsym Control+Shift+Mod1+d exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://www.deepl.com
+bindsym Control+Shift+Mod1+k exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://keep.google.com
+bindsym Control+Shift+Mod1+s exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://scholar.google.com
+bindsym Control+Shift+Mod1+t exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://translate.google.com
+bindsym Control+Shift+Mod1+g exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://github.com/
+
+# Open VS Code Notes
+bindsym Control+Shift+Mod1+n workspace $ws10; exec --no-startup-id code "$HOME/Nextcloud/TODO_Lists_VSCode"
+
+# Move whole workspace to the next/previous monitor
+bindsym $mod+Mod1+Right move workspace to output right
+bindsym $mod+Mod1+Left move workspace to output left 
+
+
+
+# TODO Script to start a  docker container with multiple open terminals in it in the current workspace
+# e.g. ds <containername> should run 
+# docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --net=host --privileged <containername>
+# and then open a total of 8 terminals in a 2x4 grid layout
+# e.g. with docker exec -it <container_id> /bin/bash 
+# in each
+
+
+# Add Nextcloud to autostart
+
+
+# TODO put specific workspaces for specific things automatically?
+
