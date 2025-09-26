@@ -88,6 +88,9 @@ sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:auto
 sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
 sed -i 's/{ TERMMOD, XK_Next, zoom, {.f = -1} },/{ ControlMask, XK_minus, zoom, {.f = -1} },/' "$CONFIG_FILE"
 sudo make clean install
+# Local installation (into ~/.local/bin):
+# make clean install PREFIX=$HOME/.local
+# echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 
 # add st to available terminal emulators:
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/st 50
