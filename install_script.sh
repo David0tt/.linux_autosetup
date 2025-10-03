@@ -250,6 +250,7 @@ extensions=(
   "ms-vscode.cpptools"
   "rust-lang.rust-analyzer"
   "ms-python.python"
+  "ms-toolsai.jupyter"
   "james-yu.latex-workshop"
   "yzhang.markdown-all-in-one"
   "yzane.markdown-pdf"
