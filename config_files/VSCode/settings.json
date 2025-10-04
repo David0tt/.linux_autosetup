@@ -14,6 +14,7 @@
   "github.copilot.nextEditSuggestions.enabled": true,
   "jupyter.interactiveWindow.creationMode": "perFile",
   "explorer.confirmDragAndDrop": false,
+  "chat.agent.maxRequests": 100,
   "chat.tools.terminal.autoApprove": {
     // DANGEROUS AREA: these can be useful in a sandboxed environment
     // RISKY: only allow this in a sandboxed environment!!!
