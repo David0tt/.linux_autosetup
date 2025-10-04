@@ -247,7 +247,7 @@ sudo apt install code -y
 # List of VSCode extension IDs to install
 extensions=(
   "ms-python.python"
-  "ms-python.pylint"
+  "ms-python.pylint" # could also look into ruff for python linting in the future: charliermarsh.ruff
   "ms-python.black-formatter"
   "ms-vscode.cpptools"
   "rust-lang.rust-analyzer"
