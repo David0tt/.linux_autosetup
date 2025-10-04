@@ -246,10 +246,11 @@ sudo apt install code -y
 #!/bin/bash
 # List of VSCode extension IDs to install
 extensions=(
+  "ms-python.python"
+  "ms-python.pylint"
   "ms-python.black-formatter"
   "ms-vscode.cpptools"
   "rust-lang.rust-analyzer"
-  "ms-python.python"
   "ms-toolsai.jupyter"
   "james-yu.latex-workshop"
   "yzhang.markdown-all-in-one"
