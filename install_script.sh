@@ -46,8 +46,13 @@ sudo apt install keepassxc -y
 sudo apt install curl -y
 sudo apt install gawk -y
 sudo apt install git -y
+# Set my git credentials
 git config --global user.email "david.ott@uni-tuebingen.de"
 git config --global user.name "David Ott"
+# Set VSCode as git difftool (show diffs with git difftool <file>)
+git config --global diff.tool vscode
+git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
+git config --global difftool.prompt true
 # gparted (partition manager, easily allows partitioning in a graphical interface)
 sudo apt install gparted -y 
 # Diodon (Clipboard Manager)
