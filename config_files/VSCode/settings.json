@@ -10,5 +10,138 @@
   "[rust]": {
      "editor.defaultFormatter": "rust-lang.rust-analyzer",
      "editor.formatOnSave": true
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "explorer.confirmDragAndDrop": false,
+  "chat.tools.terminal.autoApprove": {
+    // DANGEROUS AREA: these can be useful in a sandboxed environment
+    // RISKY: only allow this in a sandboxed environment!!!
+    // "python3": true,
+    // "python": true,
+    // "ps": true,
+    // "top": true,
+    // "curl": true,
+    // "wget": true,
+
+
+    // Command line injection prevention, uncomment these only in a sandboxed environment
+    // prevents parantheses, braces and backticks (), {}, ``
+    "/\\(.+\\)/": {
+      "approve": false,
+      "matchCommandLine": true
+    },
+    "/\\{.+\\}/": {
+      "approve": false,
+      "matchCommandLine": true
+    },
+    "/`.+`/": {
+      "approve": false,
+      "matchCommandLine": true
+    },
+
+
+
+
+    // Bash non-destructive commands
+    "cd": true,
+    "echo": true,
+    "ls": true,
+    "pwd": true,
+    "cat": true,
+    "head": true,
+    "tail": true,
+    "findstr": true,
+    "wc": true,
+    "tr": true,
+    "cut": true,
+    "cmp": true,
+    "which": true,
+    "basename": true,
+    "dirname": true,
+    "realpath": true,
+    "readlink": true,
+    "stat": true,
+    "file": true,
+    "du": true,
+    "df": true,
+    "sleep": true,
+    "git status": true,
+    "git log": true,
+    "git show": true,
+    "git diff": true,
+    "uname": true,
+    "hostname": true,
+
+    // Powershell non-destructive commands
+    "Get-ChildItem": true,
+    "Get-Content": true,
+    "Get-Date": true,
+    "Get-Random": true,
+    "Get-Location": true,
+    "Write-Host": true,
+    "Write-Output": true,
+    "Split-Path": true,
+    "Join-Path": true,
+    "Start-Sleep": true,
+    "Where-Object": true,
+    "/^Select-[a-z0-9]/i": true,
+    "/^Measure-[a-z0-9]/i": true,
+    "/^Compare-[a-z0-9]/i": true,
+    "/^Format-[a-z0-9]/i": true,
+    "/^Sort-[a-z0-9]/i": true,
+
+    // blocked Powershell commands
+    "Remove-Item": false,
+    "ri": false,
+    "rd": false,
+    "del": false,
+    "erase": false,
+    "Stop-Process": false,
+    "spps": false,
+    "taskkill": false,
+    "taskkill.exe": false,
+    "Invoke-RestMethod": false,
+    "Invoke-WebRequest": false,
+    "irm": false,
+    "iwr": false,
+    "Set-ItemProperty": false,
+    "sp": false,
+    "Set-Acl": false,
+    "Invoke-Expression": false,
+    "iex": false,
+
+
+    // Allowed, but with restrictions
+    "column": true,
+    "/^column\\b.*-c\\s+[0-9]{4,}/": false,
+    "date": true,
+    "/^date\\b.*(-s|--set)\\b/": false,
+    "find": true,
+    "/^find\\b.*-(delete|exec|execdir|fprint|fprintf|fls|ok|okdir)\\b/": false,
+    "grep": true,
+    // "/^grep\\b.*-(f|P)\\b/": false,
+    "sort": true,
+    // "/^sort\\b.*-(o|S)\\b/": false,
+    "tree": true,
+    // "/^tree\\b.*-o\\b/": false,
+
+
+
+
+    // Blocked shell commands
+    "rm": false,
+    "rmdir": false,
+    "dd": false,
+    "kill": false,
+    "chmod": false,
+    "chown": false,
+    "jq": false,
+    "xargs": false,
+    "eval": false,
+    "ssh": false,
+    "rsync": false,
+    "scp": false,
+
   }
 }
