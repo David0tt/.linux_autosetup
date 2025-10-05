@@ -346,6 +346,8 @@ rm ~/.config/Code/User/settings.json
 ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json 
 # Snippets:
 ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+# Prompts:
+ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
 
 # NOTE: The .bashrc is explicitly not symlinked, since it is too specific for the concrete system
 
