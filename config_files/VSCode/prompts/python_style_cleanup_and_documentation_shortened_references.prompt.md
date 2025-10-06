@@ -7,6 +7,8 @@ mode: agent
 - place appropriate and consistent docstrings 
 - put correct type hints where appropriate
 - use descriptive names (e.g. for variables, functions, classes)
+- when putting type hints, follow the generic alias types (i.e. list, dict, tuple, set, frozenset) instead of the typing module types (i.e. List, Dict, Tuple, Set, FrozenSet), which is possible since python 3.9
+- prefer PEP604 style type hints (e.g. int | str, or Path | None) instead of typing.Union, or typing.Optional style type hints (e.g. Union[int, str], Optional[Path]), which is possible since python 3.10
 - use comments sparingly, only where an additional explanation is necessary
 - apply these modifications only to the directly attached file(s)
 - ensure the code is clean, readable, and maintainable
