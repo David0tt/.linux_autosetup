@@ -46,8 +46,13 @@ sudo apt install keepassxc -y
 sudo apt install curl -y
 sudo apt install gawk -y
 sudo apt install git -y
+# Set my git credentials
 git config --global user.email "david.ott@uni-tuebingen.de"
 git config --global user.name "David Ott"
+# Set VSCode as git difftool (show diffs with git difftool <file>)
+git config --global diff.tool vscode
+git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
+git config --global difftool.prompt true
 # gparted (partition manager, easily allows partitioning in a graphical interface)
 sudo apt install gparted -y 
 # Diodon (Clipboard Manager)
@@ -246,10 +251,12 @@ sudo apt install code -y
 #!/bin/bash
 # List of VSCode extension IDs to install
 extensions=(
+  "ms-python.python"
+  "ms-python.pylint" # could also look into ruff for python linting in the future: charliermarsh.ruff
   "ms-python.black-formatter"
   "ms-vscode.cpptools"
   "rust-lang.rust-analyzer"
-  "ms-python.python"
+  "ms-toolsai.jupyter"
   "james-yu.latex-workshop"
   "yzhang.markdown-all-in-one"
   "yzane.markdown-pdf"
@@ -339,6 +346,8 @@ rm ~/.config/Code/User/settings.json
 ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json 
 # Snippets:
 ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+# Prompts:
+ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
 
 # NOTE: The .bashrc is explicitly not symlinked, since it is too specific for the concrete system
 
