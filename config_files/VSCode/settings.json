@@ -2,14 +2,14 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
-  },    
+  },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true
   },
   "[rust]": {
-     "editor.defaultFormatter": "rust-lang.rust-analyzer",
-     "editor.formatOnSave": true
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
   },
   "github.copilot.nextEditSuggestions.enabled": true,
   "jupyter.interactiveWindow.creationMode": "perFile",
@@ -24,8 +24,6 @@
     // "top": true,
     // "curl": true,
     // "wget": true,
-
-
     // Command line injection prevention, uncomment these only in a sandboxed environment
     // prevents parantheses, braces and backticks (), {}, ``
     "/\\(.+\\)/": {
@@ -40,10 +38,6 @@
       "approve": false,
       "matchCommandLine": true
     },
-
-
-
-
     // Bash non-destructive commands
     "cd": true,
     "echo": true,
@@ -73,7 +67,6 @@
     "git diff": true,
     "uname": true,
     "hostname": true,
-
     // Powershell non-destructive commands
     "Get-ChildItem": true,
     "Get-Content": true,
@@ -91,7 +84,6 @@
     "/^Compare-[a-z0-9]/i": true,
     "/^Format-[a-z0-9]/i": true,
     "/^Sort-[a-z0-9]/i": true,
-
     // blocked Powershell commands
     "Remove-Item": false,
     "ri": false,
@@ -111,8 +103,6 @@
     "Set-Acl": false,
     "Invoke-Expression": false,
     "iex": false,
-
-
     // Allowed, but with restrictions
     "column": true,
     "/^column\\b.*-c\\s+[0-9]{4,}/": false,
@@ -126,10 +116,6 @@
     // "/^sort\\b.*-(o|S)\\b/": false,
     "tree": true,
     // "/^tree\\b.*-o\\b/": false,
-
-
-
-
     // Blocked shell commands
     "rm": false,
     "rmdir": false,
@@ -143,6 +129,34 @@
     "ssh": false,
     "rsync": false,
     "scp": false,
-
-  }
+  },
+  "remote.portsAttributes": {
+    "443": {
+      "protocol": "https"
+    },
+    "8443": {
+      "protocol": "https"
+    },
+    "5555": {
+      "onAutoForward": "ignore"
+    },
+    "5556": {
+      "onAutoForward": "ignore"
+    },
+    "5557": {
+      "onAutoForward": "ignore"
+    },
+    "5558": {
+      "onAutoForward": "ignore"
+    },
+    "5559": {
+      "onAutoForward": "ignore"
+    },
+    "5560": {
+      "onAutoForward": "ignore"
+    },
+    "5561": {
+      "onAutoForward": "ignore"
+    },
+  },
 }
