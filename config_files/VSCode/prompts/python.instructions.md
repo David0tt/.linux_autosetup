@@ -5,6 +5,8 @@ applyTo: '**/.py'
 When writing Python code, try to adhere to PEP8, PEP257, PEP484 and the Google Python Style Guide as much as possible.
 
 ## Do: 
+- ensure the code is clean, readable, and maintainable
+- do not try to reinvent the wheel. If some functionality might already is implemented implemented, try to search for it online and use appropriate existing packages, libraries, or modules by reading their documentation
 - place appropriate and consistent docstrings 
 - put correct type hints where appropriate
 - when putting type hints, follow the generic alias types (i.e. list, dict, tuple, set, frozenset) instead of the typing module types (i.e. List, Dict, Tuple, Set, FrozenSet), which is possible since python 3.9
@@ -12,8 +14,8 @@ When writing Python code, try to adhere to PEP8, PEP257, PEP484 and the Google P
 - use descriptive names (e.g. for variables, functions, classes)
 - use comments sparingly, only where an additional explanation is necessary
 - apply these modifications only to the directly attached file(s)
-- ensure the code is clean, readable, and maintainable
 - Adhere to PEP8 > PEP257 > PEP484 > Google Python Style Guide conventions in that order of importance.
+
 
 
 ## References:
