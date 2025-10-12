@@ -378,9 +378,16 @@ Xft.dpi: 140' >> ~/.Xresources
 
 # Set dark theme for all applications using GTK
 echo '[Settings]
-gtk-theme-name = Adwaita-dark
-gtk-icon-theme-name = Adwaita
+gtk-theme-name = Yaru-dark
+gtk-icon-theme-name = Yaru-dark
+gtk-cursor-theme-name = Yaru-dark
 gtk-application-prefer-dark-theme = true' >> ~/.config/gtk-3.0/settings.ini
+
+echo '[Settings]
+gtk-theme-name = Yaru-dark
+gtk-icon-theme-name = Yaru-dark
+gtk-cursor-theme-name = Yaru-dark
+gtk-application-prefer-dark-theme = true' >> ~/.config/gtk-4.0/settings.ini
 
 # enable ctrl+backspace removal of words
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 
