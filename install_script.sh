@@ -223,6 +223,12 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # rustc --version
 # cargo --version
 
+################################################################################
+###  Accept Conda TOS
+################################################################################
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 
 ################################################################################
 ###  i3WorkspaceIcons
