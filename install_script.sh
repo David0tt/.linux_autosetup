@@ -225,6 +225,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 
 ################################################################################
+###  i3WorkspaceIcons
+################################################################################
+source ~/miniconda3/bin/activate base
+conda create -n i3WorkspaceIcons python==3.12 -y
+conda activate i3WorkspaceIcons
+git clone https://github.com/David0tt/i3-workspace-icons/
+pip install i3-workspace-icons/
+
+
+################################################################################
 ###  Basic GUI Programs
 ################################################################################
 sudo apt install firefox -y
