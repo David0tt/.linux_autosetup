@@ -381,13 +381,13 @@ echo '[Settings]
 gtk-theme-name = Yaru-dark
 gtk-icon-theme-name = Yaru-dark
 gtk-cursor-theme-name = Yaru-dark
-gtk-application-prefer-dark-theme = true' >> ~/.config/gtk-3.0/settings.ini
+gtk-application-prefer-dark-theme = true' > ~/.config/gtk-3.0/settings.ini
 
 echo '[Settings]
 gtk-theme-name = Yaru-dark
 gtk-icon-theme-name = Yaru-dark
 gtk-cursor-theme-name = Yaru-dark
-gtk-application-prefer-dark-theme = true' >> ~/.config/gtk-4.0/settings.ini
+gtk-application-prefer-dark-theme = true' > ~/.config/gtk-4.0/settings.ini
 
 # enable ctrl+backspace removal of words
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 
