@@ -363,7 +363,7 @@ bar {
         status_command i3status --config ~/.config/i3/i3status.conf
         # tray_output none # Do not show tray output
         tray_output primary # show tray output on primary screen
-        # tray_output DP-1 # sometimes the `tray_output primary` does not work, and a specific display has to be named
+        # tray_output HDMI-1 # sometimes the `tray_output primary` does not work, and a specific display has to be named
         font pango:i3WorkspaceDaemonIconFont 20
         height 30
         # font pango:monospace 18
@@ -372,3 +372,5 @@ bar {
 # exec_always --no-startup-id exec i3-workspace-icon-daemon
 exec_always --no-startup-id bash -c "source ~/miniconda3/bin/activate i3WorkspaceIcons && exec i3-workspace-icon-daemon"
 
+# To change the display layout:
+# exec --no-startup-id xrandr --output HDMI-0 --right-of DP-5 --auto

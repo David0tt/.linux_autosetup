@@ -74,7 +74,7 @@ sudo apt install nextcloud-desktop -y
 #     `sudo update-alternatives --set x-terminal-emulator` command below
 
 # sudo apt install terminator -y
-# sudo apt install alacritty -y
+sudo apt install alacritty -y
 sudo apt install kitty -y
 echo '
 # Key bindings for font size change with hotkeys ctrl+plus/minus
@@ -132,6 +132,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # Set the standard terminal emulator 
 # this also makes the open terminal here dialogue in thunar work correctly:
 sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
+sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty # TODO or select different terminal emulator
 # sudo update-alternatives --config x-terminal-emulator # to show the currently chosen terminal-emulator
 sudo apt install xfce4-settings -y 
 # this also allows running `xfce4-settings-manager`
@@ -314,25 +315,25 @@ sudo apt install texlive-full -y
 ################################################################################
 ###  Optional Programs for home PC
 ################################################################################
-sudo snap install spotify
+# sudo snap install spotify
 sudo snap install discord
 # TeamSpeak # TODO maybe get newer version
-mkdir teamspeak
-cd teamspeak
-wget https://files.teamspeak-services.com/releases/client/3.6.2/TeamSpeak3-Client-linux_amd64-3.6.2.run
-chmod +x TeamSpeak3-Client-linux_amd64-3.6.2.run
-./TeamSpeak3-Client-linux_amd64-3.6.2.run --accept # TODO somehow automatically read / accept the license -> Creates directory for TS
-sudo ln -s ~/teamspeak/TeamSpeak3-Client-linux_amd64/ts3client_runscript.sh /usr/local/bin/teamspeak
-rm ./TeamSpeak3-Client-linux_amd64-3.6.2.run
-cd ..
+# mkdir teamspeak
+# cd teamspeak
+# wget https://files.teamspeak-services.com/releases/client/3.6.2/TeamSpeak3-Client-linux_amd64-3.6.2.run
+# chmod +x TeamSpeak3-Client-linux_amd64-3.6.2.run
+# ./TeamSpeak3-Client-linux_amd64-3.6.2.run --accept # TODO somehow automatically read / accept the license -> Creates directory for TS
+# sudo ln -s ~/teamspeak/TeamSpeak3-Client-linux_amd64/ts3client_runscript.sh /usr/local/bin/teamspeak
+# rm ./TeamSpeak3-Client-linux_amd64-3.6.2.run
+# cd ..
 # Mullvad
 # Download the Mullvad signing key
-sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
+# sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
 # Add the Mullvad repository server to apt
-echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable stable main" | sudo tee /etc/apt/sources.list.d/mullvad.list
+# echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable stable main" | sudo tee /etc/apt/sources.list.d/mullvad.list
 # Install the package
-sudo apt update
-sudo apt install mullvad-vpn -y 
+# sudo apt update
+# sudo apt install mullvad-vpn -y 
 
 
 
