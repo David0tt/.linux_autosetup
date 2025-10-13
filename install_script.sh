@@ -408,7 +408,7 @@ echo 'alias th="thunar . &"' >> ~/.bashrc
 echo 'alias ebv="cd /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
 echo 'alias ebvc="code /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
 echo 'alias ds="~/.config/i3/start_docker_workspace.sh"' >> ~/.bashrc # start up a docker container with multiple terminals
-
+echo 'alias lock="gdmflexiserver"' >> ~/.bashrc
 
 
 # Shared bash history between sessions: # TODO this might slow down the terminal session substantially
