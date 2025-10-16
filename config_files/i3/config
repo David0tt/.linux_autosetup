@@ -307,7 +307,7 @@ bindsym Control+Shift+Mod1+t exec --no-startup-id ~/.config/i3/open_website_in_f
 bindsym Control+Shift+Mod1+g exec --no-startup-id ~/.config/i3/open_website_in_firefox.sh https://github.com/
 
 # Open VS Code Notes
-bindsym Control+Shift+Mod1+n workspace $ws10; exec --no-startup-id code "$HOME/Nextcloud/TODO_Lists_VSCode"
+bindsym Control+Shift+Mod1+n workspace number $ws10; exec --no-startup-id code "$HOME/Nextcloud/TODO_Lists_VSCode"
 
 # Move whole workspace to the next/previous monitor
 bindsym $mod+Mod1+Right move workspace to output right
