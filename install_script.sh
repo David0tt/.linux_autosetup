@@ -350,7 +350,9 @@ ln -s ~/.linux_autosetup/config_files/i3/config ~/.config/i3/config
 ln -s ~/.linux_autosetup/config_files/i3/i3_grid.sh ~/.config/i3/i3_grid.sh
 ln -s ~/.linux_autosetup/config_files/i3/i3status.conf ~/.config/i3/i3status.conf
 ln -s ~/.linux_autosetup/config_files/i3/open_website_in_firefox.sh ~/.config/i3/open_website_in_firefox.sh
-ln -s ~/.linux_autosetup/config_files/i3/start_docker_workspace.sh ~/.config/i3/start_docker_workspace.sh
+ln -s ~/.linux_autosetup/config_files/i3/run_docker_workspace.sh ~/.config/i3/run_docker_workspace.sh
+ln -s ~/.linux_autosetup/config_files/i3/attach_docker_workspace.sh ~/.config/i3/attach_docker_workspace.sh
+
 # rm -r ~/.config/alacritty/
 mkdir -p ~/.config/alacritty/
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
@@ -407,7 +409,8 @@ echo 'alias th="thunar . &"' >> ~/.bashrc
 # echo 'alias th="nautilus . &"' >> ~/.bashrc
 echo 'alias ebv="cd /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
 echo 'alias ebvc="code /cshome/share/ott/EBV_stuff"' >> ~/.bashrc
-echo 'alias ds="~/.config/i3/start_docker_workspace.sh"' >> ~/.bashrc # start up a docker container with multiple terminals
+echo 'alias dr="~/.config/i3/run_docker_workspace.sh"' >> ~/.bashrc # start up a docker container with multiple terminals
+echo 'alias da="~/.config/i3/attach_docker_workspace.sh"' >> ~/.bashrc # attach to docker container with multiple terminals
 echo 'alias lock="gdmflexiserver"' >> ~/.bashrc
 
 

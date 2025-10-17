@@ -1,28 +1,13 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-  echo "MISSING: No container name was provided"
+  echo "MISSING: No container id was provided"
   echo ""
-  echo "Usage: start_docker_workspace.sh <container_name>"
+  echo "Usage: start_docker_workspace.sh <container_id>"
   exit 1
 fi
 
-CONTAINER_NAME=$1
-
-# Start the container in detached mode so we can exec into it
-CONTAINER_ID=$(docker run -dit \
-  -e DISPLAY=$DISPLAY \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  --net=host \
-  --privileged \
-  $CONTAINER_NAME)
-
-# optionally with --rm
-
-# echo "Started container $CONTAINER_ID"
-
-# Give container a moment to start
-sleep 2
+CONTAINER_ID=$1
 
 # Open 8 terminals
 for i in {1..8}; do

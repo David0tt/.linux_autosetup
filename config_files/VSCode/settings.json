@@ -11,6 +11,7 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true
   },
+  "window.openFoldersInNewWindow": "on",
   "github.copilot.nextEditSuggestions.enabled": true,
   "jupyter.interactiveWindow.creationMode": "perFile",
   "explorer.confirmDragAndDrop": false,
