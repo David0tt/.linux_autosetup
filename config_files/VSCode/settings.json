@@ -160,4 +160,9 @@
       "onAutoForward": "ignore"
     },
   },
+  "window.commandCenter": false,
+  "terminal.integrated.suggest.providers": {
+    "lsp": false
+  },
+  "python.analysis.typeCheckingMode": "standard",
 }
