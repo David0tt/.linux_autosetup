@@ -130,6 +130,10 @@
     "ssh": false,
     "rsync": false,
     "scp": false,
+    "/^python check_frames\\.py$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   },
   "remote.portsAttributes": {
     "443": {
@@ -164,5 +168,16 @@
   "terminal.integrated.suggest.providers": {
     "lsp": false
   },
-  "python.analysis.typeCheckingMode": "standard",
+  "jupyter.askForKernelRestart": false,
+  "terminal.integrated.scrollback": 100000,
+  "chat.tools.urls.autoApprove": {
+    "https://github.com/arise-initiative/robosuite/issues": true,
+    "https://github.com/arise-initiative/robosuite": true,
+    "https://github.com/arise-initiative": true,
+    "https://github.com": true,
+    "https://github.com/ut-austin-rpl/deoxys/issues": true,
+    "https://github.com/ut-austin-rpl/deoxys": true,
+    "https://github.com/ut-austin-rpl": true
+  },
+  "chat.editing.confirmEditRequestRemoval": false,
 }
