@@ -415,11 +415,14 @@ echo 'alias da="~/.config/i3/attach_docker_workspace.sh"' >> ~/.bashrc # attach 
 echo 'alias lock="gdmflexiserver"' >> ~/.bashrc
 
 
+# TODO if these history settings already exist in the ~/.bashrc they should be removed. 
 # Shared bash history between sessions: # TODO this might slow down the terminal session substantially
 echo 'shopt -s histappend
 # After each command, save history to the file and reload it
-PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-# Optional: increase history size
+# PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# Only append, to keep terminal local history
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# Increase history size
 HISTSIZE=10000
 HISTFILESIZE=20000
 # Ignore duplicate commands and commands starting with space
