@@ -146,6 +146,10 @@
         "command": "-chatEditor.action.acceptHunk",
         "when": "chatEdits.cursorInChangeRange && chatEdits.hasEditorModifications && editorFocus && !chatEdits.isCurrentlyBeingModified || chatEdits.cursorInChangeRange && chatEdits.hasEditorModifications && notebookCellListFocused && !chatEdits.isCurrentlyBeingModified"
     },
+    {
+        "key": "alt+[Minus]",
+        "command": "editor.action.inlineSuggest.trigger"
+    },
 ]
 
 

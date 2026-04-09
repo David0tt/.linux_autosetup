@@ -5,7 +5,7 @@
   },
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
@@ -180,4 +180,9 @@
     "https://github.com/ut-austin-rpl": true
   },
   "chat.editing.confirmEditRequestRemoval": false,
+  "chat.viewSessions.orientation": "stacked",
+  "editor.inlineSuggest.enabled": false, // Disable Copilot inline suggestions
+  "accessibility.signals.terminalBell": {
+    "sound": "on"
+  }, 
 }
