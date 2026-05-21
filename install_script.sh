@@ -217,6 +217,10 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 # bash Miniconda3-latest-Linux-x86_64.sh -b
 # ~/miniconda3/bin/conda init
 
+# Accept Conda TOS
+# conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+# conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 # Conda + Python using miniforge3
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh -b -u
@@ -228,12 +232,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # Verify
 # rustc --version
 # cargo --version
-
-################################################################################
-###  Accept Conda TOS
-################################################################################
-conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
-conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 
 
 ################################################################################
