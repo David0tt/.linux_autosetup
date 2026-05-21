@@ -281,6 +281,7 @@ extensions=(
   "yzhang.markdown-all-in-one"
   "yzane.markdown-pdf"
   "ms-vscode-remote.vscode-remote-extensionpack"
+  "eamodio.gitlens"
 )
 # Loop through the list and install each extension
 for extension in "${extensions[@]}"; do
