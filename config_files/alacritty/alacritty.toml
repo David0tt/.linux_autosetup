@@ -1,4 +1,5 @@
 [window]
+decorations = "Full" # or "None" e.g. for tiling wm
 
 [font]
 normal.family = "Ubuntu Mono"
