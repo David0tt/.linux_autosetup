@@ -358,6 +358,14 @@ ln -s ~/.linux_autosetup/config_files/i3/open_website_in_firefox.sh ~/.config/i3
 ln -s ~/.linux_autosetup/config_files/i3/run_docker_workspace.sh ~/.config/i3/run_docker_workspace.sh
 ln -s ~/.linux_autosetup/config_files/i3/attach_docker_workspace.sh ~/.config/i3/attach_docker_workspace.sh
 
+rm -r ~/.config/sway/
+mkdir -p ~/.config/sway/
+ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
+ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
+ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
+ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
+cat ~/.Xresources >> ~/.Xdefaults
+
 # rm -r ~/.config/alacritty/
 mkdir -p ~/.config/alacritty/
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
