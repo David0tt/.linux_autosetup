@@ -396,6 +396,10 @@ gtk-icon-theme-name = Yaru-dark
 gtk-cursor-theme-name = Yaru-dark
 gtk-application-prefer-dark-theme = true' > ~/.config/gtk-4.0/settings.ini
 
+# Also set using gsettings
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+
 # enable ctrl+backspace removal of words
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 
 
