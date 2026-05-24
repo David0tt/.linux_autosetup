@@ -66,7 +66,13 @@
     },
     {
         "key": "ctrl+shift+c",
-        "command": "editor.action.clipboardCopyAction"
+        "command": "editor.action.clipboardCopyAction",
+        "when": "textInputFocus && !terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+c",
+        "command": "workbench.action.terminal.copySelection",
+        "when": "terminalFocus && terminalTextSelected"
     },
     {
         "key": "ctrl+shift+c",
@@ -85,7 +91,18 @@
     },
     {
         "key": "ctrl+shift+v",
-        "command": "editor.action.clipboardPasteAction"
+        "command": "workbench.action.terminal.paste",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "editor.action.clipboardPasteAction",
+        "when": "textInputFocus && !terminalFocus"
+    },
+    {
+        "key": "ctrl+v",
+        "command": "workbench.action.terminal.paste",
+        "when": "terminalFocus"
     },
     {
         "key": "ctrl+i",
@@ -150,6 +167,39 @@
         "key": "alt+[Minus]",
         "command": "editor.action.inlineSuggest.trigger"
     },
+    {
+        "key": "ctrl+shift+0",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+        "key": "ctrl+shift+[Equal]",
+        "command": "-workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
+    },
+    {
+        "key": "ctrl+shift+0",
+        "command": "-workbench.action.browser.zoomIn",
+        "when": "browserFocused && browserHasUrl && !browserHasError && activeEditor == 'workbench.editor.browser'"
+    },
+    {
+        "key": "ctrl+shift+0",
+        "command": "-workbench.action.zoomIn"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "-markdown.togglePreview",
+        "when": "!terminalFocus && activeCustomEditorId == 'vscode.markdown.preview.editor' || editorFocus && !notebookEditorFocused && !terminalFocus && resourceLangId =~ /^(markdown|prompt|instructions|chatagent|skill)$/"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "-markdown.extension.closePreview",
+        "when": "activeWebviewPanelId == 'markdown.preview'"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "-notebook.cell.pasteAbove",
+        "when": "notebookEditorFocused && !inputFocus"
+    }
 ]
 
 
