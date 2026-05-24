@@ -118,6 +118,24 @@ ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalsh
 
 
 
+
+# Sway
+sudo pacman -S sway
+
+# Sway
+rm -r ~/.config/sway/
+mkdir -p ~/.config/sway/
+ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
+ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
+ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
+ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
+# cat ~/.Xresources >> ~/.Xdefaults
+
+
+
+
+
+
 # TODO after installation: 
 #
 # - Enable HDR
@@ -133,6 +151,13 @@ ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalsh
 #   - https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/
 # 
 # Zotero setup file sync 
+
+# Krohnkite setup for tiling WM:
+# - Search KWin Scripts -> Get New -> Krohnkite
+# - Go to Krohnkite settings ("Configure")
+#   - Layouts: Set all to 0, except Binary Tree to 1
+#   - Geometry: Set all gaps to 6px
+#   - 
 
 
 
