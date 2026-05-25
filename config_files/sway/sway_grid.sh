@@ -1,15 +1,11 @@
 #!/bin/bash
 ##############################################################################################
-# A script to arrange windows in a grid layout in sway
+# A script to arrange windows in a grid layout in i3wm
 # Note, that the windows can arbitrarily reordered when running this
 #
-# Adapted from the i3 version (i3_grid.sh): replaced i3-msg with swaymsg,
-# and updated the window filter to match both X11/XWayland windows (.window)
-# and Wayland-native windows (.app_id).
-#
 # When running this script many times, there is an issue that it does not work anymore. 
-# This appears due to the sway tree growing too much and then jq not being able to correctly parse it anymore
-# this can be tested by running `swaymsg -t get_tree | wc -c`
+# This appears due to the i3 tree growing too much and then jq not being able to correctly parse it anymore
+# this can be tested by running `i3-msg -t get_tree | wc -c`
 # If the output is > ~50000 then it does not work for some reason
 # When you manually move windows around in some way, the tree size reduces again.
 # Also, the tree does not grow that fast, so it should not be an issue. 
@@ -18,17 +14,34 @@
 
 
 
-WORKSPACE=$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused==true).name')
+WORKSPACE=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).name')
+
+# # Get list of window IDs
+# readarray -t WINDOWS < <(i3-msg -t get_tree | jq -r \
+#   '.. | select(.type? == "workspace" and .name == "'"$WORKSPACE"'") | recurse(.nodes[]) | select(.type? == "con" and .window != null) | .id')
 
 
-readarray -t WINDOWS < <(swaymsg -t get_tree | jq -r \
+# # Get list of window IDs from the current workspace
+# readarray -t WINDOWS < <(i3-msg -t get_tree | jq -r \
+#   --arg workspace "$WORKSPACE" \
+#   '.. | select(.type? == "workspace" and .name == $workspace) | 
+#    .. | select(.type? == "con" and .window? != null) | .id')
+
+
+readarray -t WINDOWS < <(i3-msg -t get_tree | jq -r \
   --arg workspace "$WORKSPACE" \
   '.nodes[] | .nodes[] | .nodes[] | 
    select(.type == "workspace" and .name == $workspace) | 
-   [.. | select((.window? and .window != null) or (.app_id? and .app_id != null))] | .[].id')
+   [.. | select(.window? and .window != null)] | .[].id')
 
 
 NUM_WINDOWS=${#WINDOWS[@]}
+
+# # Main execution
+# if [ $NUM_WINDOWS -eq 0 ]; then
+#     # echo "No windows found in current workspace"
+#     exit 1
+# fi
 
 # Calculate grid size
 NUM_COLS=$(echo "scale=10; sqrt($NUM_WINDOWS)" | bc)
@@ -60,18 +73,18 @@ arrange_windows_grid() {
     
 
     # Mark the target window (first window -> top-left corner)
-    swaymsg "[con_id=${WINDOWS[0]}] mark target"
+    i3-msg "[con_id=${WINDOWS[0]}] mark target"
     # Split the target vertically (for "below")
-    swaymsg "[con_id=${WINDOWS[0]}] focus; split v"
+    i3-msg "[con_id=${WINDOWS[0]}] focus; split v"
 
     # Place windows vertically in the first column by adding them to the target container
     for (( i=1; i<num_rows; i++ )); do
         # echo "Placing window ${WINDOWS[$i]}"
 
         # Move the window into the marked container
-        swaymsg "[con_id=${WINDOWS[$i]}] move to mark target"
+        i3-msg "[con_id=${WINDOWS[$i]}] move to mark target"
         # Make the new window in the column the new target (to always append at the bottom)
-        swaymsg "[con_id=${WINDOWS[$i]}] mark target"
+        i3-msg "[con_id=${WINDOWS[$i]}] mark target"
 
     done
     
@@ -88,18 +101,18 @@ arrange_windows_grid() {
         
         # select this row's container as target:
         # Mark the target window
-        swaymsg "[con_id=$row_start_window] mark target"
+        i3-msg "[con_id=$row_start_window] mark target"
         # Split the target horizontally (for "right")
-        swaymsg "[con_id=$row_start_window] focus; split h"
+        i3-msg "[con_id=$row_start_window] focus; split h"
 
 
         # Place windows to the right in this row
         while [ $windows_in_this_row -lt $num_cols ] && [ $current_window_idx -lt $num_windows ]; do
             # Place the window into the marked container
             # Move the second window into the marked container
-            swaymsg "[con_id=${WINDOWS[$current_window_idx]}] move to mark target;"
+            i3-msg "[con_id=${WINDOWS[$current_window_idx]}] move to mark target;"
             # Make the new window in the row the new target (to always append at the right)
-            swaymsg "[con_id=${WINDOWS[$current_window_idx]}] mark target"
+            i3-msg "[con_id=${WINDOWS[$current_window_idx]}] mark target"
             
             current_window_idx=$((current_window_idx + 1))
             windows_in_this_row=$((windows_in_this_row + 1))
