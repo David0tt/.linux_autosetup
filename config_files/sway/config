@@ -351,7 +351,7 @@ bindsym $mod+Shift+g exec ~/.config/sway/sway_grid.sh
 
 # Clipboard manager
 # Clipboard history picker in st + fzf.
-bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl-copy'
+bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl-copy && swaymsg exec "wtype -s 150 -M ctrl -k v -m ctrl"'
 
 # Delete from history
 bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
