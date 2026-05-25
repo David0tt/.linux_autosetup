@@ -13,16 +13,13 @@
 //         // "battery",
 //         "clock"
 //     ],
-
 //     "spacing": 7,
-
 //     "pulseaudio": {
 //         "format": " {volume}%",
 //         "format-muted": " muted",
 //         "on-click": "pavucontrol",
 //         "scroll-step": 5
 //     },
-
 //     "network": {
 //         "format-wifi": " {essid}",
 //         "format-ethernet": " {ifname}",
@@ -30,30 +27,24 @@
 //         "on-click": "nm-connection-editor",
 //         "tooltip-format": "{ipaddr}"
 //     },
-
 //     "bluetooth": {
 //         "format": " {status}",
 //         "format-connected": " {device_alias}",
 //         "on-click": "blueman-manager",
 //         "tooltip-format": "{controller_alias} - {controller_address}"
 //     },
-
 //     "tray": {
 //         "icon-size": 18,
 //         "spacing": 8
 //     },
-
 //     "clock": {
 //         "format": "{:%H:%M  %Y-%m-%d}"
 //     }
-
 //     // "battery": {
 //     //     "format": "{capacity}% {icon}",
 //     //     "format-icons": ["", "", "", "", ""]
 //     // }
 // }
-
-
 // -*- mode: jsonc -*-
 {
     // "layer": "top", // Waybar at top layer
@@ -65,18 +56,22 @@
     "modules-left": [
         "sway/workspaces",
         "sway/mode",
-        "sway/scratchpad",
-        "custom/media"
+        "sway/scratchpad"
     ],
     "modules-center": [
-        "sway/window"
+        // "sway/window",
+        "image#media-art",
+        "custom/media-prev",
+        "custom/media-play-pause",
+        "custom/media-next",
+        "mpris"
+
     ],
-    "modules-right": [
+        "modules-right": [
         "tray",
         "mpd",
         // "idle_inhibitor",
         "pulseaudio",
-        "network",
         // "power-profiles-daemon",
         "cpu",
         "memory",
@@ -86,6 +81,7 @@
         // "sway/language",
         // "battery",
         // "battery#bat2",
+        "network",
         "clock"
         // "custom/power"
     ],
@@ -121,7 +117,10 @@
     "sway/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
-        "format-icons": ["", ""],
+        "format-icons": [
+            "",
+            ""
+        ],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
     },
@@ -174,10 +173,12 @@
     },
     "cpu": {
         "format": "{usage}% ",
-        "tooltip": false
+        "tooltip": true
+
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}% ",
+        "tooltip-format": "{used:0.1f} GiB of {total:0.1f} GiB used"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -185,12 +186,26 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["󰉬", "", "󰉪"]
+        "format-icons": [
+            "󰉬",
+            "",
+            "󰉪"
+        ]
     },
     "backlight": {
         // "device": "acpi_video1",
         "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery": {
         "states": {
@@ -205,27 +220,34 @@
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "battery#bat2": {
         "bat": "BAT2"
     },
     "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": "",
-        "performance": "",
-        "balanced": "",
-        "power-saver": ""
-      }
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} 󰊗",
-        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        // "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-wifi": "{signalStrength}% ",
+        "format-ethernet": "󰈀", // alternative symbol 🖧
+        "tooltip-format": "{ifname} via {gwaddr}",
         "format-linked": "{ifname} (No IP) 󰊗",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
@@ -238,6 +260,7 @@
         "format-muted": "󰅶 {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
+        "tooltip-format": "&#160;&#160;&#160;&#160;{desc}\n&#160;&#160;&#160;&#160;&#160;{source_desc}",
         "format-icons": {
             "headphone": "",
             "hands-free": "󰂑",
@@ -245,32 +268,76 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": [
+                "",
+                "",
+                ""
+            ]
         },
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
+    "image#media-art": {
+        "exec": "$HOME/.config/waybar/album_art.sh",
+        "size": 22,
+        "interval": 5,
+        "tooltip": true,
+        "on-click": "playerctl play-pause"
+    },
+    "custom/media-prev": {
+        "format": "&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;",
+        "tooltip": false,
+        "on-click": "playerctl previous"
+    },
+    "custom/media-play-pause": {
+        "exec": "$HOME/.config/waybar/media_play_pause_icon.sh",
+        "interval": 2,
+        "format": " {} ",
+        "tooltip": false,
+        "on-click": "playerctl play-pause"
+    },
+    "custom/media-next": {
+        "format": "&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;",
+        "tooltip": false,
+        "on-click": "playerctl next"
+    },
+    "mpris": {
+        "player": "playerctld",
+        "ignored-players": [
+            "mpd"
+        ],
+        "format": "{player_icon}&#160;&#160;{dynamic}",
+        "format-paused": "{status_icon}&#160;&#160;&#160;{dynamic}",
+        "format-stopped": " No media",
+        "dynamic-order": [
+            "title",
+            "artist",
+            "album"
+        ],
+        "dynamic-separator": " - ",
+        "dynamic-len": 60,
+        "tooltip-format": "{player}: {title}\n{artist}\n{album}",
+        "player-icons": {
             "spotify": "",
-            "default": "🎜"
+            "firefox": "",
+            "plasma-browser-integration": "", // fix, since this can be the second name for the firefox application
+            "default": ""
         },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+        "status-icons": {
+            "paused": "",
+            "playing": "",
+            "stopped": ""
+        }
     },
     "custom/power": {
-        "format" : "⏻ ",
-		"tooltip": false,
-		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-		"menu-actions": {
-			"shutdown": "shutdown",
-			"reboot": "reboot",
-			"suspend": "systemctl suspend",
-			"hibernate": "systemctl hibernate"
-		}
+        "format": "⏻ ",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+        "menu-actions": {
+            "shutdown": "shutdown",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate"
+        }
     }
 }

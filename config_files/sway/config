@@ -245,6 +245,9 @@ bindsym $mod+r mode "resize"
     # exec_always sh -c 'pkill -f "^wl-paste --type text --watch cliphist store$" || true; exec wl-paste --type text --watch cliphist store'
     # exec_always sh -c 'pkill -f "^wl-paste --type image --watch cliphist store$" || true; exec wl-paste --type image --watch cliphist store'
 
+    # exec_always to also start on reload; pkill to not start duplicate processes; || true to make sure it always suceeds cleanly; then exec to actually start 
+    exec_always sh -c 'pkill -x playerctld >/dev/null 2>&1 || true; exec playerctld daemon'
+
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
     

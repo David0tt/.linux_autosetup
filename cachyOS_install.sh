@@ -165,10 +165,10 @@ sudo pacman -S gtklock
 
 # Status bar
 # using i3status
-sudo pacman -S i3status
+# sudo pacman -S i3status
 
 # using waybar
-sudo pacman -S waybar network-manager-applet blueman pavucontrol
+sudo pacman -S waybar network-manager-applet blueman pavucontrol playerctl
 
 # sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
 
@@ -199,6 +199,8 @@ ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid
 rm ~/.config/waybar/config
 mkdir -p ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/config.jsonc ~/.config/waybar/config.jsonc
+ln -s ~/.linux_autosetup/config_files/waybar/album_art.sh ~/.config/waybar/album_art.sh
+ln -s ~/.linux_autosetup/config_files/waybar/media_play_pause_icon.sh ~/.config/waybar/media_play_pause_icon.sh
 
 
 # Copilot-Cli
