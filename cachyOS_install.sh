@@ -162,15 +162,26 @@ sudo pacman -S swaybg
 sudo pacman -S swayidle swaylock
 sudo pacman -S gtklock
 
+
+# Status bar
+# using i3status
+sudo pacman -S i3status
+
+# using waybar
+sudo pacman -S waybar network-manager-applet blueman pavucontrol
+
 # sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
 
 sudo pacman -S grim slurp
 
 sudo pacman -S wl-clipboard cliphist
+sudo pacman -S wtype
 
 sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
 
 sudo pacman -S bc # Needed for sway_grid.sh
+
+sudo pacman -S dex # Used to automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/
 
 
 sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
@@ -185,12 +196,23 @@ ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status
 ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
 # cat ~/.Xresources >> ~/.Xdefaults
 
+rm ~/.config/waybar/config
+mkdir -p ~/.config/waybar/
+ln -s ~/.linux_autosetup/config_files/waybar/config.jsonc ~/.config/waybar/config.jsonc
 
 
 # Copilot-Cli
 curl -fsSL https://gh.io/copilot-install | bash
 
 
+
+# Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
+# When started from terminal
+set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
+
+# When started from anywhere else
+mkdir -p ~/.config/environment.d/
+echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
 
 
 # TODO after installation: 
