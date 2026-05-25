@@ -428,6 +428,23 @@ include /etc/sway/config.d/*
 # Consider waybar or i3status-rust with icon support instead.
 # exec_always bash -c "source ~/miniconda3/bin/activate i3WorkspaceIcons && exec i3-workspace-icon-daemon"
 
+
+# Change Screen Scaling:
+output DP-3 scale 2.0
+
+# Sadly this also scales the legacy X11 applications rendered with XWayland. 
+# XWayland thinks that it is rendering to 1920x1080 resolution (confirmed by the output of `xrandr`)
+# which is then upscaled to the full resolution, making them blurry. 
+# I have not yet found a fix for this. 
+# In many other desktop environments there is a setting, e.g. in KDE Plasma: Legacy Applications (X11): Apply Scaling themselves.
+# This would be what I need, since then i could make the X11 applications take care of scaling themselves by setting 
+#
+#    echo '*dpi: 140
+#    Xft.dpi: 140' >> ~/.Xresources
+#
+# TODO Maybe this will come in a future sway version
+
+
 # To change the display layout:
 # exec --no-startup-id xrandr --output HDMI-0 --right-of DP-5 --auto
 
