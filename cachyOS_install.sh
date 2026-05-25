@@ -199,6 +199,7 @@ ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid
 rm ~/.config/waybar/config
 mkdir -p ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/config.jsonc ~/.config/waybar/config.jsonc
+ln -s ~/.linux_autosetup/config_files/waybar/style.css ~/.config/waybar/style.css
 ln -s ~/.linux_autosetup/config_files/waybar/album_art.sh ~/.config/waybar/album_art.sh
 ln -s ~/.linux_autosetup/config_files/waybar/media_play_pause_icon.sh ~/.config/waybar/media_play_pause_icon.sh
 

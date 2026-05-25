@@ -1,0 +1,10 @@
+#custom-media-prev,
+#custom-media-play-pause,
+#custom-media-next {
+    min-width: 20px;
+    padding: 0 10px;
+}
+
+#mpris {
+    min-width: 420px;
+}
