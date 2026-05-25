@@ -26,10 +26,11 @@
 
     ],
         "modules-right": [
-        "tray",
-        "mpd",
-        // "idle_inhibitor",
+        "pulseaudio/slider",
         "pulseaudio",
+        "tray",
+        // "mpd",
+        // "idle_inhibitor",
         // "power-profiles-daemon",
         "cpu",
         "memory",
@@ -126,7 +127,7 @@
     "clock": {
         // "timezone": "America/New_York",
         "format": "{:%d.%m.%Y  %H:%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
         // "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
@@ -218,6 +219,7 @@
         "format-muted": "󰅶 {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
+        "min-length": 14,
         "tooltip-format": "&#160;&#160;&#160;&#160;{desc}\n&#160;&#160;&#160;&#160;&#160;{source_desc}",
         "format-icons": {
             "headphone": "",
@@ -233,6 +235,11 @@
             ]
         },
         "on-click": "pavucontrol"
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 130,
+        "orientation": "horizontal"
     },
     // Responsiveness of the following is solved in a hacky way, using interrupt signals 8 / 9 on the appropriate changes (onclick), 
     // which are sent using pkill -RTMIN+8 and -RTMIN+9

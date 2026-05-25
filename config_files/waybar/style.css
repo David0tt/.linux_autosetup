@@ -36,6 +36,36 @@ box.module:hover {
     padding: 0 6px;
 }
 
+#pulseaudio-slider {
+    padding: 0 8px 0 4px;
+}
+
+/* #pulseaudio {
+    font-variant-numeric: tabular-nums;
+} */
+
+#pulseaudio-slider slider {
+    min-width: 0;
+    min-height: 0;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-width: 96px;
+    min-height: 8px;
+    border-radius: 999px;
+    background: rgba(120, 120, 120, 0.35);
+}
+
+#pulseaudio-slider highlight {
+    min-height: 8px;
+    border-radius: 999px;
+    background: #5aa9ff;
+}
+
 /* It would be nice to have the buttons of the tray icons be a little larger, but i could not get it to work  */
 #tray > .active,
 #tray > .passive,
