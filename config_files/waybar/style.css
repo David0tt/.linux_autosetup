@@ -1,10 +1,10 @@
 #custom-media-prev,
 #custom-media-play-pause,
 #custom-media-next {
-    min-width: 20px;
+    min-width: 0px;
     padding: 0 10px;
 }
 
 #mpris {
-    min-width: 420px;
+    min-width: 300px;
 }
