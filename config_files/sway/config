@@ -323,6 +323,20 @@ for_window [title="fzf_launcher"] floating enable, resize set 800 600, move posi
 for_window [title="cliphist_fzf"] floating enable, resize set 800 600, move position cursor
 for_window [title="cliphist_delete"] floating enable, resize set 800 600, move position cursor
 
+# Waybar apps with quicklaunch icons
+for_window [app_id="^nextcloud$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [class="^Nextcloud$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [title="^Nextcloud.*$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [app_id="^nm-connection-editor$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [class="^Nm-connection-editor$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [title="^Network Connections$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [app_id="^blueman-manager$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [class="^Blueman-manager$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [title="^Bluetooth.*$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [app_id="^org\.pulseaudio\.pavucontrol$|^pavucontrol$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [class="^Pavucontrol$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [title="^Volume Control$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+
 ################################################################################
 ###  Mouse Commands
 ################################################################################
