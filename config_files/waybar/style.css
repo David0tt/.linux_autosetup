@@ -32,6 +32,23 @@ box.module:hover {
     padding: 0 14px;
 }
 
+#tray {
+    padding: 0 6px;
+}
+
+/* It would be nice to have the buttons of the tray icons be a little larger, but i could not get it to work  */
+#tray > .active,
+#tray > .passive,
+#tray > .needs-attention {
+    background: transparent;
+}
+
+#tray > .active:hover,
+#tray > .passive:hover,
+#tray > .needs-attention:hover {
+    background: rgba(90, 90, 90, 0.45);
+}
+
 #custom-media-prev,
 #custom-media-play-pause,
 #custom-media-next {
