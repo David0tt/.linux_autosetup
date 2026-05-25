@@ -172,6 +172,10 @@ sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
 
 sudo pacman -S bc # Needed for sway_grid.sh
 
+
+sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
+
+
 # Sway
 rm -r ~/.config/sway/
 mkdir -p ~/.config/sway/

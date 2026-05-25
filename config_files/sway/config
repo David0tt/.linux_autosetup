@@ -236,6 +236,10 @@ bindsym $mod+r mode "resize"
     exec /usr/bin/gnome-keyring-daemon --start --components=secrets
     exec /usr/bin/gnome-keyring-daemon --start --components=ssh
 
+    # Beware: Passwords could potentially also be stored are also stored in the cliboard History
+    # The correct way to fix this is using the x-kde-passwordManagerHint mime type to indicate them as passwords. (e.g. by calling wl-copy with --sensitive: wl-copy --sensitive "some-secret")
+    # Cliphist respects this mime type and does not add such copies to the history
+    # Note, that the applications copying something into the clipboard need to take care of marking it correctly. Note further, that this mostly only works for applications running on wayland (so applications running on XWayland probably don't set this correctly) 
     exec wl-paste --watch cliphist store
     # exec_always sh -c 'pkill -f "^wl-paste --type text --watch cliphist store$" || true; exec wl-paste --type text --watch cliphist store'
     # exec_always sh -c 'pkill -f "^wl-paste --type image --watch cliphist store$" || true; exec wl-paste --type image --watch cliphist store'
