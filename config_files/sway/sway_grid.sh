@@ -1,14 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 ##############################################################################################
 # A script to arrange windows in a grid layout in sway
 # Note, that the windows can arbitrarily reordered when running this
-#
-# When running this script many times, there is an issue that it does not work anymore.
-# This appears due to the sway tree growing too much and then jq not being able to correctly parse it anymore
-# this can be tested by running `swaymsg -t get_tree | wc -c`
-# If the output is > ~50000 then it does not work for some reason
-# When you manually move windows around in some way, the tree size reduces again.
-# Also, the tree does not grow that fast, so it should not be an issue.
 ##############################################################################################
 
 set -euo pipefail
@@ -48,25 +41,12 @@ NUM_WINDOWS=${#WINDOWS[@]}
 #     exit 1
 # fi
 
-calculate_grid_size() {
-    local num_windows=$1
-    local num_cols=1
-    local num_rows=0
+# Calculate grid size
+NUM_COLS=$(echo "scale=10; sqrt($NUM_WINDOWS)" | bc)
+NUM_COLS=$(echo "($NUM_COLS+0.999999999)/1" | bc)
 
-    if [ "$num_windows" -le 0 ]; then
-        printf '0 0\n'
-        return
-    fi
-
-    while [ $((num_cols * num_cols)) -lt "$num_windows" ]; do
-        num_cols=$((num_cols + 1))
-    done
-
-    num_rows=$(((num_windows + num_cols - 1) / num_cols))
-    printf '%s %s\n' "$num_cols" "$num_rows"
-}
-
-read -r NUM_COLS NUM_ROWS < <(calculate_grid_size "$NUM_WINDOWS")
+NUM_ROWS=$(echo "scale=10; $NUM_WINDOWS / $NUM_COLS" | bc)
+NUM_ROWS=$(echo "($NUM_ROWS+0.999999999)/1" | bc)
 
 
 
