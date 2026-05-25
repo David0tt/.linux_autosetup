@@ -7,15 +7,17 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys (customized for home row j-k-l-ö)
-set $left j
-set $down k
-set $up l
-set $right odiaeresis
+# set $left j
+# set $down k
+# set $up l
+# set $right odiaeresis
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
 # inspired by https://www.reddit.com/r/i3wm/comments/assux8/using_i3dmenudesktop_with_fzf/kz
-set $menu st -c fzf -e i3-dmenu-desktop --dmenu=/usr/bin/fzf
+set $menu st -t fzf_launcher -e sh -c 'swaymsg exec "$(j4-dmenu-desktop --dmenu="fzf --prompt=\"Run: \"" --no-exec)"'
+# set $menu wofi --show drun
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -24,31 +26,27 @@ font pango:monospace 18
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 ### Idle configuration
-#
 # Example configuration:
 
+# exec swayidle -w \
+#     timeout 300 'swaylock -f' \
+#     before-sleep 'swaylock -f'
+
 exec swayidle -w \
-    timeout 300 'swaylock -f' \
-    before-sleep 'swaylock -f'
+    timeout 300 'pgrep -x gtklock >/dev/null || gtklock -d' \
+    before-sleep 'pgrep -x gtklock >/dev/null || gtklock -d'
+
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-# Using the original Ubuntu lock screen (in sway):
-exec --no-startup-id xss-lock --transfer-sleep-lock -- gdmflexiserver
-
-
 ### Input configuration
 #
 input * xkb_layout "de,us"
-
-# Cursor configuration
-seat seat0 hide_cursor 0
-seat seat0 xcursor_theme default 24
 
 ### Key bindings
 #
@@ -94,10 +92,10 @@ seat seat0 xcursor_theme default 24
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    # bindsym $mod+Shift+$left move left
+    # bindsym $mod+Shift+$down move down
+    # bindsym $mod+Shift+$up move up
+    # bindsym $mod+Shift+$right move right
     # Ditto, with arrow keys
     bindsym $mod+Shift+Left move left
     bindsym $mod+Shift+Down move down
@@ -176,11 +174,11 @@ seat seat0 xcursor_theme default 24
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    # bindsym $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    # bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -189,10 +187,10 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    # bindsym $left resize shrink width 10px
+    # bindsym $down resize grow height 10px
+    # bindsym $up resize shrink height 10px
+    # bindsym $right resize grow width 10px
 
     # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
@@ -211,31 +209,38 @@ bindsym $mod+r mode "resize"
 # Utilities:
 #
     # Use pactl to adjust volume in PulseAudio.
-    set $refresh_i3status killall -SIGUSR1 i3status
-    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
-    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
-    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-    bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+    # set $refresh_i3status killall -SIGUSR1 i3status
+    # bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
+    # bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
+    # bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+    # bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
     # Special keys to adjust brightness via brightnessctl
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+    # bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    # bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
     # Screenshot (flameshot 12+ supports Wayland natively)
-    bindsym $mod+Shift+s exec flameshot gui
+    bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
     # Default key to take a screenshot with grim
-    bindsym Print exec grim
+    # bindsym Print exec grim | wl-copy
 
 #
 # Autostart:
 #
-    # Start XDG autostart .desktop files using dex.
+    # Start XDG autostart .desktop files using dex. (TODO dex is not installed...)
     exec dex --autostart --environment sway
-    # NetworkManager system tray GUI.
+    # NetworkManager system tray GUI. (TODO this program currently does not exist)
     exec nm-applet --indicator
-    # Start gnome-keyring-daemon
-    exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+    # Start gnome-keyring-daemon (TODO: is this needed? )
+    # exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 
+    exec wl-paste --watch cliphist store
+    # exec_always sh -c 'pkill -f "^wl-paste --type text --watch cliphist store$" || true; exec wl-paste --type text --watch cliphist store'
+    # exec_always sh -c 'pkill -f "^wl-paste --type image --watch cliphist store$" || true; exec wl-paste --type image --watch cliphist store'
+
+    
+
+    # exec copyq
 
 ################################################################################
 ### END OF STANDARD CONFIG
@@ -306,7 +311,10 @@ assign [class="Code" title=".*TODO_Lists_VSCode.*"] $ws10
 # assign [class="Code"] $ws10
 
 # Float rules (TODO is this correct?)
-for_window [class="fzf"] floating enable
+# for_window [class="fzf"] floating enable
+for_window [title="fzf_launcher"] floating enable, resize set 1600 1200, move position center
+for_window [title="cliphist_fzf"] floating enable, resize set 1600 1200, move position center
+for_window [title="cliphist_delete"] floating enable, resize set 1600 1200, move position center
 
 ################################################################################
 ###  Mouse Commands
@@ -321,7 +329,7 @@ bindsym --whole-window $mod+button2 kill
 bindsym button3 floating toggle
 
 # The right button and modifier over any part of a the window toggles floating
-bindsym --whole-window $mod+button3 floating toggle
+bindsym --whole-window $mod+Mod1+button3 floating toggle
 
 ################################################################################
 ###  Custom Keybindings
@@ -332,7 +340,22 @@ bindsym $mod+Shift+g exec ~/.config/sway/sway_grid.sh
 
 # Diodon clipboard manager (NOTE that this overrides split vertical!)
 # Diodon is X11-only; consider cliphist + wofi/bemenu for Wayland: https://github.com/sentriz/cliphist
-bindsym $mod+v exec /usr/bin/diodon
+# bindsym $mod+v exec /usr/bin/diodon
+
+# Clipboard history picker in st + fzf.
+bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl_copy'
+
+
+# Cliphist clipboard picker
+# bindsym $mod+v exec sh -c 'cliphist list | wofi --dmenu | cliphist decode | wl-copy'
+# bindsym $mod+v exec sh -c 'cliphist list | rofi --dmenu | cliphist decode | wl-copy'
+# bindsym $mod+v exec cliphist list | rofi -dmenu -p "Clipboard" -i | cliphist decode | wl-copy
+
+# Optional: delete one history entry
+# bindsym $mod+Shift+v exec sh -c 'cliphist list | wofi --dmenu | cliphist delete'
+
+# CopyQ window toggle
+# bindsym $mod+v exec copyq toggle
 
 # Firefox Shortcuts
 # Open Different websites in Firefox on Workspace 9
@@ -350,11 +373,10 @@ bindsym Control+Shift+Mod1+n workspace number $ws10; exec code "$HOME/Nextcloud/
 # Move whole workspace to different outputs (monitors)
 bindsym $mod+Mod1+Right move workspace to output right
 bindsym $mod+Mod1+Left move workspace to output left 
-
 # Lock screen
-bindsym $mod+l exec swaylock -f
+# bindsym $mod+l exec swaylock -f
 # bindsym $mod+l exec --no-startup-id gdmflexiserver
-# bindsym $mod+l exec gdmflexiserver
+bindsym $mod+l exec gtklock -d
 
 
 
