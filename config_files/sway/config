@@ -231,12 +231,16 @@ bindsym $mod+r mode "resize"
     exec dex --autostart --environment sway
     # NetworkManager system tray GUI. (TODO this program currently does not exist)
     exec nm-applet --indicator
-    # Start gnome-keyring-daemon (TODO: is this needed? )
-    # exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+    # Start gnome-keyring-daemon for password management and ssh-agent support.
+    exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11
+    exec /usr/bin/gnome-keyring-daemon --start --components=secrets
+    exec /usr/bin/gnome-keyring-daemon --start --components=ssh
 
     exec wl-paste --watch cliphist store
     # exec_always sh -c 'pkill -f "^wl-paste --type text --watch cliphist store$" || true; exec wl-paste --type text --watch cliphist store'
     # exec_always sh -c 'pkill -f "^wl-paste --type image --watch cliphist store$" || true; exec wl-paste --type image --watch cliphist store'
+
+    exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
     
 
@@ -313,8 +317,10 @@ assign [class="Code" title=".*TODO_Lists_VSCode.*"] $ws10
 # Float rules (TODO is this correct?)
 # for_window [class="fzf"] floating enable
 for_window [title="fzf_launcher"] floating enable, resize set 1600 1200, move position center
-for_window [title="cliphist_fzf"] floating enable, resize set 1600 1200, move position center
-for_window [title="cliphist_delete"] floating enable, resize set 1600 1200, move position center
+
+# TODO: in the future, it would be nice to spawn the selection window so its left border is aligned with the cursor
+for_window [title="cliphist_fzf"] floating enable, resize set 1600 1200, move position cursor
+for_window [title="cliphist_delete"] floating enable, resize set 1600 1200, move position cursor
 
 ################################################################################
 ###  Mouse Commands
@@ -344,7 +350,7 @@ bindsym $mod+Shift+g exec ~/.config/sway/sway_grid.sh
 bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl-copy'
 
 # Delete from history
-bindsym $mod+Shift+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
+bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
 
 # Other considerations
 # Sadly diodon does not work on wayland

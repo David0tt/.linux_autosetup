@@ -3,7 +3,10 @@ git clone https://github.com/David0tt/.linux_autosetup
 
 
 sudo pacman -Sy git
+
 sudo pacman -Sy code 
+# paru -S visual-studio-code-bin # The microsoft distributed version
+
 sudo pacman -Sy keepassxc
 sudo pacman -Sy teamspeak3
 sudo pacman -Sy thunderbird thunderbird-i18n-de 
@@ -24,6 +27,29 @@ sudo pacman -Sy blender
 # Zotero
 
 # Texlive-full
+
+cd ~/.linux_autosetup
+mkdir -p program_installation
+cd ~/.linux_autosetup/program_installation
+
+# (st) minimal terminal (always used for fzf program search (with mod+d))
+# sudo apt update
+# sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev -y
+git clone https://git.suckless.org/st
+cd st
+
+set CONFIG_FILE 'config.def.h'
+# Change font size from 12 to 30
+sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=30:antialias=true:autohint=true";/' "$CONFIG_FILE"
+# Change keybindings to allow zooming with ctrl +/-
+sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
+sed -i 's/{ TERMMOD, XK_Next, zoom, {.f = -1} },/{ ControlMask, XK_minus, zoom, {.f = -1} },/' "$CONFIG_FILE"
+sudo make clean install
+# Local installation (into ~/.local/bin):
+# make clean install PREFIX=$HOME/.local
+# echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+
 
 
 # Optional
@@ -60,7 +86,7 @@ mkdir -p ~/.config/alacritty/
 rm ~/.config/alacritty/alacritty.toml
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 
-# Put the VSCode config files into the appropriate locations
+# Put the VSCode - OSS config files into the appropriate locations
 rm ~/.config/Code\ -\ OSS/User/keybindings.json
 ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code\ -\ OSS/User/keybindings.json
 rm ~/.config/Code\ -\ OSS/User/settings.json
@@ -69,6 +95,17 @@ ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code\ -\ OS
 ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code\ -\ OSS/User/snippets
 # Prompts:
 ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User/prompts
+
+# # Put the VSCode config files into the appropriate locations
+# rm ~/.config/Code/User/keybindings.json
+# ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
+# rm ~/.config/Code/User/settings.json
+# ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json
+# # Snippets:
+# ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+# # Prompts:
+# ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
+
 
 # enable ctrl+backspace removal of words
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 
@@ -120,7 +157,18 @@ ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalsh
 
 
 # Sway
-sudo pacman -S sway
+sudo pacman -S sway 
+sudo pacman -S swaybg 
+sudo pacman -S swayidle swaylock
+sudo pacman -S gtklock
+
+# sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
+
+sudo pacman -S grim slurp
+
+sudo pacman -S wl-clipboard cliphist
+
+sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
 
 # Sway
 rm -r ~/.config/sway/
@@ -132,6 +180,9 @@ ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid
 # cat ~/.Xresources >> ~/.Xdefaults
 
 
+
+# Copilot-Cli
+curl -fsSL https://gh.io/copilot-install | bash
 
 
 
@@ -161,14 +212,19 @@ ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid
 
 
 
-# TODO: 
-
-# reduce the time after which the windows are shown when hovering over the taskbar
-# Set alacritty as terminal emulator default
-# Set up all the tiling-wm features for kde plasma 
-# configure fish, so that it jumps to the next line when hitting ctrl+c
-# make fish prompt similar to bash
-# make keyboard not light up -> roccat swarm support for linux
 
 Can i get tiling WM like navigation on kde?
 -> YES: https://claude.ai/share/a76c1647-5e8e-4ce5-bc9c-cd3f28ccc4e1
+
+
+
+# To prevent vscode freezes (does not work)
+# echo "--disable-gpu" >> ~/.config/code-flags.conf
+
+
+
+# You need to manually add the following lines at the end of ~/.vscode-oss/argv.json (or ~/.vscode/argv.json, if this different installation was used)
+# 
+# 	// Fix "An OS keyring couldn't be identified for storing the encryption related data in your current desktop environment"
+# 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
+# 	"password-store":"gnome-libsecret"
