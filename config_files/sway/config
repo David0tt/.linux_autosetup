@@ -227,7 +227,8 @@ bindsym $mod+r mode "resize"
 #
 # Autostart:
 #
-    # Start XDG autostart .desktop files using dex. (TODO dex is not installed...)
+    # Start XDG autostart: automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/ , while respecting rules like OnlyShowIn
+    # TODO, check, what programs are started through this and whether they are actually needed
     exec dex --autostart --environment sway
     # NetworkManager system tray GUI. (TODO this program currently does not exist)
     exec nm-applet --indicator
@@ -299,27 +300,20 @@ default_border pixel 5
 
 
 ################################################################################
-###  Default Workspaces [TODO]
+###  Default Workspaces
 ################################################################################
 
-# set $ws1 "1: Web"
-# set $ws2 "2: Code"
-# set $ws3 "3: Terminal"
-# set $ws4 "4: Files"
-
-# assign [class="firefox_firefox"] $ws1
-# assign [class="Code"] $ws2
-# assign [class="Alacritty"] $ws3
-# assign [class="Thunar"] $ws4
-
+# I use the convention: 
+# $ws9: use this for firefox with all kinds of websites accessed by shortcuts (ctrl+shift+c/k/s/d/t/g)
+# $ws10: use this for VSCode TODO_Lists_VSCode (acessed via ctrl+shift+alt+n)
+# All other workspaces have no specific purpose
 
 # Keep the Notes VS Code window on WS 9
 assign [class="Code" title=".*TODO_Lists_VSCode.*"] $ws10
 # assign [app_id="code"] $ws10  # use app_id if VS Code runs as native Wayland (--ozone-platform=wayland)
 # assign [class="Code"] $ws10
 
-# Float rules (TODO is this correct?)
-# for_window [class="fzf"] floating enable
+# Custom Float rules
 for_window [title="fzf_launcher"] floating enable, resize set 800 600, move position center
 
 # TODO: in the future, it would be nice to spawn the selection window so its left border is aligned with the cursor
@@ -401,11 +395,11 @@ workspace $ws2 output DP-3
 workspace $ws3 output DP-3
 workspace $ws4 output DP-3
 workspace $ws5 output DP-3
-workspace $ws6 output DP-1
-workspace $ws7 output DP-1
-workspace $ws8 output DP-1
-workspace $ws9 output DP-1
-workspace $ws10 output DP-1
+workspace $ws6 output DP-2
+workspace $ws7 output DP-2
+workspace $ws8 output DP-2
+workspace $ws9 output DP-2
+workspace $ws10 output DP-2
 
 ################################################################################
 ###  Status Bar
@@ -435,6 +429,7 @@ include /etc/sway/config.d/*
 
 # Change Screen Scaling:
 output DP-3 scale 2.0
+output DP-2 scale 2.0
 
 # Sadly this also scales the legacy X11 applications rendered with XWayland. 
 # XWayland thinks that it is rendering to 1920x1080 resolution (confirmed by the output of `xrandr`)
