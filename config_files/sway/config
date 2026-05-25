@@ -292,15 +292,13 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #000000ff
 
 
-
 # Making the border around new windows larger
 # default_border normal 3
 # Without title bar
 default_border pixel 5
 
-
-
-
+# Hide the border, if only one window is shown
+smart_borders on
 
 ################################################################################
 ###  Default Workspaces
