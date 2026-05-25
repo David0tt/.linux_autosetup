@@ -49,7 +49,7 @@
 {
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 30, // Waybar height (to be removed for auto height)
+    "height": 32, // Waybar height (to> be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
@@ -158,8 +158,8 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
-        "spacing": 10,
+        "icon-size": 18,
+        "spacing": 10
         // "icons": {
         //   "blueman": "bluetooth",
         //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
@@ -276,35 +276,43 @@
         },
         "on-click": "pavucontrol"
     },
+    // Responsiveness of the following is solved in a hacky way, using interrupt signals 8 / 9 on the appropriate changes (onclick), 
+    // which are sent using pkill -RTMIN+8 and -RTMIN+9
+    // This ensures fast responsiveness, without needing many repolls using a small interval.
     "image#media-art": {
         "exec": "$HOME/.config/waybar/album_art.sh",
-        "size": 22,
+        "size": 32,
         "interval": 5,
+        "signal": 8,
         "tooltip": true,
-        "on-click": "playerctl play-pause"
+        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-prev": {
         "format": "",
         "tooltip": false,
-        "on-click": "playerctl previous"
+        "on-click": "sh -c 'playerctl previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-play-pause": {
         "exec": "$HOME/.config/waybar/media_play_pause_icon.sh",
-        "interval": 2,
+        "interval": 5,
+        "signal": 9,
         "format": "{}",
         "tooltip": false,
-        "on-click": "playerctl play-pause"
+        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-next": {
         "format": "",
         "tooltip": false,
-        "on-click": "playerctl next"
+        "on-click": "sh -c 'playerctl next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "mpris": {
         "player": "playerctld",
         "ignored-players": [
             "mpd"
         ],
+        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-middle": "sh -c 'playerctl previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-right": "sh -c 'playerctl next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
         "format": "{player_icon} {title} - {artist}",
         "format-paused": "{status_icon} {title} - {artist}",
         "format-stopped": " No media",
