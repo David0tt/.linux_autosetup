@@ -184,5 +184,7 @@
   "editor.inlineSuggest.enabled": false, // Disable Copilot inline suggestions
   "accessibility.signals.terminalBell": {
     "sound": "on"
-  }, 
+  },
+  "explorer.confirmDelete": false,
+  
 }

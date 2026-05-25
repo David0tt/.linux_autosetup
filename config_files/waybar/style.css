@@ -1,3 +1,37 @@
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(25, 25, 25, 1.0);
+    color: #e6e6e6;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background: transparent;
+    color: #cfcfcf;
+}
+
+#workspaces button.focused {
+    background: rgba(95, 103, 106, 0.95);
+    color: #ffffff;
+}
+
+#workspaces button:hover,
+label.module:hover,
+box.module:hover {
+    background: rgba(90, 90, 90, 0.45);
+    color: #ffffff;
+}
+
+.modules-right label.module,
+.modules-right box.module {
+    padding: 0 14px;
+}
+
 #custom-media-prev,
 #custom-media-play-pause,
 #custom-media-next {
