@@ -40,7 +40,7 @@ cd st
 
 set CONFIG_FILE 'config.def.h'
 # Change font size from 12 to 30
-sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=30:antialias=true:autohint=true";/' "$CONFIG_FILE"
+sed -i 's/static char \*font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=10:antialias=true:autohint=true";/' "$CONFIG_FILE"
 # Change keybindings to allow zooming with ctrl +/-
 sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
 sed -i 's/{ TERMMOD, XK_Next, zoom, {.f = -1} },/{ ControlMask, XK_minus, zoom, {.f = -1} },/' "$CONFIG_FILE"
@@ -169,6 +169,8 @@ sudo pacman -S grim slurp
 sudo pacman -S wl-clipboard cliphist
 
 sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
+
+sudo pacman -S bc # Needed for sway_grid.sh
 
 # Sway
 rm -r ~/.config/sway/

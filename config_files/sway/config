@@ -316,11 +316,11 @@ assign [class="Code" title=".*TODO_Lists_VSCode.*"] $ws10
 
 # Float rules (TODO is this correct?)
 # for_window [class="fzf"] floating enable
-for_window [title="fzf_launcher"] floating enable, resize set 1600 1200, move position center
+for_window [title="fzf_launcher"] floating enable, resize set 800 600, move position center
 
 # TODO: in the future, it would be nice to spawn the selection window so its left border is aligned with the cursor
-for_window [title="cliphist_fzf"] floating enable, resize set 1600 1200, move position cursor
-for_window [title="cliphist_delete"] floating enable, resize set 1600 1200, move position cursor
+for_window [title="cliphist_fzf"] floating enable, resize set 800 600, move position cursor
+for_window [title="cliphist_delete"] floating enable, resize set 800 600, move position cursor
 
 ################################################################################
 ###  Mouse Commands
