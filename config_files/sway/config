@@ -338,24 +338,25 @@ bindsym --whole-window $mod+Mod1+button3 floating toggle
 # Rearrange windows to grid
 bindsym $mod+Shift+g exec ~/.config/sway/sway_grid.sh
 
-# Diodon clipboard manager (NOTE that this overrides split vertical!)
-# Diodon is X11-only; consider cliphist + wofi/bemenu for Wayland: https://github.com/sentriz/cliphist
-# bindsym $mod+v exec /usr/bin/diodon
 
+# Clipboard manager
 # Clipboard history picker in st + fzf.
-bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl_copy'
+bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl-copy'
 
+# Delete from history
+bindsym $mod+Shift+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
 
-# Cliphist clipboard picker
+# Other considerations
+# Sadly diodon does not work on wayland
+# I don't like the look of wofi/rofi or copyq
 # bindsym $mod+v exec sh -c 'cliphist list | wofi --dmenu | cliphist decode | wl-copy'
-# bindsym $mod+v exec sh -c 'cliphist list | rofi --dmenu | cliphist decode | wl-copy'
-# bindsym $mod+v exec cliphist list | rofi -dmenu -p "Clipboard" -i | cliphist decode | wl-copy
-
 # Optional: delete one history entry
 # bindsym $mod+Shift+v exec sh -c 'cliphist list | wofi --dmenu | cliphist delete'
-
-# CopyQ window toggle
+# bindsym $mod+v exec sh -c 'cliphist list | rofi --dmenu | cliphist decode | wl-copy'
+# bindsym $mod+v exec cliphist list | rofi -dmenu -p "Clipboard" -i | cliphist decode | wl-copy
 # bindsym $mod+v exec copyq toggle
+
+
 
 # Firefox Shortcuts
 # Open Different websites in Firefox on Workspace 9
