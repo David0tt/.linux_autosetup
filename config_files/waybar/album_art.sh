@@ -6,9 +6,9 @@ cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-media"
 cover_path="$cache_dir/cover"
 url_path="$cache_dir/art-url"
 
-art_url=$(playerctl -s metadata mpris:artUrl 2>/dev/null || true)
-title=$(playerctl -s metadata xesam:title 2>/dev/null || true)
-artist=$(playerctl -s metadata xesam:artist 2>/dev/null || true)
+art_url=$(playerctl --player=playerctld -s metadata mpris:artUrl 2>/dev/null || true)
+title=$(playerctl --player=playerctld -s metadata xesam:title 2>/dev/null || true)
+artist=$(playerctl --player=playerctld -s metadata xesam:artist 2>/dev/null || true)
 
 if [ -z "$art_url" ]; then
     exit 1

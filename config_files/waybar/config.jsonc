@@ -1,51 +1,9 @@
-// {
-//     "layer": "top",
-//     // "output": "", # specify on which screen this bar will be displayed
-//     "position": "top",
-//     "height": 28,
-//     "modules-left": ["sway/workspaces", "sway/mode"],
-//     "modules-center": [], // ["sway/window"],
-//     "modules-right": [
-//         "pulseaudio",
-//         "network",
-//         "bluetooth",
-//         "tray",
-//         // "battery",
-//         "clock"
-//     ],
-//     "spacing": 7,
-//     "pulseaudio": {
-//         "format": " {volume}%",
-//         "format-muted": " muted",
-//         "on-click": "pavucontrol",
-//         "scroll-step": 5
-//     },
-//     "network": {
-//         "format-wifi": " {essid}",
-//         "format-ethernet": " {ifname}",
-//         "format-disconnected": "⚠ Disconnected",
-//         "on-click": "nm-connection-editor",
-//         "tooltip-format": "{ipaddr}"
-//     },
-//     "bluetooth": {
-//         "format": " {status}",
-//         "format-connected": " {device_alias}",
-//         "on-click": "blueman-manager",
-//         "tooltip-format": "{controller_alias} - {controller_address}"
-//     },
-//     "tray": {
-//         "icon-size": 18,
-//         "spacing": 8
-//     },
-//     "clock": {
-//         "format": "{:%H:%M  %Y-%m-%d}"
-//     }
-//     // "battery": {
-//     //     "format": "{capacity}% {icon}",
-//     //     "format-icons": ["", "", "", "", ""]
-//     // }
-// }
 // -*- mode: jsonc -*-
+
+// My Config for waybar. 
+// One particular functionality is the integration of a player controls
+// These are still very much in a prototype phase, until now i have only tested them with Spotify and YouTube. For example, for some reason they don't work with mpv
+
 {
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
@@ -285,12 +243,12 @@
         "interval": 5,
         "signal": 8,
         "tooltip": true,
-        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-prev": {
         "format": "",
         "tooltip": false,
-        "on-click": "sh -c 'playerctl previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+        "on-click": "sh -c 'playerctl --player=playerctld previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-play-pause": {
         "exec": "$HOME/.config/waybar/media_play_pause_icon.sh",
@@ -298,21 +256,21 @@
         "signal": 9,
         "format": "{}",
         "tooltip": false,
-        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "custom/media-next": {
         "format": "",
         "tooltip": false,
-        "on-click": "sh -c 'playerctl next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+        "on-click": "sh -c 'playerctl --player=playerctld next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
     },
     "mpris": {
         "player": "playerctld",
         "ignored-players": [
             "mpd"
         ],
-        "on-click": "sh -c 'playerctl play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
-        "on-click-middle": "sh -c 'playerctl previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
-        "on-click-right": "sh -c 'playerctl next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-middle": "sh -c 'playerctl --player=playerctld previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-right": "sh -c 'playerctl --player=playerctld next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
         "format": "{player_icon} {title} - {artist}",
         "format-paused": "{status_icon} {title} - {artist}",
         "format-stopped": " No media",
