@@ -475,3 +475,38 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 # bluetooth driver
 # TODO make alias to open file explorer at current location
 
+
+
+# # Diodon setup (Clipboard manager) 
+# 
+# https://askubuntu.com/questions/1210163/windows-like-clipboard-manager-for-linux
+# https://esite.ch/2015/07/using-custom-shortcuts-of-de-as-diodon-hotkey/
+# https://esite.ch/2014/03/introducing-new-default-settings-for-diodon/
+# 
+# Install:
+# sudo apt install diodon
+# 
+# Set Hotkey like Windows:
+# Settings->Keyboard->View and Customize Shortcuts->Custom Shortcuts->+
+# Name: Diodon
+# Command: /usr/bin/diodon
+# Shortcut: Win+V (Super+V)
+# 
+# In Diodon Preferences: (Diodon Hotkey->Preferences)
+# check Use primary selection (-> Enables paste in Command lines)
+# check Add Images to clipboard history (-> now also have images in history, but RAM intensive)
+# 
+# ### Windows Snipping tool style screenshots:
+# 
+# can already be done by pressing "druck"
+# Settings->Keyboard->Viiew and Customize Shortcuts->Screenshots->Take a screenshot interactively->replace with ctrl+alt+shift+s
+# 
+# ### "Dash to Panel" Windows style taskbar and hover behavior
+# 
+# # sudo apt-get install chrome-gnome-shell
+# # or after Ubuntu 23: sudo apt-get install gnome-growser-connector
+# go to https://extensions.gnome.org/extension/1160/dash-to-panel/ -> "Click here to install browser extension" -> install the extension
+# Then install / toggle to on
+
+
+
