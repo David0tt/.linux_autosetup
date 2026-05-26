@@ -29,15 +29,13 @@ font pango:monospace 18
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 ### Idle configuration
-# Example configuration:
 
-# exec swayidle -w \
-#     timeout 300 'swaylock -f' \
-#     before-sleep 'swaylock -f'
-
+# Turn off creen after 60 seconds, lock after 5 minutes, then power off outputs 1 second later.
 exec swayidle -w \
-    timeout 300 'pgrep -x gtklock >/dev/null || gtklock -d' \
-    before-sleep 'pgrep -x gtklock >/dev/null || gtklock -d'
+  timeout 60 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
+  timeout 300 'gtklock -d' \
+  before-sleep 'gtklock -d'
 
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -410,8 +408,9 @@ bindsym $mod+Mod1+Left move workspace to output left
 # Lock screen
 # bindsym $mod+l exec swaylock -f
 # bindsym $mod+l exec --no-startup-id gdmflexiserver
-bindsym $mod+l exec gtklock -d
 
+bindsym $mod+l exec gtklock -d
+# bindsym $mod+l exec pkill -USR1 -x swayidle
 
 
 ################################################################################
