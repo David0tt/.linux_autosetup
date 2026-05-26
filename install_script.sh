@@ -518,7 +518,12 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 # Go to https://extensions.gnome.org/extension/1160/dash-to-panel/ -> "Configure this extension"-button
 #     - -> Behavior -> Isolate Workspaces (activate) 
 # 
-# - Hotkey win+alt+left/right works same as on windows
+# - Hotkey win+ctrl+left/right works same as on windows after setting (original keybinding is win+alt+left/right):
+#     # Set Super+Ctrl+Left to switch to left workspace
+#         gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Super><Control>Left']"
+#     # Set Super+Ctrl+Right to switch to right workspace
+#         gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Super><Control>Right']"
+#
 # - Moving Windows to workspaces works similar to windows: Win to open the task overview, drag windows to workspaces with shift+click+drag ; Or using win+alt+page-up/page-down to move the active window to the next workspace
 # 
 # # Super+left-mouse+drag -> Move window (works natively)
