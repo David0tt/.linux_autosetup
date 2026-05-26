@@ -15,6 +15,7 @@ sudo pacman -Sy spotify-launcher
 sudo pacman -Sy alacritty
 sudo pacman -Sy ncdu
 sudo pacman -Sy nextcloud-client
+sudo pacman -Sy dolphin # This should not be required, since it is already preinstalled on KDE plasma
 sudo pacman -Sy kio
 sudo pacman -Sy htop
 sudo pacman -Sy mpv
@@ -149,7 +150,15 @@ echo "All VSCode extensions installed."
 
 # Set alacritty as terminal:
 kwriteconfig6 --file kdeglobals --group General --key TerminalApplication alacritty
-kwriteconfig6 --file kdeglobals --group General --key TerminalService alacritty.desktop
+kwriteconfig6 --file kdeglobals --group General --key TerminalService Alacritty.desktop
+kbuildsycoca6
+
+# Check where the dolphin dektop file lies, then make it the default for opening directories
+if test -f /usr/share/applications/org.kde.dolphin.desktop
+  xdg-mime default org.kde.dolphin.desktop inode/directory
+else if test -f /usr/share/applications/dolphin.desktop
+  xdg-mime default dolphin.desktop inode/directory
+end
 
 # Can set hotkeys manually using the settings -> shortcuts utility
 # Or use the symlinked config file:
@@ -189,6 +198,10 @@ sudo pacman -S dex # Used to automatically start programs specified in ~/.config
 
 sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
 
+# Notification deamon
+sudo pacman -Sy mako
+# an alternative would be dunst
+# sudo pacman -Sy dunst
 
 # Sway
 rm -r ~/.config/sway/
@@ -267,3 +280,21 @@ Can i get tiling WM like navigation on kde?
 
 # You need to manually set up zotero login / file storage
 # You need to manually log into your firefox account for sync
+
+
+
+# VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
+# This will install the needed packages (note the "Windows 11" note below):
+sudo pacman -S qemu-full virt-manager swtpm
+# Force libvirt to use iptables
+echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
+# This will add the user to the "libvirt" group so they can use it:
+sudo usermod -aG libvirt $USER
+# LXC backend (optional, for linux containers, enabling both backends does not conflict):
+systemctl enable --now libvirtd.service
+# QEMU backend (for VMs):
+systemctl enable --now libvirtd.socket
+# This will bring Internet up in a VM whenever one starts:
+sudo virsh net-autostart default
+# And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
+sudo ufw route allow from 192.168.122.0/24

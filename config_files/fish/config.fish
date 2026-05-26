@@ -18,6 +18,16 @@ set -x FZF_CTRL_R_OPTS "--with-nth=3.." # Only show the commands (not the time-s
 alias grep="rg"
 alias find="fd"
 
+# Use dolphin as the file-manager
+function fm
+	if test (count $argv) -gt 0
+		command dolphin --new-window $argv >/dev/null 2>&1 &
+	else
+		command dolphin --new-window . >/dev/null 2>&1 &
+	end
+	disown
+end
+
 function __newline_cancel_commandline
 	if test -n "$(commandline)"
 		commandline -f cancel-commandline

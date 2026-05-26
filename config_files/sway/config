@@ -248,6 +248,10 @@ bindsym $mod+r mode "resize"
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
+    # Notification daemon
+    exec mako
+    # exec dunst # alternative
+
     # Autostart applets (for waybar):
     exec nm-applet --indicator
     exec blueman-applet
@@ -390,6 +394,9 @@ bindsym Control+Shift+Mod1+g exec ~/.config/sway/open_website_in_firefox.sh http
 
 # Open VS Code Notes
 bindsym Control+Shift+Mod1+n workspace number $ws10; exec code "$HOME/Nextcloud/TODO_Lists_VSCode"
+
+# File explorer (use dolphin, since it already comes installed with KDE Plasma)
+bindsym Control+Shift+Mod1+e exec dolphin
 
 # Move whole workspace to different outputs (monitors)
 bindsym $mod+Mod1+Right move workspace to output right
