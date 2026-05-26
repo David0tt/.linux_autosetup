@@ -248,6 +248,9 @@ bindsym $mod+r mode "resize"
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
+    # PolicyKit agent required for privileged actions such as unlocking encrypted drives in Dolphin.
+    exec /usr/lib/polkit-kde-authentication-agent-1
+
     # Notification daemon
     exec mako
     # exec dunst # alternative
@@ -455,8 +458,8 @@ include /etc/sway/config.d/*
 
 
 # Change Screen Scaling:
-output DP-3 scale 2.0
-output DP-2 scale 2.0
+output DP-3 scale 1.5
+output DP-2 scale 1.5
 
 # Sadly this also scales the legacy X11 applications rendered with XWayland. 
 # XWayland thinks that it is rendering to 1920x1080 resolution (confirmed by the output of `xrandr`)

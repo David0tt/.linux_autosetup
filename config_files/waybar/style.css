@@ -89,3 +89,16 @@ box.module:hover {
 #mpris {
     min-width: 300px;
 }
+
+/* Power Menu styling */
+menu {
+    border: 5px solid rgba(120, 120, 120, 0.4);
+    background: rgba(25, 25, 25, 0.95);
+    padding: 3px;
+}
+
+menuitem {
+    padding: 5px 3px;
+    margin: 2px 0;
+    font-size: 40px;
+}

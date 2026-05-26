@@ -41,8 +41,8 @@
         // "battery",
         // "battery#bat2",
         "network",
-        "clock"
-        // "custom/power"
+        "clock", 
+        "custom/power"
     ],
     // Modules configuration
     // "sway/workspaces": {
@@ -298,7 +298,7 @@
         }
     },
     "custom/power": {
-        "format": "⏻ ",
+        "format": "",
         "tooltip": false,
         "menu": "on-click",
         "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
@@ -306,7 +306,8 @@
             "shutdown": "shutdown",
             "reboot": "reboot",
             "suspend": "systemctl suspend",
-            "hibernate": "systemctl hibernate"
+            "logout": "swaymsg exit"
+            // "hibernate": "systemctl hibernate"
         }
     }
 }
