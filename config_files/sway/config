@@ -227,6 +227,9 @@ bindsym $mod+r mode "resize"
 #
 # Autostart:
 #
+    # Set default power profile to power-saver at startup
+    exec powerprofilesctl set power-saver
+
     # Start XDG autostart: automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/ , while respecting rules like OnlyShowIn
     exec dex --autostart --environment sway
 

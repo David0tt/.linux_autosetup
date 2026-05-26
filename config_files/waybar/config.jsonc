@@ -31,7 +31,6 @@
         "tray",
         // "mpd",
         // "idle_inhibitor",
-        // "power-profiles-daemon",
         "cpu",
         "memory",
         "temperature",
@@ -42,6 +41,7 @@
         // "battery#bat2",
         "network",
         "clock", 
+        "power-profiles-daemon",
         "custom/power"
     ],
     // Modules configuration
