@@ -87,7 +87,6 @@ ln -s ~/.linux_autosetup/config_files/fish/config.fish ~/.config/fish/config.fis
 # Alacritty
 rm -r ~/.config/alacritty/
 mkdir -p ~/.config/alacritty/
-rm ~/.config/alacritty/alacritty.toml
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 
 # Put the VSCode - OSS config files into the appropriate locations
@@ -206,19 +205,12 @@ sudo pacman -Sy mako
 # Sway
 rm -r ~/.config/sway/
 mkdir -p ~/.config/sway/
-ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
-ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
-ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
-ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
+ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
 # cat ~/.Xresources >> ~/.Xdefaults
 
-rm ~/.config/waybar/config
+rm ~/.config/waybar/ -r 
 mkdir -p ~/.config/waybar/
-ln -s ~/.linux_autosetup/config_files/waybar/config.jsonc ~/.config/waybar/config.jsonc
-ln -s ~/.linux_autosetup/config_files/waybar/style.css ~/.config/waybar/style.css
-ln -s ~/.linux_autosetup/config_files/waybar/album_art.sh ~/.config/waybar/album_art.sh
-ln -s ~/.linux_autosetup/config_files/waybar/media_play_pause_icon.sh ~/.config/waybar/media_play_pause_icon.sh
-
+ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
 # Copilot-Cli
 curl -fsSL https://gh.io/copilot-install | bash
