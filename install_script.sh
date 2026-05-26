@@ -508,5 +508,32 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 # go to https://extensions.gnome.org/extension/1160/dash-to-panel/ -> "Click here to install browser extension" -> install the extension
 # Then install / toggle to on
 
+# # Gnome Setup
+# # To make multitasking setup kind of usable: 
+# On Ubuntu/Gnome: 
+# Go to Settings -> Multitasking -> 
+#     - Multi-Monitor: "Workspaces on all Displays"
+#     - Workspaces: Fixed Number of Workspaces: 5
+# # Only show the windows on the current workspace in the taskbar: 
+# Go to https://extensions.gnome.org/extension/1160/dash-to-panel/ -> "Configure this extension"-button
+#     - -> Behavior -> Isolate Workspaces (activate) 
+# 
+# - Hotkey win+alt+left/right works same as on windows
+# - Moving Windows to workspaces works similar to windows: Win to open the task overview, drag windows to workspaces with shift+click+drag ; Or using win+alt+page-up/page-down to move the active window to the next workspace
+# 
+# # Super+left-mouse+drag -> Move window (works natively)
+# # Super+middle-mouse+click -> Close Window (I could not get this to work easily)
+# # Super+right-mouse+drag -> Resize Window (default is middle-mouse), can be set up with: 
+# 
+#     gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Super>'
+#     gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
+
+
+
+
+
+
+
+
 
 
