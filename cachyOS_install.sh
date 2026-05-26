@@ -23,10 +23,13 @@ sudo pacman -Sy blender
 
 
 # rustdesk
+paru -Sy rustdesk # CARE: this does not work non-interactively, the first option has to be chosen by the user
 
 # Zotero
+sudo pacman -Sy zotero
 
 # Texlive-full
+sudo pacman -Sy texlive-meta
 
 cd ~/.linux_autosetup
 mkdir -p program_installation
@@ -259,3 +262,8 @@ Can i get tiling WM like navigation on kde?
 # 	// Fix "An OS keyring couldn't be identified for storing the encryption related data in your current desktop environment"
 # 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
 # 	"password-store":"gnome-libsecret"
+
+
+
+# You need to manually set up zotero login / file storage
+# You need to manually log into your firefox account for sync

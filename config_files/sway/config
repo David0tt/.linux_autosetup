@@ -228,31 +228,32 @@ bindsym $mod+r mode "resize"
 # Autostart:
 #
     # Start XDG autostart: automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/ , while respecting rules like OnlyShowIn
-    # TODO, check, what programs are started through this and whether they are actually needed
     exec dex --autostart --environment sway
-    # NetworkManager system tray GUI. (TODO this program currently does not exist)
-    exec nm-applet --indicator
+
     # Start gnome-keyring-daemon for password management and ssh-agent support.
     exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11
     exec /usr/bin/gnome-keyring-daemon --start --components=secrets
     exec /usr/bin/gnome-keyring-daemon --start --components=ssh
 
+    # Clipboard Manager: cliphist
     # Beware: Passwords could potentially also be stored are also stored in the cliboard History
     # The correct way to fix this is using the x-kde-passwordManagerHint mime type to indicate them as passwords. (e.g. by calling wl-copy with --sensitive: wl-copy --sensitive "some-secret")
     # Cliphist respects this mime type and does not add such copies to the history
     # Note, that the applications copying something into the clipboard need to take care of marking it correctly. Note further, that this mostly only works for applications running on wayland (so applications running on XWayland probably don't set this correctly) 
     exec wl-paste --watch cliphist store
-    # exec_always sh -c 'pkill -f "^wl-paste --type text --watch cliphist store$" || true; exec wl-paste --type text --watch cliphist store'
-    # exec_always sh -c 'pkill -f "^wl-paste --type image --watch cliphist store$" || true; exec wl-paste --type image --watch cliphist store'
+    # exec copyq
 
     # exec_always to also start on reload; pkill to not start duplicate processes; || true to make sure it always suceeds cleanly; then exec to actually start 
     exec_always sh -c 'pkill -x playerctld >/dev/null 2>&1 || true; exec playerctld daemon'
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
-    
+    # Autostart applets (for waybar):
+    exec nm-applet --indicator
+    exec blueman-applet
+    exec nextcloud
 
-    # exec copyq
+
 
 ################################################################################
 ### END OF STANDARD CONFIG
@@ -438,11 +439,6 @@ workspace $ws10 output DP-2
 bar {
     swaybar_command waybar
 }
-# TODO move somewhere else
-# Autostart applets:
-exec nm-applet --indicator
-exec blueman-applet
-exec nextcloud                    # or nextcloudcmd / the desktop client
 
 include /etc/sway/config.d/*
 
