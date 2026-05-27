@@ -66,6 +66,10 @@ box.module:hover {
     background: #5aa9ff;
 }
 
+#custom-brightness {
+    padding: 0 12px;
+}
+
 /* It would be nice to have the buttons of the tray icons be a little larger, but i could not get it to work  */
 #tray > .active,
 #tray > .passive,

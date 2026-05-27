@@ -202,6 +202,9 @@ sudo pacman -Sy mako
 # an alternative would be dunst
 # sudo pacman -Sy dunst
 
+# For external monitor brightness popup slider in Waybar
+sudo pacman -Sy ddcutil zenity
+
 # Sway
 rm -r ~/.config/sway/
 mkdir -p ~/.config/sway/
