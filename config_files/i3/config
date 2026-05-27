@@ -24,7 +24,7 @@ font pango:monospace 18
 exec --no-startup-id dex --autostart --environment i3
 
 # Start in power-saver mode at startup
-exec --no-startup-id powerprofilesctl set power-saver
+# exec --no-startup-id powerprofilesctl set power-saver
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
