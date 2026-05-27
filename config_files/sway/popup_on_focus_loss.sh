@@ -48,6 +48,15 @@ Examples:
 EOF
 }
 
+die() {
+  echo "$*" >&2
+  exit 64
+}
+
+require_value() {
+  [[ $# -ge 2 ]] || die "Missing value for $1"
+}
+
 require_cmd() {
   command -v "$1" >/dev/null 2>&1 || {
     echo "$1 is required" >&2
@@ -59,8 +68,8 @@ tree_json() {
   "$MSG_BIN" -t get_tree
 }
 
-list_matching_ids() {
-  tree_json | jq -r \
+matching_containers() {
+  tree_json | jq -c \
     --arg app_id_re "$APP_ID_RE" \
     --arg class_re "$CLASS_RE" \
     --arg instance_re "$INSTANCE_RE" \
@@ -76,8 +85,11 @@ list_matching_ids() {
       | select(match_re(.window_properties.class; $class_re))
       | select(match_re(.window_properties.instance; $instance_re))
       | select(match_re(.name; $title_re))
-      | .id
     '
+}
+
+list_matching_ids() {
+  matching_containers | jq -r '.id'
 }
 
 find_con_id_by_pid() {
@@ -113,27 +125,7 @@ find_con_id_by_criteria() {
     done <<<"$after_ids"
   fi
 
-  focused_id="$(tree_json | jq -r \
-    --arg app_id_re "$APP_ID_RE" \
-    --arg class_re "$CLASS_RE" \
-    --arg instance_re "$INSTANCE_RE" \
-    --arg title_re "$TITLE_RE" '
-      def kids: (.nodes // []) + (.floating_nodes // []);
-      def walk: recurse(kids[]?);
-      def match_re($value; $pattern):
-        ($pattern == "") or (($value // "") | tostring | test($pattern));
-
-      first(
-        walk
-        | select((.type == "con") or (.type == "floating_con"))
-        | select(match_re(.app_id; $app_id_re))
-        | select(match_re(.window_properties.class; $class_re))
-        | select(match_re(.window_properties.instance; $instance_re))
-        | select(match_re(.name; $title_re))
-        | select(.focused == true)
-        | .id
-      ) // empty
-    ')"
+    focused_id="$(matching_containers | jq -r 'select(.focused == true) | .id' | head -n 1)"
 
   if [[ -n "$focused_id" ]]; then
     printf '%s\n' "$focused_id"
@@ -161,6 +153,40 @@ kill_container() {
 
 has_criteria() {
   [[ -n "$APP_ID_RE" || -n "$CLASS_RE" || -n "$INSTANCE_RE" || -n "$TITLE_RE" ]]
+}
+
+resolve_con_id() {
+  local con_id="$DIRECT_CON_ID"
+  local before_ids=""
+  local deadline
+
+  if [[ -n "$con_id" ]]; then
+    printf '%s\n' "$con_id"
+    return 0
+  fi
+
+  if has_criteria; then
+    before_ids="$(list_matching_ids || true)"
+  fi
+
+  "$@" &
+  local app_pid=$!
+  deadline=$((SECONDS + START_TIMEOUT))
+
+  while (( SECONDS < deadline )); do
+    if kill -0 "$app_pid" 2>/dev/null; then
+      con_id="$(find_con_id_by_pid "$app_pid")"
+    fi
+
+    if [[ -z "$con_id" ]] && has_criteria; then
+      con_id="$(find_con_id_by_criteria "$before_ids")"
+    fi
+
+    [[ -n "$con_id" ]] && break
+    sleep 0.1
+  done
+
+  printf '%s\n' "$con_id"
 }
 
 daemon_matches_popup() {
@@ -206,6 +232,35 @@ run_daemon() {
   done < <("$MSG_BIN" -m -t subscribe '["window"]')
 }
 
+watch_con_id() {
+  local con_id="$1"
+  local seen_focused=0
+  local state
+
+  state="$(container_state "$con_id")"
+  if jq -e '.focused == true' >/dev/null <<<"$state"; then
+    seen_focused=1
+  fi
+
+  while IFS= read -r _line; do
+    state="$(container_state "$con_id")"
+
+    if jq -e '.exists == false' >/dev/null <<<"$state"; then
+      exit 0
+    fi
+
+    if jq -e '.focused == true' >/dev/null <<<"$state"; then
+      seen_focused=1
+      continue
+    fi
+
+    if (( seen_focused )); then
+      kill_container "$con_id"
+      exit 0
+    fi
+  done < <("$MSG_BIN" -m -t subscribe '["window","workspace"]')
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --daemon)
@@ -213,26 +268,32 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --con-id)
+      require_value "$@"
       DIRECT_CON_ID="$2"
       shift 2
       ;;
     --app-id)
+      require_value "$@"
       APP_ID_RE="$2"
       shift 2
       ;;
     --class)
+      require_value "$@"
       CLASS_RE="$2"
       shift 2
       ;;
     --instance)
+      require_value "$@"
       INSTANCE_RE="$2"
       shift 2
       ;;
     --title)
+      require_value "$@"
       TITLE_RE="$2"
       shift 2
       ;;
     --timeout)
+      require_value "$@"
       START_TIMEOUT="$2"
       shift 2
       ;;
@@ -265,61 +326,11 @@ if (( DAEMON_MODE )); then
   exit 0
 fi
 
-con_id="$DIRECT_CON_ID"
-
-if [[ -z "$con_id" ]]; then
-  before_ids=""
-  if has_criteria; then
-    before_ids="$(list_matching_ids || true)"
-  fi
-
-  "$@" &
-  app_pid=$!
-
-  deadline=$((SECONDS + START_TIMEOUT))
-
-  while (( SECONDS < deadline )); do
-    if kill -0 "$app_pid" 2>/dev/null; then
-      con_id="$(find_con_id_by_pid "$app_pid")"
-    fi
-
-    if [[ -z "$con_id" ]] && has_criteria; then
-      con_id="$(find_con_id_by_criteria "$before_ids")"
-    fi
-
-    if [[ -n "$con_id" ]]; then
-      break
-    fi
-
-    sleep 0.1
-  done
-fi
+con_id="$(resolve_con_id "$@")"
 
 if [[ -z "$con_id" ]]; then
   echo "Unable to resolve a Sway container for: $*" >&2
   exit 1
 fi
 
-seen_focused=0
-state="$(container_state "$con_id")"
-if jq -e '.focused == true' >/dev/null <<<"$state"; then
-  seen_focused=1
-fi
-
-while IFS= read -r _line; do
-  state="$(container_state "$con_id")"
-
-  if jq -e '.exists == false' >/dev/null <<<"$state"; then
-    exit 0
-  fi
-
-  if jq -e '.focused == true' >/dev/null <<<"$state"; then
-    seen_focused=1
-    continue
-  fi
-
-  if (( seen_focused )); then
-    kill_container "$con_id"
-    exit 0
-  fi
-done < <("$MSG_BIN" -m -t subscribe '["window","workspace"]')
+watch_con_id "$con_id"
