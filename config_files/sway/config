@@ -409,13 +409,14 @@ bindsym $mod+Mod1+Left move workspace to output left
 # bindsym $mod+l exec swaylock -f
 # bindsym $mod+l exec --no-startup-id gdmflexiserver
 
+# Use a minimal script to lock the screen and directly turn it off (currently does not work reliably)
+# bindsym $mod+l exec ~/.config/sway/lock_and_blank.sh
 bindsym $mod+l exec gtklock -d
-# bindsym $mod+l exec pkill -USR1 -x swayidle
 
 
 ################################################################################
 ###  System specific config
-################################################################################
+####################################################################asdfasdf############
 # Assign workspaces to specific monitors (1-5 left, 6-10 right)
 # TODO specific to the monitor names found with `swaymsg -t get_outputs`
 workspace $ws1 output DP-3
