@@ -3,7 +3,7 @@ set -euo pipefail
 
 MSG_BIN="${MSG_BIN:-swaymsg}"
 START_TIMEOUT="${START_TIMEOUT:-5}"
-LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/popup_on_focus_loss_daemon.lock"
+LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/close_window_on_focus_loss_daemon.lock"
 DAEMON_MODE=0
 
 DAEMON_APP_ID_RE='^(nm-connection-editor|blueman-manager|org\.pulseaudio\.pavucontrol|pavucontrol)$'
@@ -19,9 +19,9 @@ TITLE_RE=""
 usage() {
   cat <<'EOF'
 Usage:
-  popup_on_focus_loss.sh --daemon
-  popup_on_focus_loss.sh [match options] -- command [args...]
-  popup_on_focus_loss.sh --con-id ID
+  close_window_on_focus_loss.sh --daemon
+  close_window_on_focus_loss.sh [match options] -- command [args...]
+  close_window_on_focus_loss.sh --con-id ID
 
 This system can be used to automatically close an application on focus loss.
 This can be useful, for example for "pop-up" applications in the system bar, 
@@ -41,10 +41,10 @@ Match options:
   --help             Show this help
 
 Examples:
-  popup_on_focus_loss.sh --daemon
-  popup_on_focus_loss.sh --con-id 123456789
-  popup_on_focus_loss.sh --app-id '^pavucontrol$' --class '^Pavucontrol$' -- pavucontrol
-  popup_on_focus_loss.sh --app-id '^nm-connection-editor$' --title '^Network Connections$' -- nm-connection-editor
+  close_window_on_focus_loss.sh --daemon
+  close_window_on_focus_loss.sh --con-id 123456789
+  close_window_on_focus_loss.sh --app-id '^pavucontrol$' --class '^Pavucontrol$' -- pavucontrol
+  close_window_on_focus_loss.sh --app-id '^nm-connection-editor$' --title '^Network Connections$' -- nm-connection-editor
 EOF
 }
 
