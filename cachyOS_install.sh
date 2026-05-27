@@ -22,6 +22,11 @@ sudo pacman -Sy mpv
 sudo pacman -Sy blender
 # sudo pacman -Sy libreoffice
 
+# To manage my LED keyboard
+sudo pacman -S openrgb
+# Start openrgb
+# Set the profile as you want it
+# Save the profile  as "default_startup"
 
 # rustdesk
 paru -Sy rustdesk # CARE: this does not work non-interactively, the first option has to be chosen by the user

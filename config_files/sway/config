@@ -262,6 +262,9 @@ bindsym $mod+r mode "resize"
     exec blueman-applet
     exec nextcloud
 
+    # openRGB (mostly to turn off my LED keyboard)
+    exec openrgb --server --startminimized --profile default_startup
+
 
 
 ################################################################################
