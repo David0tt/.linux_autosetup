@@ -344,6 +344,9 @@ for_window [app_id="^org\.pulseaudio\.pavucontrol$|^pavucontrol$"] floating enab
 for_window [class="^Pavucontrol$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 for_window [title="^Volume Control$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 
+# Monitor Brightness Slider
+for_window [title="monitor_brightness_slider"] floating enable, resize set 400 100, move position 80 ppt 0 px
+
 ################################################################################
 ###  Mouse Commands
 ################################################################################
