@@ -4,7 +4,6 @@ set -eu
 
 display="${DDCUTIL_DISPLAY:-1}"
 signal="${WAYBAR_BRIGHTNESS_SIGNAL:-10}"
-target_file="/tmp/brightness_$(id -u)"
 
 # Helper to avoid repetitive ddcutil calls when sliding
 set_brightness() {
@@ -27,27 +26,13 @@ case "${1:-status}" in
         max=$5
         pct=$(( $4 * 100 / max ))
 
-        zenity --scale --text='Monitor brightness' --value="$pct" --min-value=1 --max-value=100 \
-            --step="${DDCUTIL_BRIGHTNESS_STEP:-5}" --print-partial --hide-value | while read -r val; do
-            echo "$val" > "$target_file"
-            # Start worker if not already running to consume the latest target
-            if ! pgrep -f "monitor_brightness.sh _worker" > /dev/null; then
-                "$0" _worker "$max" &
-            fi
-        done
-        ;;
-    _worker)
-        max="$2"
-        # Consume target_file while it exists and has content
-        while [ -s "$target_file" ]; do
-            val=$(cat "$target_file")
-            # Clear file to signal we've read the latest
-            : > "$target_file" 
+        while read -r val; do
+            # Drain buffered values so we only apply the latest one.
+            # read -t 0 only checks availability without consuming; use a small
+            # positive timeout so the read actually drains the data.
+            while read -r -t 0.1 next; do val="$next"; done
             set_brightness "$val" "$max"
-            # If nothing new was written during ddcutil call, we can exit
-            if ! [ -s "$target_file" ]; then
-                rm -f "$target_file"
-            fi
-        done
+        done < <(zenity --scale --text='Monitor brightness' --value="$pct" --min-value=1 --max-value=100 \
+            --step="${DDCUTIL_BRIGHTNESS_STEP:-5}" --print-partial --hide-value)
         ;;
 esac
