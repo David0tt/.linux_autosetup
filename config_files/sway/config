@@ -30,9 +30,9 @@ font pango:monospace 18
 
 ### Idle configuration
 
-# Turn off creen after 60 seconds, lock after 5 minutes, then power off outputs 1 second later.
+# Turn off creen after 120 seconds, lock after 5 minutes, then power off outputs 1 second later.
 exec swayidle -w \
-  timeout 60 'swaymsg "output * dpms off"' \
+  timeout 120 'swaymsg "output * dpms off"' \
   resume 'swaymsg "output * dpms on"' \
   timeout 300 'gtklock -d' \
   before-sleep 'gtklock -d'
