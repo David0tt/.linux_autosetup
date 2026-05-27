@@ -125,7 +125,7 @@ find_con_id_by_criteria() {
     done <<<"$after_ids"
   fi
 
-    focused_id="$(matching_containers | jq -r 'select(.focused == true) | .id' | head -n 1)"
+  focused_id="$(matching_containers | jq -r 'select(.focused == true) | .id' | head -n 1)"
 
   if [[ -n "$focused_id" ]]; then
     printf '%s\n' "$focused_id"
@@ -189,21 +189,6 @@ resolve_con_id() {
   printf '%s\n' "$con_id"
 }
 
-daemon_matches_popup() {
-  jq -e \
-    --arg app_id_re "$DAEMON_APP_ID_RE" \
-    --arg class_re "$DAEMON_CLASS_RE" \
-    --arg title_re "$DAEMON_TITLE_RE" '
-      def match_re($value; $pattern):
-        (($value // "") | tostring | test($pattern));
-
-      (.container // {}) as $con
-      | (match_re($con.app_id; $app_id_re)
-        or match_re($con.window_properties.class; $class_re)
-        or match_re($con.name; $title_re))
-    ' >/dev/null
-}
-
 run_daemon() {
   require_cmd flock
 
@@ -211,21 +196,25 @@ run_daemon() {
   flock -n 9 || exit 0
 
   declare -A watcher_pids=()
-  local event change con_id existing_pid
+  local event con_id
 
   while IFS= read -r event; do
-    change="$(jq -r '.change // empty' <<<"$event")"
-    [[ "$change" == "new" || "$change" == "title" ]] || continue
+    con_id="$(jq -re \
+      --arg app_id_re "$DAEMON_APP_ID_RE" \
+      --arg class_re "$DAEMON_CLASS_RE" \
+      --arg title_re "$DAEMON_TITLE_RE" '
+      def match_re($v; $p): (($v // "") | tostring | test($p));
+      select(.change == "new" or .change == "title")
+      | (.container // {}) as $c
+      | select(
+          match_re($c.app_id; $app_id_re) or
+          match_re($c.window_properties.class; $class_re) or
+          match_re($c.name; $title_re)
+        )
+      | $c.id // empty | tostring
+    ' <<<"$event")" || continue
 
-    daemon_matches_popup <<<"$event" || continue
-
-    con_id="$(jq -r '.container.id // empty' <<<"$event")"
-    [[ -n "$con_id" ]] || continue
-
-    existing_pid="${watcher_pids[$con_id]:-}"
-    if [[ -n "$existing_pid" ]] && kill -0 "$existing_pid" 2>/dev/null; then
-      continue
-    fi
+    [[ -n "${watcher_pids[$con_id]:-}" ]] && kill -0 "${watcher_pids[$con_id]}" 2>/dev/null && continue
 
     "$0" --con-id "$con_id" >/dev/null 2>&1 &
     watcher_pids[$con_id]=$!
@@ -238,9 +227,7 @@ watch_con_id() {
   local state
 
   state="$(container_state "$con_id")"
-  if jq -e '.focused == true' >/dev/null <<<"$state"; then
-    seen_focused=1
-  fi
+  jq -e '.focused == true' >/dev/null <<<"$state" && seen_focused=1
 
   while IFS= read -r _line; do
     state="$(container_state "$con_id")"
@@ -313,7 +300,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$DIRECT_CON_ID" && $# -eq 0 ]]; then
+if (( ! DAEMON_MODE )) && [[ -z "$DIRECT_CON_ID" && $# -eq 0 ]]; then
   usage >&2
   exit 64
 fi
