@@ -23,6 +23,10 @@ Usage:
   popup_on_focus_loss.sh [match options] -- command [args...]
   popup_on_focus_loss.sh --con-id ID
 
+This system can be used to automatically close an application on focus loss.
+This can be useful, for example for "pop-up" applications in the system bar, 
+e.g. audio or bluetooth settings. 
+
 Launch a command, attach to an existing Sway container, or run a daemon that
 watches for matching popup windows and kills them after they lose focus.
 
