@@ -157,7 +157,7 @@
     "custom/brightness": {
         "exec": "$HOME/.config/waybar/monitor_brightness.sh",
         "return-type": "json",
-        "interval": 1,
+        "interval": 10,
         "signal": 10,
         "format": "{text} {icon}",
         "tooltip": true,
@@ -173,7 +173,8 @@
             "󰃟",
             "󰃟"
         ],
-        "on-click": "$HOME/.config/waybar/monitor_brightness.sh popup"
+        // call it as a background thread with &, as to not block the updates of this waybar item
+        "on-click": "$HOME/.config/waybar/monitor_brightness.sh popup &"
     },
     "battery": {
         "states": {
