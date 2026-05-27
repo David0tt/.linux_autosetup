@@ -4,6 +4,7 @@ set -euo pipefail
 MSG_BIN="${MSG_BIN:-swaymsg}"
 START_TIMEOUT="${START_TIMEOUT:-5}"
 
+DIRECT_CON_ID=""
 APP_ID_RE=""
 CLASS_RE=""
 INSTANCE_RE=""
@@ -13,11 +14,13 @@ usage() {
   cat <<'EOF'
 Usage:
   popup_on_focus_loss.sh [match options] -- command [args...]
+  popup_on_focus_loss.sh --con-id ID
 
-Launch a command, resolve the corresponding Sway container, and kill it after it
+Launch a command or attach to an existing Sway container, then kill it after it
 has been focused once and then loses focus.
 
 Match options:
+  --con-id ID         Attach to an existing container instead of launching one
   --app-id REGEX     Match container app_id
   --class REGEX      Match Xwayland window class
   --instance REGEX   Match Xwayland window instance
@@ -26,6 +29,7 @@ Match options:
   --help             Show this help
 
 Examples:
+  popup_on_focus_loss.sh --con-id 123456789
   popup_on_focus_loss.sh --app-id '^pavucontrol$' --class '^Pavucontrol$' -- pavucontrol
   popup_on_focus_loss.sh --app-id '^nm-connection-editor$' --title '^Network Connections$' -- nm-connection-editor
 EOF
@@ -148,6 +152,10 @@ has_criteria() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --con-id)
+      DIRECT_CON_ID="$2"
+      shift 2
+      ;;
     --app-id)
       APP_ID_RE="$2"
       shift 2
@@ -184,40 +192,43 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ $# -gt 0 ]] || {
+if [[ -z "$DIRECT_CON_ID" && $# -eq 0 ]]; then
   usage >&2
   exit 64
-}
+fi
 
 require_cmd "$MSG_BIN"
 require_cmd jq
 
-before_ids=""
-if has_criteria; then
-  before_ids="$(list_matching_ids || true)"
+con_id="$DIRECT_CON_ID"
+
+if [[ -z "$con_id" ]]; then
+  before_ids=""
+  if has_criteria; then
+    before_ids="$(list_matching_ids || true)"
+  fi
+
+  "$@" &
+  app_pid=$!
+
+  deadline=$((SECONDS + START_TIMEOUT))
+
+  while (( SECONDS < deadline )); do
+    if kill -0 "$app_pid" 2>/dev/null; then
+      con_id="$(find_con_id_by_pid "$app_pid")"
+    fi
+
+    if [[ -z "$con_id" ]] && has_criteria; then
+      con_id="$(find_con_id_by_criteria "$before_ids")"
+    fi
+
+    if [[ -n "$con_id" ]]; then
+      break
+    fi
+
+    sleep 0.1
+  done
 fi
-
-"$@" &
-app_pid=$!
-
-deadline=$((SECONDS + START_TIMEOUT))
-con_id=""
-
-while (( SECONDS < deadline )); do
-  if kill -0 "$app_pid" 2>/dev/null; then
-    con_id="$(find_con_id_by_pid "$app_pid")"
-  fi
-
-  if [[ -z "$con_id" ]] && has_criteria; then
-    con_id="$(find_con_id_by_criteria "$before_ids")"
-  fi
-
-  if [[ -n "$con_id" ]]; then
-    break
-  fi
-
-  sleep 0.1
-done
 
 if [[ -z "$con_id" ]]; then
   echo "Unable to resolve a Sway container for: $*" >&2

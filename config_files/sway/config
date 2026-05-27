@@ -246,6 +246,7 @@ bindsym $mod+r mode "resize"
 
     # exec_always to also start on reload; pkill to not start duplicate processes; || true to make sure it always suceeds cleanly; then exec to actually start 
     exec_always sh -c 'pkill -x playerctld >/dev/null 2>&1 || true; exec playerctld daemon'
+    exec_always ~/.config/sway/popup_on_focus_loss_daemon.sh
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
