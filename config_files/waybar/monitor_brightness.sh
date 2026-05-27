@@ -33,6 +33,6 @@ case "${1:-status}" in
             while read -r -t 0.1 next; do val="$next"; done
             set_brightness "$val" "$max"
         done < <(yad --scale --value="$pct" --min=1 --max=100 \
-            --step=5 --print-partial --hide-value --no-buttons --title='monitor_brightness_slider')
+            --step=5 --print-partial --hide-value --no-buttons --title='monitor_brightness_slider') # could add --close-on-unfocus
         ;;
 esac
