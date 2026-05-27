@@ -3,6 +3,12 @@ set -euo pipefail
 
 MSG_BIN="${MSG_BIN:-swaymsg}"
 START_TIMEOUT="${START_TIMEOUT:-5}"
+LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/popup_on_focus_loss_daemon.lock"
+DAEMON_MODE=0
+
+DAEMON_APP_ID_RE='^(nm-connection-editor|blueman-manager|org\.pulseaudio\.pavucontrol|pavucontrol)$'
+DAEMON_CLASS_RE='^(Nm-connection-editor|Blueman-manager|Pavucontrol)$'
+DAEMON_TITLE_RE='^(Network Connections|Bluetooth.*|Volume Control)$'
 
 DIRECT_CON_ID=""
 APP_ID_RE=""
@@ -13,13 +19,15 @@ TITLE_RE=""
 usage() {
   cat <<'EOF'
 Usage:
+  popup_on_focus_loss.sh --daemon
   popup_on_focus_loss.sh [match options] -- command [args...]
   popup_on_focus_loss.sh --con-id ID
 
-Launch a command or attach to an existing Sway container, then kill it after it
-has been focused once and then loses focus.
+Launch a command, attach to an existing Sway container, or run a daemon that
+watches for matching popup windows and kills them after they lose focus.
 
 Match options:
+  --daemon            Watch for matching popup windows and attach automatically
   --con-id ID         Attach to an existing container instead of launching one
   --app-id REGEX     Match container app_id
   --class REGEX      Match Xwayland window class
@@ -29,6 +37,7 @@ Match options:
   --help             Show this help
 
 Examples:
+  popup_on_focus_loss.sh --daemon
   popup_on_focus_loss.sh --con-id 123456789
   popup_on_focus_loss.sh --app-id '^pavucontrol$' --class '^Pavucontrol$' -- pavucontrol
   popup_on_focus_loss.sh --app-id '^nm-connection-editor$' --title '^Network Connections$' -- nm-connection-editor
@@ -150,8 +159,55 @@ has_criteria() {
   [[ -n "$APP_ID_RE" || -n "$CLASS_RE" || -n "$INSTANCE_RE" || -n "$TITLE_RE" ]]
 }
 
+daemon_matches_popup() {
+  jq -e \
+    --arg app_id_re "$DAEMON_APP_ID_RE" \
+    --arg class_re "$DAEMON_CLASS_RE" \
+    --arg title_re "$DAEMON_TITLE_RE" '
+      def match_re($value; $pattern):
+        (($value // "") | tostring | test($pattern));
+
+      (.container // {}) as $con
+      | (match_re($con.app_id; $app_id_re)
+        or match_re($con.window_properties.class; $class_re)
+        or match_re($con.name; $title_re))
+    ' >/dev/null
+}
+
+run_daemon() {
+  require_cmd flock
+
+  exec 9>"$LOCK_FILE"
+  flock -n 9 || exit 0
+
+  declare -A watcher_pids=()
+  local event change con_id existing_pid
+
+  while IFS= read -r event; do
+    change="$(jq -r '.change // empty' <<<"$event")"
+    [[ "$change" == "new" || "$change" == "title" ]] || continue
+
+    daemon_matches_popup <<<"$event" || continue
+
+    con_id="$(jq -r '.container.id // empty' <<<"$event")"
+    [[ -n "$con_id" ]] || continue
+
+    existing_pid="${watcher_pids[$con_id]:-}"
+    if [[ -n "$existing_pid" ]] && kill -0 "$existing_pid" 2>/dev/null; then
+      continue
+    fi
+
+    "$0" --con-id "$con_id" >/dev/null 2>&1 &
+    watcher_pids[$con_id]=$!
+  done < <("$MSG_BIN" -m -t subscribe '["window"]')
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --daemon)
+      DAEMON_MODE=1
+      shift
+      ;;
     --con-id)
       DIRECT_CON_ID="$2"
       shift 2
@@ -199,6 +255,11 @@ fi
 
 require_cmd "$MSG_BIN"
 require_cmd jq
+
+if (( DAEMON_MODE )); then
+  run_daemon
+  exit 0
+fi
 
 con_id="$DIRECT_CON_ID"
 
