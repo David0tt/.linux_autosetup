@@ -157,7 +157,7 @@
     "custom/brightness": {
         "exec": "$HOME/.config/waybar/monitor_brightness.sh",
         "return-type": "json",
-        "interval": 10,
+        "interval": 1,
         "signal": 10,
         "format": "{text} {icon}",
         "tooltip": true,

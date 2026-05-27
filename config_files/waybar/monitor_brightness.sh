@@ -3,7 +3,7 @@
 set -eu
 
 display="${DDCUTIL_DISPLAY:-1}"
-signal="${WAYBAR_BRIGHTNESS_SIGNAL:-10}"
+signal=10
 
 # Helper to avoid repetitive ddcutil calls when sliding
 set_brightness() {
@@ -33,6 +33,6 @@ case "${1:-status}" in
             while read -r -t 0.1 next; do val="$next"; done
             set_brightness "$val" "$max"
         done < <(zenity --scale --text='Monitor brightness' --value="$pct" --min-value=1 --max-value=100 \
-            --step="${DDCUTIL_BRIGHTNESS_STEP:-5}" --print-partial --hide-value)
+            --step=5 --print-partial --hide-value)
         ;;
 esac
