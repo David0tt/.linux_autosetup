@@ -163,15 +163,10 @@
         "tooltip": true,
         // Icon options: 󰖨 󰃟
         "format-icons": [
+            "󰃞",
             "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟",
-            "󰃟"
+            "󰃝",
+            "󰃠"
         ],
         // call it as a background thread with &, as to not block the updates of this waybar item
         "on-click": "$HOME/.config/waybar/monitor_brightness.sh popup &"
