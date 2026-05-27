@@ -238,6 +238,12 @@ echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electr
 
 # TODO after installation: 
 #
+# - you need to manually add the --unsupported-gpu flag to the Exec command in 
+# 
+#     sudo nano /usr/share/wayland-sessions/sway.desktop
+# 
+#     Exec=sway -> Exec=sway --unsupported-gpu
+#
 # - Enable HDR
 #   - on the desktop, right-click -> Display configuration -> check Enable HDR
 #   - calibrate HDR Brightness
