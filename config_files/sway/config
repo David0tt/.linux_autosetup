@@ -247,9 +247,8 @@ bindsym $mod+r mode "resize"
     exec wl-paste --watch cliphist store
     # exec copyq
 
-    # exec_always to also start on reload; pkill to not start duplicate processes; || true to make sure it always suceeds cleanly; then exec to actually start 
-    exec_always sh -c 'pkill -x playerctld >/dev/null 2>&1 || true; exec playerctld daemon'
-    exec_always ~/.config/sway/close_window_on_focus_loss.sh --daemon
+    exec playerctld daemon'
+    exec ~/.config/sway/close_window_on_focus_loss.sh --daemon
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
 
@@ -269,8 +268,7 @@ bindsym $mod+r mode "resize"
     exec openrgb --server --startminimized --profile default_startup
 
     # workspace icons daemon
-    exec_always --no-startup-id bash -c "source ~/miniforge3/bin/activate swayWorkspaceIcons && exec sway-workspace-icon-daemon"
-
+    exec bash -c "source ~/miniforge3/bin/activate swayWorkspaceIcons && exec sway-workspace-icon-daemon"
 
 ################################################################################
 ### END OF STANDARD CONFIG
