@@ -127,6 +127,13 @@ wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforg
 bash Miniforge3-$(uname)-$(uname -m).sh -b -u
 rm Miniforge3-$(uname)-$(uname -m).sh
 
+# Initialize shell
+~/miniforge3/bin/conda init
+~/miniforge3/bin/conda init fish
+
+# If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
+
+
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
