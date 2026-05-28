@@ -118,5 +118,9 @@ menu {
 menuitem {
     padding: 5px 3px;
     margin: 2px 0;
+}
+
+/* Target power menu items by their CSS class from power_menu.xml */
+.power-item {
     font-size: 40px;
 }

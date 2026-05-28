@@ -4,30 +4,30 @@
     <child>
 		<object class="GtkMenuItem" id="logout">
 			<property name="label">󰈆      Logout</property>
-        </object>
+        <style><class name="power-item" /></style></object>
     </child>
     <child>
 		<object class="GtkMenuItem" id="suspend">
 			<property name="label">󰒲      Suspend</property>
-        </object>
+        <style><class name="power-item" /></style></object>
 	</child>
 	<!-- <child>
         <object class="GtkMenuItem" id="hibernate">
-			<property name="label">󰋙 󰒲 󰤄       Hibernate</property>
-        </object>
+			    <property name="label">󰋙 󰒲 󰤄       Hibernate</property>
+          <style><class name="power-item" /></style></object>
 	</child> -->
     <child>
         <object class="GtkMenuItem" id="shutdown">
 			<property name="label">󰐥      Shutdown</property>
-        </object>
+        <style><class name="power-item" /></style></object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="delimiter1"/>
+      <object class="GtkSeparatorMenuItem" id="delimiter1" />
     </child>
     <child>
 		<object class="GtkMenuItem" id="reboot">
 			<property name="label">      Reboot</property>
-		</object>
+		<style><class name="power-item" /></style></object>
     </child>
   </object>
 </interface>
