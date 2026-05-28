@@ -245,6 +245,17 @@ mkdir -p ~/.config/environment.d/
 echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
 
 
+
+
+# Sway workspace icon daemon
+cd ~/.linux_autosetup/program_installation
+conda create -n conda create -n swayWorkspaceIcons python==3.12 -y
+conda activate swayWorkspaceIcons
+git clone https://github.com/David0tt/sway-workspace-icons/
+pip install sway-workspace-icons/
+
+
+
 # TODO after installation: 
 #
 # - you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
