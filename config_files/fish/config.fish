@@ -45,3 +45,22 @@ if status is-interactive
 end
 
 
+
+function conda_init
+	# >>> conda initialize >>>
+	# !! Contents within this block are managed by 'conda init' !!
+	if test -f /home/surfer/miniforge3/bin/conda
+		eval /home/surfer/miniforge3/bin/conda "shell.fish" "hook" $argv | source
+	else
+		if test -f "/home/surfer/miniforge3/etc/fish/conf.d/conda.fish"
+			. "/home/surfer/miniforge3/etc/fish/conf.d/conda.fish"
+		else
+			set -x PATH "/home/surfer/miniforge3/bin" $PATH
+		end
+	end
+	# <<< conda initialize <<<
+end
+
+alias mamba_init=conda_init
+
+# conda_init
