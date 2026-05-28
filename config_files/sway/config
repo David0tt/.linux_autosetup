@@ -31,12 +31,15 @@ font pango:monospace 18
 ### Idle configuration
 
 # Turn off creen after 120 seconds, lock after 5 minutes, then power off outputs 1 second later.
+# exec swayidle -w \
+#   timeout 120 'swaymsg "output * dpms off"' \
+#   resume 'swaymsg "output * dpms on"' \
+#   timeout 300 'gtklock -d' \
+#   before-sleep 'gtklock -d'
+
 exec swayidle -w \
   timeout 120 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
-  timeout 300 'gtklock -d' \
-  before-sleep 'gtklock -d'
-
+  resume 'swaymsg "output * dpms on"'
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -349,7 +352,7 @@ for_window [class="^Pavucontrol$"] floating enable, resize set 45 ppt 70 ppt, mo
 for_window [title="^Volume Control$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 
 # Monitor Brightness Slider
-for_window [title="monitor_brightness_slider"] floating enable, resize set 400 100, move position 80 ppt 0 px
+for_window [title="monitor_brightness_slider"] floating enable, resize set 400 100, move position 75 ppt 0 px
 
 ################################################################################
 ###  Mouse Commands
@@ -470,7 +473,7 @@ include /etc/sway/config.d/*
 # Change Screen Scaling and Enable HDR:
 output DP-3 {
     scale 1.5
-    hdr on
+    # hdr on
     render_bit_depth 10
 }
 
