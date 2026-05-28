@@ -7,8 +7,11 @@ hdr_active=$(swaymsg -t get_outputs | jq 'any(.[]; .hdr == true)')
 if [ "${1:-}" = "toggle" ]; then
     # Toggle HDR for all outputs
     swaymsg -t get_outputs | jq -r '.[] | .name' | xargs -I {} swaymsg "output {} hdr toggle" >/dev/null 2>&1
-    # Refresh waybar (if needed)
-    pkill -RTMIN+11 waybar 2>/dev/null || true
+    # Reload sway to fix layer-shell input corruption after HDR output reconfiguration.
+    { sleep 0.5; swaymsg reload; } &
+    # # Refresh waybar (if needed) (is now not needed since waybar is already reloaded)
+    # pkill -RTMIN+11 waybar 2>/dev/null || true
+
     exit 0
 fi
 

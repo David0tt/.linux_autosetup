@@ -477,7 +477,7 @@ output DP-3 {
     render_bit_depth 10
 }
 
-bindsym $mod+h exec swaymsg output DP-3 hdr toggle
+bindsym $mod+h exec swaymsg output DP-3 hdr toggle && pkill -RTMIN+11 waybar
 
 output DP-2 {
     scale 1.5
