@@ -39,7 +39,7 @@ git config --global user.name "David Ott"
 # Set VSCode as git difftool (show diffs with git difftool <file>)
 git config --global diff.tool vscode
 git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
-git config --global difftool.prompt true
+git config --global difftool.prompt false
 
 
 
