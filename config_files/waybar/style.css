@@ -70,6 +70,20 @@ box.module:hover {
     padding: 0 12px;
 }
 
+#custom-hdr {
+    padding: 0 12px;
+    font-size: 34px;
+}
+
+#custom-hdr.on {
+    color: #ffaa00; /* Orange/Gold for HDR */
+    font-weight: bold;
+}
+
+#custom-hdr.off {
+    color: #888888;
+}
+
 /* It would be nice to have the buttons of the tray icons be a little larger, but i could not get it to work  */
 #tray > .active,
 #tray > .passive,

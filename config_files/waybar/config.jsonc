@@ -33,6 +33,7 @@
         // "idle_inhibitor",
         // "temperature",
         "custom/brightness",
+        "custom/hdr",
         // "keyboard-state",
         // "sway/language",
         // "battery",
@@ -170,6 +171,15 @@
         ],
         // call it as a background thread with &, as to not block the updates of this waybar item
         "on-click": "$HOME/.config/waybar/monitor_brightness.sh popup &"
+    },
+    "custom/hdr": {
+        "exec": "$HOME/.config/waybar/hdr_status.sh",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 11,
+        "format": "{text}",
+        "tooltip": true,
+        "on-click": "$HOME/.config/waybar/hdr_status.sh toggle"
     },
     "battery": {
         "states": {

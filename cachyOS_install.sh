@@ -22,6 +22,8 @@ sudo pacman -Sy mpv
 sudo pacman -Sy blender
 # sudo pacman -Sy libreoffice
 
+# sudo pacman -S font-manager # for viewing fonts
+
 # To manage my LED keyboard
 sudo pacman -S openrgb
 # Start openrgb
@@ -238,11 +240,12 @@ echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electr
 
 # TODO after installation: 
 #
-# - you need to manually add the --unsupported-gpu flag to the Exec command in 
+# - you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
+# warning message, and you need to start with vulkan as renderer to enable HDR Win 
 # 
 #     sudo nano /usr/share/wayland-sessions/sway.desktop
 # 
-#     Exec=sway -> Exec=sway --unsupported-gpu
+#     Exec=sway -> Exec=WLR_RENDERER=vulkan sway --unsupported-gpu
 #
 # - Enable HDR
 #   - on the desktop, right-click -> Display configuration -> check Enable HDR
