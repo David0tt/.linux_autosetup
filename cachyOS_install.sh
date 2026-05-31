@@ -20,7 +20,63 @@ sudo pacman -Sy kio
 sudo pacman -Sy htop
 sudo pacman -Sy mpv
 sudo pacman -Sy blender
-# sudo pacman -Sy libreoffice
+sudo pacman -S libreoffice-still # could also use more up to date, less stable version libreoffice-fresh
+
+
+sudo pacman -S zed # alternative text editor
+
+sudo pacman -S rclone # for google drive sync
+
+sudo pacman -S iotop # show disk usage
+
+
+sudo pacman -S pdfarranger # Combine PDF document pages
+
+
+# File Manager options: thunar, PCManFM, dolphin
+sudo pacman -S pcmanfm
+
+
+
+sudo pacman -S hyperfine # To measure application startup speed
+# hyperfine: 
+
+
+
+
+# sudo pacman -S kio-gdrive # maybe Google drive integration in nautilus  -> Does not work right now, since google is always changing the API
+
+# Interactive Setup:
+# rclone config
+# -> new remote
+# -> name: google_drive
+# -> storage: drive
+# -> create a client id following the link
+# # After the last step it will say that verification is needed, but this can be skipped and will produce a warning in the OAuth authentication later, which can be ignored
+# Then continue through the whole setup
+# Afterwards you can test the connection using: rclone lsd google_drive:
+
+# Create the local sync folder and clone: 
+#     mkdir -p ~/GoogleDrive
+
+# To just download everything:
+#     rclone sync gdrive: ~/GoogleDrive \
+#         --progress \
+#         --transfers 8 \
+#         --checkers 16
+
+
+# Just mount (this is like streaming mode)
+# rclone mount google_drive: ~/GoogleDrive
+
+# mkdir -p ~/GDriveMount
+# mkdir -p ~/GoogleDrive
+# # OR:  rclone mount google_drive: ~/GDriveMount
+
+# More elaborate setup for the syncing following https://chatgpt.com/c/6a18c686-4f10-83eb-a10d-a71c164b38d1
+# Maybe following this for automatic syncing: https://dev.to/arunkrish11/sync-any-linux-folder-to-google-drive-using-rclone-systemd-8d2
+# The daemon should maybe have a watcher "on file change" for most seamless interaction
+
 
 # sudo pacman -S font-manager # for viewing fonts
 
