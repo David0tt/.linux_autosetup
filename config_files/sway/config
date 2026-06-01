@@ -38,7 +38,7 @@ font pango:monospace 18
 #   before-sleep 'gtklock -d'
 
 exec swayidle -w \
-  timeout 120 'swaymsg "output * dpms off"' \
+  timeout 300 'swaymsg "output * dpms off"' \
   resume 'swaymsg "output * dpms on"'
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -409,8 +409,8 @@ bindsym Control+Shift+Mod1+g exec ~/.config/sway/open_website_in_firefox.sh http
 # Open VS Code Notes
 bindsym Control+Shift+Mod1+n workspace number $ws10; exec code "$HOME/Nextcloud/TODO_Lists_VSCode"
 
-# File explorer (use dolphin, since it already comes installed with KDE Plasma)
-bindsym Control+Shift+Mod1+e exec dolphin
+# File explorer
+bindsym Control+Shift+Mod1+e exec pcmanfm
 
 # Move whole workspace to different outputs (monitors)
 bindsym $mod+Mod1+Right move workspace to output right

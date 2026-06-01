@@ -34,6 +34,8 @@ sudo pacman -S pdfarranger # Combine PDF document pages
 
 
 # File Manager options: thunar, PCManFM, dolphin
+# After some benchmarking, i found PCManFM and thunar are an order of magnitude faster than dolphin
+# PCManFin appears to be ~20% faster than thunar
 sudo pacman -S pcmanfm
 
 
@@ -295,11 +297,12 @@ curl -fsSL https://gh.io/copilot-install | bash
 # Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
 # When started from terminal
 set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
+# set -Ue ELECTRON_OZONE_PLATFORM_HINT # undo
 
 # When started from anywhere else
 mkdir -p ~/.config/environment.d/
 echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
-
+# rm ~/.config/environment.d/90-electron-wayland.conf # undo
 
 
 
@@ -310,6 +313,14 @@ conda activate swayWorkspaceIcons
 git clone https://github.com/David0tt/sway-workspace-icons/
 pip install sway-workspace-icons/
 
+
+
+
+
+# Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
+mkdir -p ~/.local/bin
+printf '#!/usr/bin/env sh\nexec env -u DISPLAY /usr/bin/spotify-launcher "$@"\n' > ~/.local/bin/spotify-launcher
+chmod +x ~/.local/bin/spotify-launcher
 
 
 # TODO after installation: 
@@ -383,3 +394,23 @@ systemctl enable --now libvirtd.socket
 sudo virsh net-autostart default
 # And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
 sudo ufw route allow from 192.168.122.0/24
+
+
+
+
+# Meta Quest 3 Setup
+# install steam
+sudo pacman -S steam
+
+# Then in steam, install SteamVR
+
+
+# Install cuda (needed as alvr dependency)
+sudo pacman -S cuda
+
+# Install alvr
+paru -S alvr-git
+
+
+
+# Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
