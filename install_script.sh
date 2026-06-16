@@ -533,11 +533,9 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 #     gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Super>'
 #     gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
 
-
-
-
-
-
+# Set the terminal to alacritty
+gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
+sudo update-alternatives --config x-terminal-emulator # -> select alacritty
 
 
 
