@@ -163,7 +163,7 @@ sudo apt install eza -y
 echo 'alias ls="eza"' >> ~/.bashrc
 # bat (better cat)
 sudo apt install bat -y 
-echo 'alias cat="batcat --paging=never"' >> ~/.bashrc
+echo 'alias cat="batcat --paging=never --style=plain"' >> ~/.bashrc
 # ripgrep (better grep)
 sudo apt-get install ripgrep -y 
 echo 'alias grep="rg"' >> ~/.bashrc
