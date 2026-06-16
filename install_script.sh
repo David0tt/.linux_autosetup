@@ -303,7 +303,7 @@ sudo snap install blender --classic -y
 
 # Rustdesk
 sudo apt install libxdo3 -y 
-wget https://github.com/rustdesk/rustdesk/releases/download/1.4.0/rustdesk-1.4.0-x86_64.deb
+wget https://github.com/rustdesk/rustdesk/releases/download/1.4.7/rustdesk-1.4.7-x86_64.deb
 sudo dpkg -i rustdesk-1.4.0-x86_64.deb
 
 
