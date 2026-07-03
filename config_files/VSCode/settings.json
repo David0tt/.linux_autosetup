@@ -1,8 +1,21 @@
 {
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
   },
+
+  "pylint.enabled": false,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.ruff": "explicit",
+    "source.organizeImports.ruff": "explicit"
+  },
+
+  // "[python]": {
+  //   "editor.defaultFormatter": "ms-python.black-formatter",
+  //   "editor.formatOnSave": true
+  // },
+
   "[cpp]": {
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": false
@@ -15,7 +28,7 @@
   "github.copilot.nextEditSuggestions.enabled": true,
   "jupyter.interactiveWindow.creationMode": "perFile",
   "explorer.confirmDragAndDrop": false,
-  "chat.agent.maxRequests": 100,
+  "chat.agent.maxRequests": 40,
   "chat.tools.terminal.autoApprove": {
     // DANGEROUS AREA: these can be useful in a sandboxed environment
     // RISKY: only allow this in a sandboxed environment!!!
@@ -184,5 +197,6 @@
   "editor.inlineSuggest.enabled": false, // Disable Copilot inline suggestions
   "accessibility.signals.terminalBell": {
     "sound": "on"
-  }, 
+  },
+  "chat.permissions.default": "autoApprove",
 }

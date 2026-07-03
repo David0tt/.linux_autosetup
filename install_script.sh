@@ -273,7 +273,8 @@ sudo apt install code -y
 extensions=(
   "ms-python.python"
   "ms-python.pylint" # could also look into ruff for python linting in the future: charliermarsh.ruff
-  "ms-python.black-formatter"
+  # "ms-python.black-formatter"
+  "charliermarsh.ruff"
   "ms-vscode.cpptools"
   "rust-lang.rust-analyzer"
   "ms-toolsai.jupyter"
