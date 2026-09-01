@@ -162,7 +162,7 @@
     },
     "5561": {
       "onAutoForward": "ignore"
-    },
+    }
   },
   "window.commandCenter": false,
   "terminal.integrated.suggest.providers": {
@@ -185,6 +185,5 @@
   "accessibility.signals.terminalBell": {
     "sound": "on"
   },
-  "explorer.confirmDelete": false,
-  
+  "explorer.confirmDelete": false
 }

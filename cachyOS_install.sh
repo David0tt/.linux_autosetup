@@ -44,6 +44,7 @@ sudo pacman -S hyperfine # To measure application startup speed
 # hyperfine: 
 
 
+paru -S opencloud-desktop # OpenCloud Desktop client
 
 
 # sudo pacman -S kio-gdrive # maybe Google drive integration in nautilus  -> Does not work right now, since google is always changing the API
@@ -414,3 +415,7 @@ paru -S alvr-git
 
 
 # Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
+
+
+
+# sudo pacman -S udisks2 gvfs # Maybe this fixes NTFS drives automatically being detected and mounted

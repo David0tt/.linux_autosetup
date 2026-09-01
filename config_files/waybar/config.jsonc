@@ -293,7 +293,7 @@
         "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
         "on-click-middle": "sh -c 'playerctl --player=playerctld previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
         "on-click-right": "sh -c 'playerctl --player=playerctld next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
-        "format": "{player_icon} {title} - {artist}",
+        "format": "{player_icon}    {title} - {artist}",
         "format-paused": "{status_icon} {title} - {artist}",
         "format-stopped": " No media",
         "title-len": 24,

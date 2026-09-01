@@ -247,3 +247,23 @@ hotkey für mitnehmliste
 
 use `cd -` more often
 
+
+
+
+
+# Considerations: 
+- I need to use Ubuntu for work, since
+    - It comes preinstalled and is the default for my work environment
+    - Many of the programs / packages I depend on don't work reliably on Arch / Wayland (esp. badly maintained scientific stuff)
+
+- I want to have the workflow/control of a tiling WM
+
+- In full desktop environments (e.g. Gnome, KDE), many things work better out of the box (e.g. HDR support, High-DPI display, ...)
+    - -> It is always useful, to install a full desktop environment alongside just to automatically install all these nice package dependencies
+
+- Solution / Current setup: 
+    - For work: Ubuntu with Gnome + i3
+    - At home: CachyOS with KDE + sway
+
+
+You can check whether a program is running on wayland or XWayland (X11 compatability layer) using xeyes. If you move your cursor over the window, and the eyes move, then it is using XWayland/X11
