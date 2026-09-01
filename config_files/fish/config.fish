@@ -64,3 +64,5 @@ end
 alias mamba_init=conda_init
 
 # conda_init
+
+fish_add_path "$HOME/bin"

@@ -5,16 +5,7 @@
 # Set up all the tiling-wm features for kde plasma 
 
 
-I have a Roccat Vulcan 122 keyboard with LED lights. How can i control these from my linux machine (CachyOS with sway)? 
-
-On windows, i used roccat swarm for this. I liked to have the setup, where keys would light up on keypress and then fade. 
-
-However, for now i would be fine with just turning off the LEDs entirely. How can i do this? 
-
-
 # clean up .linux_autosetup git, so the .linux_autosetup does not include the sway changes anymore
-
-# Make the lockscreen look nicer
 
 
 # Clean up README.md
@@ -29,15 +20,6 @@ However, for now i would be fine with just turning off the LEDs entirely. How ca
 # Maybe different hotkeys from KGlobalShortcuts are not needed
 
 
-# Discord does not start on Wayland -> Now it does
-
-
-# mpv support in player control -> Not really needed
-# Make YouTube preview images larger (scaled in height direction)
-
-# for some reason, spotify does not start on wayland anymore
-
-
 # Set up google drive
 
 
@@ -45,13 +27,10 @@ However, for now i would be fine with just turning off the LEDs entirely. How ca
 # Fix "Another instance of code is running" error at system startup; This only happens on logout/login, not on full system restart
 
 # TODO maybe i can use a windows 11 VM only for office apps
+    -> This seems like a good project: https://github.com/winapps-org/winapps
 
-# Fix dolphin "open terminal here" should open alacritty
+# Fix dolphin "open terminal here" should open alacritty (pcmanfm just informs at first startup, that no terminal emulator is set alacritty)
 
-
-
-
-# check whether i3 workspace icons exists for sway
 
 
 # try to get lol to run (maybe in VM with gpu passthrough with one with iGPU/dGPU); 
@@ -83,17 +62,6 @@ cat /sys/devices/system/cpu/cpu*/cpufreq/boost
 
 # The tray entry for network is shown in dark gray, previously it was white. How can i make it white again
 # All menues opened from the tray (e.g. right-click on bluetooth icon) are now as large as the one for poweroff/shutdown/logout/..., please make the other ones their original size again. Only the one for power options should be so large
-
-
-
-# Learning: I can control screen brightness using 
-ddcutil --display 1 getvcp 10
-ddcutil --display 1 setvcp 10 + 5
-ddcutil --display 1 setvcp 10 - 5
-ddcutil detect --brief # can be used to detect the display number
-
-Did this driver work to translate ddci to brightnessctl?
-sudo pacman -S ddcci-driver-linux-dkms
 
 
 
@@ -136,12 +104,9 @@ sudo cryptsetup close bitlocker_drive_games
 # Try meta quest on cachy
 
 
-# Try zed as editor (should have remote support, should integrate copilot; try other featurs (diff view, LSP support, autoformatter, )
+# Try zed as editor (should have remote support, should integrate copilot; try other featurs (diff view, LSP support, autoformatter, ) -> I did not like it
 
 # The y flag in pacman does not do what i thought it does, for auto-confirm, --noconfirm can be used (but risky, since it ignores some user prompts pacmans -Sy is generally always discouraged) -> ask chat, what an appropriate way to do my install would be
-
-
-# There is a bug: after clicking on the "HDR" button on the sway waybar, the whole sway waybar turns into the hdr toggle button, so if i afterwards click anywhere on the waybar, it toggles HDR, this can be fixed with a sway reload
 
 
 
@@ -159,3 +124,37 @@ Note to users:
 # TODO try google drive integration in KDE plasma dolphin
 # TODO maybe in nautilus it is better
 # However, i guess both are not syncs, only streaming
+
+
+
+
+
+
+
+
+
+# install docker
+# Try getting Windows to work (maybe in Docker, like Omarchy)
+
+# Get Video Conferences / Screen Sharing to work (teams, zoom, discord)#
+
+
+
+
+# For now, i just want to dual boot CachyOS and Windows on the Surface Pro9
+
+
+
+
+# Special for Surface: 
+    - Get surface specific drivers to work
+        - Touchpad, pen, camera
+    - Get keyboard to work in limine to enable unlocking disk encryption
+    - Get nice KDE plasma unlock screen (-> Probably be fully reinstalling and not selecting sway)
+    - enable secure boot again
+
+
+
+# Missing to fully switch to CachyOS:
+    - External drives on main PC and Images should be managed
+    - Can i just install CachyOS on the Games partition? (should also be a 1TB SSD)

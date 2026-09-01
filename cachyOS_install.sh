@@ -44,6 +44,30 @@ sudo pacman -S hyperfine # To measure application startup speed
 # hyperfine: 
 
 
+# Docker
+sudo pacman -S docker docker-compose
+sudo systemctl enable docker.socket # Note: docker.socket starts docker on use, while docker.service starts it at boot time
+sudo systemctl start docker.socket
+sudo usermod -a -G docker $USER
+
+
+# # WinApps (following github.com/winapps-org/winapps and https://github.com/winapps-org/winapps/blob/main/docs/docker.md)
+# # Get windows Docker Container:
+# cd ~/.config/
+# git clone https://github.com/winapps-org/winapps.git
+# cd winapps
+# docker compose --file ./compose.yaml up
+# # Dependencies:
+# sudo pacman -Syu --needed -y curl dialog freerdp git iproute2 libnotify openbsd-netcat
+# # Create the winapps config file, following the tutorial
+# nano ~/.config/winapps/winapps.conf
+# # Safeguard the windows PW:
+# chown $(whoami):$(whoami) ~/.config/winapps/winapps.conf
+# chmod 600 ~/.config/winapps/winapps.conf
+# # Adapt RDP_SCALE to 180, and choose some random RDP_PASS
+
+
+
 paru -S opencloud-desktop # OpenCloud Desktop client
 
 
@@ -380,21 +404,22 @@ Can i get tiling WM like navigation on kde?
 
 
 
-# VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
-# This will install the needed packages (note the "Windows 11" note below):
-sudo pacman -S qemu-full virt-manager swtpm
-# Force libvirt to use iptables
-echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
-# This will add the user to the "libvirt" group so they can use it:
-sudo usermod -aG libvirt $USER
-# LXC backend (optional, for linux containers, enabling both backends does not conflict):
-systemctl enable --now libvirtd.service
-# QEMU backend (for VMs):
-systemctl enable --now libvirtd.socket
-# This will bring Internet up in a VM whenever one starts:
-sudo virsh net-autostart default
-# And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
-sudo ufw route allow from 192.168.122.0/24
+# Instructions currently not working:
+# # VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
+# # This will install the needed packages (note the "Windows 11" note below):
+# sudo pacman -S qemu-full virt-manager swtpm
+# # Force libvirt to use iptables
+# echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
+# # This will add the user to the "libvirt" group so they can use it:
+# sudo usermod -aG libvirt $USER
+# # LXC backend (optional, for linux containers, enabling both backends does not conflict):
+# systemctl enable --now libvirtd.service
+# # QEMU backend (for VMs):
+# systemctl enable --now libvirtd.socket
+# # This will bring Internet up in a VM whenever one starts:
+# sudo virsh net-autostart default
+# # And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
+# sudo ufw route allow from 192.168.122.0/24
 
 
 
