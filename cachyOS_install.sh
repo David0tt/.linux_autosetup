@@ -1,54 +1,384 @@
+# cd ~/
+# git clone https://github.com/David0tt/.linux_autosetup
+# Optional: switch to appropriat branch
+# ./cachyOS_install.sh
 
-git clone https://github.com/David0tt/.linux_autosetup
+sudo pacman -Syu
 
-
-sudo pacman -Sy git
-
-sudo pacman -Sy code 
+sudo pacman -S git
+sudo pacman -S code 
 # paru -S visual-studio-code-bin # The microsoft distributed version
-
-sudo pacman -Sy keepassxc
-sudo pacman -Sy teamspeak3
-sudo pacman -Sy thunderbird thunderbird-i18n-de 
-sudo pacman -Sy discord
-sudo pacman -Sy spotify-launcher
-sudo pacman -Sy alacritty
-sudo pacman -Sy ncdu
-sudo pacman -Sy nextcloud-client
-sudo pacman -Sy dolphin # This should not be required, since it is already preinstalled on KDE plasma
-sudo pacman -Sy kio
-sudo pacman -Sy htop
-sudo pacman -Sy mpv
-sudo pacman -Sy blender
+sudo pacman -S keepassxc
+sudo pacman -S teamspeak3
+sudo pacman -S thunderbird thunderbird-i18n-de 
+sudo pacman -S discord
+sudo pacman -S spotify-launcher
+sudo pacman -S alacritty
+sudo pacman -S ncdu
+sudo pacman -S nextcloud-client
+sudo pacman -S dolphin # This should not be required, since it is already preinstalled on KDE plasma
+sudo pacman -S kio
+sudo pacman -S htop
+sudo pacman -S mpv
+sudo pacman -S blender
 sudo pacman -S libreoffice-still # could also use more up to date, less stable version libreoffice-fresh
-
-
-sudo pacman -S zed # alternative text editor
-
+sudo pacman -S zotero
+sudo pacman -S texlive-meta
+# sudo pacman -S zed # alternative text editor
 sudo pacman -S rclone # for google drive sync
-
-sudo pacman -S iotop # show disk usage
-
-
-sudo pacman -S pdfarranger # Combine PDF document pages
-
+sudo pacman -S opencloud-desktop # OpenCloud Desktop client
+# sudo pacman -S iotop # show disk usage
+# sudo pacman -S pdfarranger # Combine PDF document pages
 
 # File Manager options: thunar, PCManFM, dolphin
 # After some benchmarking, i found PCManFM and thunar are an order of magnitude faster than dolphin
 # PCManFin appears to be ~20% faster than thunar
 sudo pacman -S pcmanfm
 
-
-
-sudo pacman -S hyperfine # To measure application startup speed
-# hyperfine: 
-
-
 # Docker
 sudo pacman -S docker docker-compose
 sudo systemctl enable docker.socket # Note: docker.socket starts docker on use, while docker.service starts it at boot time
 sudo systemctl start docker.socket
 sudo usermod -a -G docker $USER
+
+
+# st terminal
+cd ~/.linux_autosetup
+mkdir -p program_installation
+cd ~/.linux_autosetup/program_installation
+
+# (st) minimal terminal (always used for fzf program search (with mod+d))
+# sudo apt update
+# sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev -y
+git clone https://git.suckless.org/st
+cd st
+
+set CONFIG_FILE 'config.def.h'
+# Change font size from 12 to 30
+sed -i 's/static char \*font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=10:antialias=true:autohint=true";/' "$CONFIG_FILE"
+# Change keybindings to allow zooming with ctrl +/-
+sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
+sed -i 's/{ TERMMOD, XK_Next, zoom, {.f = -1} },/{ ControlMask, XK_minus, zoom, {.f = -1} },/' "$CONFIG_FILE"
+sudo make clean install
+# Local installation (into ~/.local/bin):
+# make clean install PREFIX=$HOME/.local
+# echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+
+
+# To manage my LED keyboard
+sudo pacman -S openrgb
+# Start openrgb
+# Set the profile as you want it
+# Save the profile  as "default_startup"
+
+
+
+
+# Set my git credentials
+git config --global user.email "david.ott@uni-tuebingen.de"
+git config --global user.name "David Ott"
+# Set VSCode as git difftool (show diffs with git difftool <file>)
+git config --global diff.tool vscode
+git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
+git config --global difftool.prompt false
+
+
+
+
+# Set Screen Scaling:
+kscreen-doctor --outputs # To find the screen
+kscreen-doctor output.DP-3.scale.1.8
+kscreen-doctor output.DP-2.scale.1.8
+
+
+# Settings:
+rm ~/.config/fish/config.fish
+ln -s ~/.linux_autosetup/config_files/fish/config.fish ~/.config/fish/config.fish
+
+# Alacritty
+rm -r ~/.config/alacritty/
+mkdir -p ~/.config/alacritty/
+ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+
+# Put the VSCode - OSS config files into the appropriate locations
+rm ~/.config/Code\ -\ OSS/User/keybindings.json
+ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code\ -\ OSS/User/keybindings.json
+rm ~/.config/Code\ -\ OSS/User/settings.json
+ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code\ -\ OSS/User/settings.json
+# Snippets:
+rm -r ~/.config/Code\ -\ OSS/User/snippets
+ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code\ -\ OSS/User/snippets
+# Prompts:
+rm -r ~/.config/Code\ -\ OSS/User/prompts
+ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User/prompts
+
+# # Put the VSCode config files into the appropriate locations
+# rm ~/.config/Code/User/keybindings.json
+# ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
+# rm ~/.config/Code/User/settings.json
+# ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json
+# # Snippets:
+# ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+# # Prompts:
+# ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
+
+
+# enable ctrl+backspace removal of words
+echo '"\C-h": backward-kill-word' >> ~/.inputrc 
+
+
+
+# Python (miniforge)
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -u
+rm Miniforge3-$(uname)-$(uname -m).sh
+
+# Initialize shell
+~/miniforge3/bin/conda init
+~/miniforge3/bin/conda init fish
+
+# If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
+
+
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+source "$HOME/.cargo/env.fish" 
+
+
+
+
+
+# Set alacritty as terminal:
+kwriteconfig6 --file kdeglobals --group General --key TerminalApplication alacritty
+kwriteconfig6 --file kdeglobals --group General --key TerminalService Alacritty.desktop
+kbuildsycoca6
+
+# # Check where the dolphin dektop file lies, then make it the default for opening directories
+# if test -f /usr/share/applications/org.kde.dolphin.desktop
+#   xdg-mime default org.kde.dolphin.desktop inode/directory
+# else if test -f /usr/share/applications/dolphin.desktop
+#   xdg-mime default dolphin.desktop inode/directory
+# end
+
+# Can set hotkeys manually using the settings -> shortcuts utility
+# Or use the symlinked config file:
+# Settings change too much between KDE versions -> One needs to manually set the shortcuts
+# rm ~/.config/kglobalshortcutsrc
+# ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalshortcutsrc
+
+
+
+
+# Sway
+sudo pacman -S sway 
+sudo pacman -S swaybg 
+sudo pacman -S swayidle swaylock
+sudo pacman -S gtklock
+
+
+# Status bar
+# using i3status
+# sudo pacman -S i3status
+
+# using waybar
+sudo pacman -S waybar network-manager-applet blueman pavucontrol playerctl
+
+# sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
+
+sudo pacman -S grim slurp
+sudo pacman -S wl-clipboard cliphist
+sudo pacman -S wtype
+sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
+sudo pacman -S bc # Needed for sway_grid.sh
+sudo pacman -S dex # Used to automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/
+sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
+
+# Notification deamon
+sudo pacman -S mako
+# an alternative would be dunst
+# sudo pacman -Sy dunst
+
+# For external monitor brightness popup slider in Waybar
+sudo pacman -S ddcutil 
+sudo pacman -S yad
+# sudo pacman -S zenity # Less feature rich alternative to yad, but preinstalled
+
+# Sway
+rm -r ~/.config/sway/
+# mkdir -p ~/.config/sway/
+ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
+# cat ~/.Xresources >> ~/.Xdefaults
+
+rm ~/.config/waybar/ -r 
+# mkdir -p ~/.config/waybar/
+ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
+
+# # Copilot-Cli
+# curl -fsSL https://gh.io/copilot-install | bash
+
+
+
+# Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
+# When started from terminal
+set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
+# set -Ue ELECTRON_OZONE_PLATFORM_HINT # undo
+
+# When started from anywhere else
+mkdir -p ~/.config/environment.d/
+echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
+# rm ~/.config/environment.d/90-electron-wayland.conf # undo
+
+
+
+
+
+
+
+
+# Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
+mkdir -p ~/.local/bin
+printf '#!/usr/bin/env sh\nexec env -u DISPLAY /usr/bin/spotify-launcher "$@"\n' > ~/.local/bin/spotify-launcher
+chmod +x ~/.local/bin/spotify-launcher
+
+
+
+################################################################################
+###  Manual Post Installation
+################################################################################
+
+# # Sway workspace icon daemon
+# conda_init
+# cd ~/.linux_autosetup/program_installation
+# conda create -n swayWorkspaceIcons python==3.12 -y
+# conda activate swayWorkspaceIcons
+# git clone https://github.com/David0tt/sway-workspace-icons/
+# pip install sway-workspace-icons/
+
+
+
+# # VSCode programmatically install all extensions
+# # ms-python.black-formatter \
+# set extensions \
+#   ms-python.python \
+#   ms-python.pylint \
+#   charliermarsh.ruff \
+#   ms-vscode.cpptools \
+#   rust-lang.rust-analyzer \
+#   ms-toolsai.jupyter \
+#   james-yu.latex-workshop \
+#   yzhang.markdown-all-in-one \
+#   yzane.markdown-pdf \
+#   ms-vscode-remote.vscode-remote-extensionpack \
+#   eamodio.gitlens
+# 
+# for extension in $extensions
+#     echo "Installing $extension..."
+#     code --install-extension $extension --force
+# end
+# 
+# echo "All VSCode extensions installed."
+
+
+
+
+
+# # Paru dependent
+# sudo pacman -S paru
+# # rustdesk
+# paru -S rustdesk # CARE: this does not work non-interactively, the first option has to be chosen by the user
+# 
+#
+# # Optional Benchmarking
+# paru -S phoronix-test-suite
+# phoronix-test-suite benchmark unigine-heaven
+
+
+# TODO after installation: 
+#
+# - you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
+# warning message, and you need to start with vulkan as renderer to enable HDR Win 
+# 
+#     sudo nano /usr/share/wayland-sessions/sway.desktop
+# 
+#     Exec=sway -> Exec=WLR_RENDERER=vulkan sway --unsupported-gpu
+#
+# - Enable HDR in KDE Plasma
+#   - on the desktop, right-click -> Display configuration -> check Enable HDR
+#   - calibrate HDR Brightness
+# 
+# - Desktop setup:
+#   - right click on desktop -> Desktop and Wallpaper 
+#       -> Layout: Folder View
+#       -> Wallpaper type: Plain Color -> Black
+#
+# Install KDE plasma integration in firefox:
+#   - https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/
+# 
+# You need to manually set up zotero login / file storage
+#
+# You need to manually log into your firefox account for sync
+# 
+# Manually set alacritty as terminal shortcut in KDE: Mod -> Search "shortcuts" -> Add New -> alacritty -> set ctrl+alt+T
+#
+#
+# Optional: Krohnkite setup for tiling WM like behavior in KDE Plasma:
+# - Search KWin Scripts -> Get New -> Krohnkite
+# - Go to Krohnkite settings ("Configure")
+#   - Layouts: Set all to 0, except Binary Tree to 1
+#   - Geometry: Set all gaps to 6px
+#   - 
+#
+# You need to manually add the following lines at the end of ~/.vscode-oss/argv.json (or ~/.vscode/argv.json, if this different installation was used)
+# 
+# 	// Fix "An OS keyring couldn't be identified for storing the encryption related data in your current desktop environment"
+# 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
+# 	"password-store":"gnome-libsecret"
+
+
+
+
+# Instructions currently not working:
+# # VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
+# # This will install the needed packages (note the "Windows 11" note below):
+# sudo pacman -S qemu-full virt-manager swtpm
+# # Force libvirt to use iptables
+# echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
+# # This will add the user to the "libvirt" group so they can use it:
+# sudo usermod -aG libvirt $USER
+# # LXC backend (optional, for linux containers, enabling both backends does not conflict):
+# systemctl enable --now libvirtd.service
+# # QEMU backend (for VMs):
+# systemctl enable --now libvirtd.socket
+# # This will bring Internet up in a VM whenever one starts:
+# sudo virsh net-autostart default
+# # And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
+# sudo ufw route allow from 192.168.122.0/24
+
+
+
+
+# # Meta Quest 3 Setup
+# # install steam
+# sudo pacman -S steam
+# 
+# # Then in steam, install SteamVR
+# 
+# 
+# # Install cuda (needed as alvr dependency)
+# sudo pacman -S cuda
+# 
+# # Install alvr
+# paru -S alvr-git
+
+
+
+# Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
+
+
+
+# sudo pacman -S udisks2 gvfs # Maybe this fixes NTFS drives automatically being detected and mounted
 
 
 # # WinApps (following github.com/winapps-org/winapps and https://github.com/winapps-org/winapps/blob/main/docs/docker.md)
@@ -65,10 +395,6 @@ sudo usermod -a -G docker $USER
 # chown $(whoami):$(whoami) ~/.config/winapps/winapps.conf
 # chmod 600 ~/.config/winapps/winapps.conf
 # # Adapt RDP_SCALE to 180, and choose some random RDP_PASS
-
-
-
-paru -S opencloud-desktop # OpenCloud Desktop client
 
 
 # sudo pacman -S kio-gdrive # maybe Google drive integration in nautilus  -> Does not work right now, since google is always changing the API
@@ -103,344 +429,3 @@ paru -S opencloud-desktop # OpenCloud Desktop client
 # More elaborate setup for the syncing following https://chatgpt.com/c/6a18c686-4f10-83eb-a10d-a71c164b38d1
 # Maybe following this for automatic syncing: https://dev.to/arunkrish11/sync-any-linux-folder-to-google-drive-using-rclone-systemd-8d2
 # The daemon should maybe have a watcher "on file change" for most seamless interaction
-
-
-# sudo pacman -S font-manager # for viewing fonts
-
-# To manage my LED keyboard
-sudo pacman -S openrgb
-# Start openrgb
-# Set the profile as you want it
-# Save the profile  as "default_startup"
-
-# rustdesk
-paru -Sy rustdesk # CARE: this does not work non-interactively, the first option has to be chosen by the user
-
-# Zotero
-sudo pacman -Sy zotero
-
-# Texlive-full
-sudo pacman -Sy texlive-meta
-
-cd ~/.linux_autosetup
-mkdir -p program_installation
-cd ~/.linux_autosetup/program_installation
-
-# (st) minimal terminal (always used for fzf program search (with mod+d))
-# sudo apt update
-# sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev -y
-git clone https://git.suckless.org/st
-cd st
-
-set CONFIG_FILE 'config.def.h'
-# Change font size from 12 to 30
-sed -i 's/static char \*font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=10:antialias=true:autohint=true";/' "$CONFIG_FILE"
-# Change keybindings to allow zooming with ctrl +/-
-sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
-sed -i 's/{ TERMMOD, XK_Next, zoom, {.f = -1} },/{ ControlMask, XK_minus, zoom, {.f = -1} },/' "$CONFIG_FILE"
-sudo make clean install
-# Local installation (into ~/.local/bin):
-# make clean install PREFIX=$HOME/.local
-# echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-
-
-
-# Optional
-paru -S phoronix-test-suite
-
-phoronix-test-suite benchmark unigine-heaven
-
-
-
-# Set my git credentials
-git config --global user.email "david.ott@uni-tuebingen.de"
-git config --global user.name "David Ott"
-# Set VSCode as git difftool (show diffs with git difftool <file>)
-git config --global diff.tool vscode
-git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
-git config --global difftool.prompt true
-
-
-
-
-# Set Screen Scaling:
-kscreen-doctor --outputs # To find the screen
-kscreen-doctor output.DP-3.scale.1.8
-kscreen-doctor output.DP-2.scale.1.8
-
-
-# Settings:
-rm ~/.config/fish/config.fish
-ln -s ~/.linux_autosetup/config_files/fish/config.fish ~/.config/fish/config.fish
-
-# Alacritty
-rm -r ~/.config/alacritty/
-mkdir -p ~/.config/alacritty/
-ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
-
-# Put the VSCode - OSS config files into the appropriate locations
-rm ~/.config/Code\ -\ OSS/User/keybindings.json
-ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code\ -\ OSS/User/keybindings.json
-rm ~/.config/Code\ -\ OSS/User/settings.json
-ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code\ -\ OSS/User/settings.json
-# Snippets:
-ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code\ -\ OSS/User/snippets
-# Prompts:
-ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User/prompts
-
-# # Put the VSCode config files into the appropriate locations
-# rm ~/.config/Code/User/keybindings.json
-# ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
-# rm ~/.config/Code/User/settings.json
-# ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json
-# # Snippets:
-# ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
-# # Prompts:
-# ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
-
-
-# enable ctrl+backspace removal of words
-echo '"\C-h": backward-kill-word' >> ~/.inputrc 
-
-
-
-# Python (miniforge)
-wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
-bash Miniforge3-$(uname)-$(uname -m).sh -b -u
-rm Miniforge3-$(uname)-$(uname -m).sh
-
-# Initialize shell
-~/miniforge3/bin/conda init
-~/miniforge3/bin/conda init fish
-
-# If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
-
-
-# Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-
-
-# VSCode programmatically install all extensions
-set extensions \
-  ms-python.python \
-  ms-python.pylint \
-  ms-python.black-formatter \
-  ms-vscode.cpptools \
-  rust-lang.rust-analyzer \
-  ms-toolsai.jupyter \
-  james-yu.latex-workshop \
-  yzhang.markdown-all-in-one \
-  yzane.markdown-pdf \
-  ms-vscode-remote.vscode-remote-extensionpack \
-  eamodio.gitlens
-
-for extension in $extensions
-    echo "Installing $extension..."
-    code --install-extension $extension --force
-end
-
-echo "All VSCode extensions installed."
-
-
-# Set alacritty as terminal:
-kwriteconfig6 --file kdeglobals --group General --key TerminalApplication alacritty
-kwriteconfig6 --file kdeglobals --group General --key TerminalService Alacritty.desktop
-kbuildsycoca6
-
-# Check where the dolphin dektop file lies, then make it the default for opening directories
-if test -f /usr/share/applications/org.kde.dolphin.desktop
-  xdg-mime default org.kde.dolphin.desktop inode/directory
-else if test -f /usr/share/applications/dolphin.desktop
-  xdg-mime default dolphin.desktop inode/directory
-end
-
-# Can set hotkeys manually using the settings -> shortcuts utility
-# Or use the symlinked config file:
-rm ~/.config/kglobalshortcutsrc
-ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalshortcutsrc
-
-
-
-
-# Sway
-sudo pacman -S sway 
-sudo pacman -S swaybg 
-sudo pacman -S swayidle swaylock
-sudo pacman -S gtklock
-
-
-# Status bar
-# using i3status
-# sudo pacman -S i3status
-
-# using waybar
-sudo pacman -S waybar network-manager-applet blueman pavucontrol playerctl
-
-# sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
-
-sudo pacman -S grim slurp
-
-sudo pacman -S wl-clipboard cliphist
-sudo pacman -S wtype
-
-sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
-
-sudo pacman -S bc # Needed for sway_grid.sh
-
-sudo pacman -S dex # Used to automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/
-
-
-sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
-
-# Notification deamon
-sudo pacman -Sy mako
-# an alternative would be dunst
-# sudo pacman -Sy dunst
-
-# For external monitor brightness popup slider in Waybar
-sudo pacman -Sy ddcutil 
-sudo pacman -S yad
-# sudo pacman -S zenity # Less feature rich alternative to yad, but preinstalled
-
-# Sway
-rm -r ~/.config/sway/
-mkdir -p ~/.config/sway/
-ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
-# cat ~/.Xresources >> ~/.Xdefaults
-
-rm ~/.config/waybar/ -r 
-mkdir -p ~/.config/waybar/
-ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
-
-# Copilot-Cli
-curl -fsSL https://gh.io/copilot-install | bash
-
-
-
-# Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
-# When started from terminal
-set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
-# set -Ue ELECTRON_OZONE_PLATFORM_HINT # undo
-
-# When started from anywhere else
-mkdir -p ~/.config/environment.d/
-echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
-# rm ~/.config/environment.d/90-electron-wayland.conf # undo
-
-
-
-# Sway workspace icon daemon
-cd ~/.linux_autosetup/program_installation
-conda create -n conda create -n swayWorkspaceIcons python==3.12 -y
-conda activate swayWorkspaceIcons
-git clone https://github.com/David0tt/sway-workspace-icons/
-pip install sway-workspace-icons/
-
-
-
-
-
-# Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
-mkdir -p ~/.local/bin
-printf '#!/usr/bin/env sh\nexec env -u DISPLAY /usr/bin/spotify-launcher "$@"\n' > ~/.local/bin/spotify-launcher
-chmod +x ~/.local/bin/spotify-launcher
-
-
-# TODO after installation: 
-#
-# - you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
-# warning message, and you need to start with vulkan as renderer to enable HDR Win 
-# 
-#     sudo nano /usr/share/wayland-sessions/sway.desktop
-# 
-#     Exec=sway -> Exec=WLR_RENDERER=vulkan sway --unsupported-gpu
-#
-# - Enable HDR
-#   - on the desktop, right-click -> Display configuration -> check Enable HDR
-#   - calibrate HDR Brightness
-# 
-# - Desktop setup:
-#   - right click on desktop -> Desktop and Wallpaper 
-#       -> Layout: Folder View
-#       -> Wallpaper type: Plain Color -> Black
-#
-# Install KDE plasma integration in firefox:
-#   - https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/
-# 
-# Zotero setup file sync 
-
-# Krohnkite setup for tiling WM:
-# - Search KWin Scripts -> Get New -> Krohnkite
-# - Go to Krohnkite settings ("Configure")
-#   - Layouts: Set all to 0, except Binary Tree to 1
-#   - Geometry: Set all gaps to 6px
-#   - 
-
-
-
-
-Can i get tiling WM like navigation on kde?
--> YES: https://claude.ai/share/a76c1647-5e8e-4ce5-bc9c-cd3f28ccc4e1
-
-
-
-# To prevent vscode freezes (does not work)
-# echo "--disable-gpu" >> ~/.config/code-flags.conf
-
-
-
-# You need to manually add the following lines at the end of ~/.vscode-oss/argv.json (or ~/.vscode/argv.json, if this different installation was used)
-# 
-# 	// Fix "An OS keyring couldn't be identified for storing the encryption related data in your current desktop environment"
-# 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
-# 	"password-store":"gnome-libsecret"
-
-
-
-# You need to manually set up zotero login / file storage
-# You need to manually log into your firefox account for sync
-
-
-
-# Instructions currently not working:
-# # VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
-# # This will install the needed packages (note the "Windows 11" note below):
-# sudo pacman -S qemu-full virt-manager swtpm
-# # Force libvirt to use iptables
-# echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
-# # This will add the user to the "libvirt" group so they can use it:
-# sudo usermod -aG libvirt $USER
-# # LXC backend (optional, for linux containers, enabling both backends does not conflict):
-# systemctl enable --now libvirtd.service
-# # QEMU backend (for VMs):
-# systemctl enable --now libvirtd.socket
-# # This will bring Internet up in a VM whenever one starts:
-# sudo virsh net-autostart default
-# # And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
-# sudo ufw route allow from 192.168.122.0/24
-
-
-
-
-# Meta Quest 3 Setup
-# install steam
-sudo pacman -S steam
-
-# Then in steam, install SteamVR
-
-
-# Install cuda (needed as alvr dependency)
-sudo pacman -S cuda
-
-# Install alvr
-paru -S alvr-git
-
-
-
-# Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
-
-
-
-# sudo pacman -S udisks2 gvfs # Maybe this fixes NTFS drives automatically being detected and mounted
