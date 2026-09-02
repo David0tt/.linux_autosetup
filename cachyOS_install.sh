@@ -345,24 +345,6 @@ chmod +x ~/.local/bin/spotify-launcher
 # # on next reboot it should work
 
 
-# Instructions currently not working:
-# # VM setup following this guide: https://wiki.cachyos.org/virtualization/qemu_and_vmm_setup/
-# # This will install the needed packages (note the "Windows 11" note below):
-# sudo pacman -S qemu-full virt-manager swtpm
-# # Force libvirt to use iptables
-# echo 'firewall_backend = "iptables"' | sudo tee -a /etc/libvirt/network.conf
-# # This will add the user to the "libvirt" group so they can use it:
-# sudo usermod -aG libvirt $USER
-# # LXC backend (optional, for linux containers, enabling both backends does not conflict):
-# systemctl enable --now libvirtd.service
-# # QEMU backend (for VMs):
-# systemctl enable --now libvirtd.socket
-# # This will bring Internet up in a VM whenever one starts:
-# sudo virsh net-autostart default
-# # And to enable the entire VM network to have unfettered transit: (You should consider if you need more granular firewall rules based on your use case and security posture)
-# sudo ufw route allow from 192.168.122.0/24
-
-
 
 
 # # Meta Quest 3 Setup
@@ -481,41 +463,61 @@ chmod +x ~/.local/bin/spotify-launcher
 
 
 
-# Virtualization (linux lite)
-# Instructions following: https://chatgpt.com/c/6a985071-0ddc-83ed-a8af-bfc5e3ee8bc7
-# Prerequisites: 
-# lscpu | grep Virtualization # check VT-x or AMD-V is available
-# lsmod | grep kvm # check kvm and kvm_intel or kvm_amd is available
+# # Virtualization (linux lite)
+# # Instructions following: https://chatgpt.com/c/6a985071-0ddc-83ed-a8af-bfc5e3ee8bc7
+# # Prerequisites: 
+# # lscpu | grep Virtualization # check VT-x or AMD-V is available
+# # lsmod | grep kvm # check kvm and kvm_intel or kvm_amd is available
+# 
+# # Dependencies:
+# # qemu-full (Quick Emulator): Machine Emulator and Virtualizer
+# # virt-manager (Virtual Machine Manager): desktop user interface for managing VMs through libvirt
+# # edk2-ovmf: UEFI firmware package for virtual machines
+# # swtpm (Software Trusted Platform Module) is optional, and only really needed for Windows VMs
+# sudo pacman -S qemu-full virt-manager libvirt dnsmasq edk2-ovmf swtpm
+# 
+# # Enable libvirt
+# sudo systemctl enable --now libvirtd.service
+# sudo systemctl enable --now libvirtd.socket
+# # verify: systemctl status libvirtd.service
+# # Add user to libvirt group
+# sudo usermod -aG libvirt $USER
+# 
+# # Set up libvirt networking
+# sudo virsh net-start default
+# sudo virsh net-autostart default
+# 
+# # launch virt-manager (Virtual Machine Manager)
+# # -> New Virtual Machine
+# # -> Go through all the setup, Maybe select a different location for the data
+# 
+# # Fix: allow traffic from the vm through ufw
+# sudo ufw allow in on virbr0
+# sudo ufw route allow in on virbr0
+# sudo ufw reload
+# 
+# # -> Update the VM -> Install anything I want 
+# 
+# # Shared Folder setup:
+# # Use a shared folder on the host
+# # Shut down the VM
+# cd /data
+# mkdir -p VMShare
+# # In virt-manager: for the VM, Show virtual hardware details
+# # Memory -> enable Shared Memory
+# # Add Hardware -> Filesystem (Driver: virtiofs; Source path: PATH/TO/VMShare; Target path: hostshare) # Note that `hostshare` is a mount tag and needs to be called exactly that
+# # Start the VM; in the VM:
+# sudo mkdir -p /mnt/hostshare
+# sudo mount -t virtiofs hostshare /mnt/hostshare
+# sudo nano /etc/fstab 
+# # Add: 
+# # hostshare  /mnt/hostshare  virtiofs  defaults  0  0
+# sudo mount -a # test before rebooting
 
-# Dependencies:
-# qemu-full (Quick Emulator): Machine Emulator and Virtualizer
-# virt-manager (Virtual Machine Manager): desktop user interface for managing VMs through libvirt
-# edk2-ovmf: UEFI firmware package for virtual machines
-# swtpm (Software Trusted Platform Module) is optional, and only really needed for Windows VMs
-sudo pacman -S qemu-full virt-manager libvirt dnsmasq edk2-ovmf swtpm
-
-# Enable libvirt
-sudo systemctl enable --now libvirtd.service
-sudo systemctl enable --now libvirtd.socket
-# verify: systemctl status libvirtd.service
-# Add user to libvirt group
-sudo usermod -aG libvirt $USER
-
-# Set up libvirt networking
-sudo virsh net-start default
-sudo virsh net-autostart default
-
-# launch virt-manager (Virtual Machine Manager)
-# -> New Virtual Machine
-# -> Go through all the setup, Maybe select a different location for the data
-
-# Fix: allow traffic from the vm through ufw
-sudo ufw allow in on virbr0
-sudo ufw route allow in on virbr0
-sudo ufw reload
-
-# -> Update the VM -> Install anything I want 
-
-# Shared Folder setup:
-# Use a shared folder on the host
-
+# # Shared Clipboard
+# # in the VM:
+# sudo apt update
+# sudo apt install spice-vdagent
+# # Power off
+# # In VM settings (hardware configuration):
+# # Should have Display Spice, rather than VNC; Should also have SPICE agent channel: Channel spice or Channel spicevmc
