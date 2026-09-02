@@ -18,7 +18,7 @@ set -gx WLR_RENDERER vulkan
 fzf --fish | source
 set -x FZF_CTRL_R_OPTS "--with-nth=3.." # Only show the commands (not the time-stamps)
 
-alias grep="rg"
+# alias grep="rg"
 alias find="fd"
 
 # Use dolphin as the file-manager

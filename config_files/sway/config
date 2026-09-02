@@ -467,9 +467,13 @@ include /etc/sway/config.d/*
 
 
 
+# Get outputs, available resolutions, etc.:
+# swaymsg -t get_outputs
+
 # Change Screen Scaling and Enable HDR:
 output DP-3 {
-    scale 1.5
+    mode 3840x2160@240Hz
+    scale 1.7
     # hdr on
     render_bit_depth 10
 }

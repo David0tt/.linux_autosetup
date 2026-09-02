@@ -302,7 +302,7 @@ chmod +x ~/.local/bin/spotify-launcher
 # 
 #     sudo nano /usr/share/wayland-sessions/sway.desktop
 # 
-#     Exec=sway -> Exec=WLR_RENDERER=vulkan sway --unsupported-gpu
+#     Exec=sway -> Exec=env WLR_RENDERER=vulkan sway --unsupported-gpu
 #
 # - Enable HDR in KDE Plasma
 #   - on the desktop, right-click -> Display configuration -> check Enable HDR
