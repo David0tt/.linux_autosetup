@@ -429,3 +429,38 @@ chmod +x ~/.local/bin/spotify-launcher
 # More elaborate setup for the syncing following https://chatgpt.com/c/6a18c686-4f10-83eb-a10d-a71c164b38d1
 # Maybe following this for automatic syncing: https://dev.to/arunkrish11/sync-any-linux-folder-to-google-drive-using-rclone-systemd-8d2
 # The daemon should maybe have a watcher "on file change" for most seamless interaction
+
+# # Make this a persistent automatic mount at startup:
+# mkdir -p ~/GoogleDrive
+# mkdir -p ~/.config/systemd/user
+# nano ~/.config/systemd/user/rclone-google-drive.service
+# # Put this: 
+
+# [Unit]
+# Description=Google Drive rclone mount
+# Wants=network-online.target
+# After=network-online.target
+# 
+# [Service]
+# Type=simple
+# 
+# ExecStart=/usr/bin/rclone mount google_drive: %h/GoogleDrive \
+#     --config=%h/.config/rclone/rclone.conf \
+#     --cache-dir=%h/.cache/rclone \
+#     --vfs-cache-mode=full
+# 
+# ExecStop=/usr/bin/fusermount3 -u %h/GoogleDrive
+# 
+# Restart=on-failure
+# RestartSec=5
+# 
+# [Install]
+# WantedBy=default.target
+
+# # Run:
+# systemctl --user daemon-reload
+# systemctl --user enable --now rclone-google-drive.service
+
+# Check: 
+# systemctl --user enable --now rclone-google-drive.service
+# ls ~/GoogleDrive
