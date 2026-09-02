@@ -1,6 +1,6 @@
 # cd ~/
 # git clone https://github.com/David0tt/.linux_autosetup
-# Optional: switch to appropriat branch
+# Optional: switch to appropriate branch
 # ./cachyOS_install.sh
 
 sudo pacman -Syu
@@ -142,14 +142,6 @@ rm Miniforge3-$(uname)-$(uname -m).sh
 # If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
 
 
-# Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-source "$HOME/.cargo/env.fish" 
-
-
-
-
 
 # Set alacritty as terminal:
 kwriteconfig6 --file kdeglobals --group General --key TerminalApplication alacritty
@@ -249,6 +241,12 @@ chmod +x ~/.local/bin/spotify-launcher
 ###  Manual Post Installation
 ################################################################################
 
+# # Rust
+# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+# 
+# source "$HOME/.cargo/env.fish" 
+
+
 # # Sway workspace icon daemon
 # conda_init
 # cd ~/.linux_autosetup/program_installation
@@ -347,7 +345,7 @@ chmod +x ~/.local/bin/spotify-launcher
 
 
 
-# # Meta Quest 3 Setup
+# # Meta Quest 3 Setup NOT YET WORKING!
 # # install steam
 # sudo pacman -S steam
 # 
