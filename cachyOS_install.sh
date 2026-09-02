@@ -24,6 +24,7 @@ sudo pacman -S blender
 sudo pacman -S libreoffice-still # could also use more up to date, less stable version libreoffice-fresh
 sudo pacman -S zotero
 sudo pacman -S texlive-meta
+sudo pacman -S qbittorrent # For downloading linux isos etc.
 # sudo pacman -S zed # alternative text editor
 sudo pacman -S rclone # for google drive sync
 sudo pacman -S opencloud-desktop # OpenCloud Desktop client
@@ -400,6 +401,14 @@ chmod +x ~/.local/bin/spotify-launcher
 # chown $(whoami):$(whoami) ~/.config/winapps/winapps.conf
 # chmod 600 ~/.config/winapps/winapps.conf
 # # Adapt RDP_SCALE to 180, and choose some random RDP_PASS
+# bash
+# bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
+# # Now in the RDP client (noVNC browser window), install Office365
+# # Run application discovery again
+# # To add additional folder locations edit the following line in ~/.config/winapps/winapps.conf
+# # (e.g. i have added the mount for /data)
+# # RDP_FLAGS="/cert:tofu /sound /microphone +home-drive /a:drive,data,/data"
+
 
 
 # sudo pacman -S kio-gdrive # maybe Google drive integration in nautilus  -> Does not work right now, since google is always changing the API
@@ -469,3 +478,44 @@ chmod +x ~/.local/bin/spotify-launcher
 # Check: 
 # systemctl --user enable --now rclone-google-drive.service
 # ls ~/GoogleDrive
+
+
+
+# Virtualization (linux lite)
+# Instructions following: https://chatgpt.com/c/6a985071-0ddc-83ed-a8af-bfc5e3ee8bc7
+# Prerequisites: 
+# lscpu | grep Virtualization # check VT-x or AMD-V is available
+# lsmod | grep kvm # check kvm and kvm_intel or kvm_amd is available
+
+# Dependencies:
+# qemu-full (Quick Emulator): Machine Emulator and Virtualizer
+# virt-manager (Virtual Machine Manager): desktop user interface for managing VMs through libvirt
+# edk2-ovmf: UEFI firmware package for virtual machines
+# swtpm (Software Trusted Platform Module) is optional, and only really needed for Windows VMs
+sudo pacman -S qemu-full virt-manager libvirt dnsmasq edk2-ovmf swtpm
+
+# Enable libvirt
+sudo systemctl enable --now libvirtd.service
+sudo systemctl enable --now libvirtd.socket
+# verify: systemctl status libvirtd.service
+# Add user to libvirt group
+sudo usermod -aG libvirt $USER
+
+# Set up libvirt networking
+sudo virsh net-start default
+sudo virsh net-autostart default
+
+# launch virt-manager (Virtual Machine Manager)
+# -> New Virtual Machine
+# -> Go through all the setup, Maybe select a different location for the data
+
+# Fix: allow traffic from the vm through ufw
+sudo ufw allow in on virbr0
+sudo ufw route allow in on virbr0
+sudo ufw reload
+
+# -> Update the VM -> Install anything I want 
+
+# Shared Folder setup:
+# Use a shared folder on the host
+

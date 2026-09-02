@@ -338,9 +338,8 @@ for_window [title="cliphist_fzf"] floating enable, resize set 800 600, move posi
 for_window [title="cliphist_delete"] floating enable, resize set 800 600, move position cursor
 
 # Waybar apps with quicklaunch icons
-for_window [app_id="^nextcloud$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
+for_window [app_id="^com\.nextcloud\.desktopclient\.nextcloud$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 for_window [class="^Nextcloud$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
-for_window [title="^Nextcloud.*$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 for_window [app_id="^nm-connection-editor$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 for_window [class="^Nm-connection-editor$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 for_window [title="^Network Connections$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
@@ -499,4 +498,3 @@ output DP-2 {
 
 # To change the display layout:
 # exec --no-startup-id xrandr --output HDMI-0 --right-of DP-5 --auto
-
