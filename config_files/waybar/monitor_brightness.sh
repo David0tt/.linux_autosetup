@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -eu
 
@@ -32,7 +32,7 @@ case "${1:-status}" in
             # positive timeout so the read actually drains the data.
             while read -r -t 0.1 next; do val="$next"; done
             set_brightness "$val" "$max"
-        done < <(yad --scale --value="$pct" --min=1 --max=100 \
+        done < <(yad --scale --value="$pct" --min-value=1 --max-value=100 \
             --step=5 --print-partial --hide-value --close-on-unfocus --no-buttons --title='monitor_brightness_slider')
         ;;
 esac
