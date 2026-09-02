@@ -336,7 +336,12 @@ chmod +x ~/.local/bin/spotify-launcher
 # 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
 # 	"password-store":"gnome-libsecret"
 
-
+# # On Surface Pro 9: Enable keyboard drivers at LUKS drive encryption unlock to enable keyboard input
+# sudo nano /etc/mkinitcpio.conf
+# # Edit the line MODULES=() to 
+# # MODULES=(pinctrl_tigerlake intel_lpss intel_lpss_pci 8250_dw surface_aggregator surface_aggregator_registry surface_aggregator_hub surface_hid_core surface_hid)
+# sudo limine-mkinitcpio
+# # on next reboot it should work
 
 
 # Instructions currently not working:
