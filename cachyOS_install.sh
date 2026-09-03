@@ -3,7 +3,11 @@
 # cd ~/
 # git clone https://github.com/David0tt/.linux_autosetup
 # Optional: switch to appropriate branch
-# ./cachyOS_install.sh
+# bash cachyOS_install.sh
+
+# Command tracing, to show the commands that are run
+set -x
+
 
 sudo pacman -Syu
 
