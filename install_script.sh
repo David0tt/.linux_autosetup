@@ -364,6 +364,7 @@ ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
 ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
 ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
 ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
+ln -s ~/.linux_autosetup/config_files/sway/cycle_display_layout.sh ~/.config/sway/cycle_display_layout.sh
 cat ~/.Xresources >> ~/.Xdefaults
 
 # rm -r ~/.config/alacritty/
@@ -482,4 +483,3 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 # latex go to current location in pdf
 # bluetooth driver
 # TODO make alias to open file explorer at current location
-

@@ -483,7 +483,7 @@ include /etc/sway/config.d/*
 # Change Screen Scaling and Enable HDR:
 output DP-3 {
     mode 3840x2160@240Hz
-    scale 1.7
+    scale 1.8
     # hdr on
     render_bit_depth 10
 }
@@ -500,7 +500,22 @@ output eDP-1 {
     scale 1.7
 }
 
-# Sadly this also scales the legacy X11 applications rendered with XWayland. 
+
+# Toggle screens on/off
+bindsym Control+Shift+Mod1+1 output eDP-1 toggle
+bindsym Control+Shift+Mod1+2 output DP-3 toggle
+bindsym Control+Shift+Mod1+3 output DP-2 toggle
+
+
+# Cycle through all left-to-right arrangements of the active displays
+bindsym $mod+Shift+o exec ~/.config/sway/cycle_display_layout.sh
+
+
+# To change the display layout:
+# exec --no-startup-id xrandr --output HDMI-0 --right-of DP-5 --auto
+
+
+# Sadly using scale also scales the legacy X11 applications rendered with XWayland. 
 # XWayland thinks that it is rendering to 1920x1080 resolution (confirmed by the output of `xrandr`)
 # which is then upscaled to the full resolution, making them blurry. 
 # I have not yet found a fix for this. 
@@ -512,6 +527,3 @@ output eDP-1 {
 #
 # TODO Maybe this will come in a future sway version
 
-
-# To change the display layout:
-# exec --no-startup-id xrandr --output HDMI-0 --right-of DP-5 --auto
