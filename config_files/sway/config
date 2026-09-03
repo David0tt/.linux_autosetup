@@ -416,6 +416,8 @@ bindsym Control+Shift+Mod1+k exec ~/.config/sway/open_website_in_firefox.sh http
 bindsym Control+Shift+Mod1+s exec ~/.config/sway/open_website_in_firefox.sh https://scholar.google.com
 bindsym Control+Shift+Mod1+t exec ~/.config/sway/open_website_in_firefox.sh https://translate.google.com
 bindsym Control+Shift+Mod1+g exec ~/.config/sway/open_website_in_firefox.sh https://github.com/
+bindsym Control+Shift+Mod1+w exec ~/.config/sway/open_website_in_firefox.sh https://web.whatsapp.com/
+bindsym $mod+w exec ~/.config/sway/open_website_in_firefox.sh https://web.whatsapp.com/
 
 # Open VS Code Notes
 bindsym Control+Shift+Mod1+n workspace number $ws10; exec code "$HOME/Nextcloud/TODO_Lists_VSCode"
