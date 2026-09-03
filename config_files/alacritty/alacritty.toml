@@ -168,6 +168,14 @@ key = "F"
 mods = "Control|Shift"
 action = "SearchForward"
 
+# This is a Hack to enable ctrl+shift+s hotkey in micro for a save as dialogue
+# Terminals normally cannot distinguish Ctrl+Shift+S from Ctrl+S. Send the
+# Shift-F1 escape sequence so micro can bind Ctrl+Shift+S separately.
+[[keyboard.bindings]]
+key = "S"
+mods = "Control|Shift"
+chars = "\u001b[1;2P"
+
 [[keyboard.bindings]]
 key = "B"
 mods = "Control|Shift"

@@ -58,7 +58,7 @@ input * xkb_layout "de,us"
     bindsym Control+Mod1+t exec $term # for Gnome Compatibility
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym $mod+q kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
@@ -154,17 +154,17 @@ input * xkb_layout "de,us"
     # Switch the current container between different layout styles
     # bindsym $mod+s layout stacking
     # bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+    # bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
     bindsym $mod+f fullscreen toggle
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+space floating toggle
 
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    bindsym $mod+shift+space focus mode_toggle
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
@@ -394,11 +394,23 @@ bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | fzf --
 # bindsym $mod+v exec copyq toggle
 
 
+# File explorer
+bindsym Control+Shift+Mod1+e exec pcmanfm
+bindsym $mod+e exec pcmanfm
+
+# calculator
+bindsym $mod+c exec kcalc
+
+# Text editor
+bindsym $mod+t exec $term -e micro
+
+# browser
+bindsym $mod+b exec firefox
 
 # Firefox Shortcuts
 # Open Different websites in Firefox on Workspace 9
 # Reuses an existing Firefox window on WS 9 if present, else opens a new one
-bindsym Control+Shift+Mod1+c exec ~/.config/sway/open_website_in_firefox.sh https://claude.com/
+bindsym Control+Shift+Mod1+c exec ~/.config/sway/open_website_in_firefox.sh https://chatgpt.com/
 bindsym Control+Shift+Mod1+d exec ~/.config/sway/open_website_in_firefox.sh https://www.deepl.com
 bindsym Control+Shift+Mod1+k exec ~/.config/sway/open_website_in_firefox.sh https://keep.google.com
 bindsym Control+Shift+Mod1+s exec ~/.config/sway/open_website_in_firefox.sh https://scholar.google.com
@@ -407,9 +419,6 @@ bindsym Control+Shift+Mod1+g exec ~/.config/sway/open_website_in_firefox.sh http
 
 # Open VS Code Notes
 bindsym Control+Shift+Mod1+n workspace number $ws10; exec code "$HOME/Nextcloud/TODO_Lists_VSCode"
-
-# File explorer
-bindsym Control+Shift+Mod1+e exec pcmanfm
 
 # Move whole workspace to different outputs (monitors)
 bindsym $mod+Mod1+Right move workspace to output right

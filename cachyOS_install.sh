@@ -9,7 +9,7 @@ sudo pacman -Syu
 
 packages=(
     # basics
-    git code ncdu htop alacritty fish curl wget
+    git code ncdu htop alacritty micro fish curl wget
 
 
     # file managemers
@@ -116,6 +116,15 @@ mkdir -p ~/.config/alacritty/
 rm -rf ~/.config/alacritty/
 mkdir -p ~/.config/alacritty/
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+
+# Micro text editor: install the Atom Dark theme with a darker background
+mkdir -p ~/.config/micro/colorschemes
+ln -sfn ~/.linux_autosetup/config_files/micro/colorschemes/atom-dark.micro ~/.config/micro/colorschemes/atom-dark.micro
+ln -sfn ~/.linux_autosetup/config_files/micro/bindings.json ~/.config/micro/bindings.json
+ln -sfn ~/.linux_autosetup/config_files/micro/init.lua ~/.config/micro/init.lua
+if [[ ! -f ~/.config/micro/settings.json ]]; then
+    printf '{\n    "colorscheme": "atom-dark"\n}\n' > ~/.config/micro/settings.json
+fi
 
 # Put the VSCode - OSS config files into the appropriate locations
 mkdir -p ~/.config/Code\ -\ OSS/User
