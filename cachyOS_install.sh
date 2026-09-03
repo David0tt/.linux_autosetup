@@ -482,7 +482,11 @@ echo "All VSCode extensions installed."
 # # Power off
 # # In VM settings (hardware configuration):
 # # Should have Display Spice, rather than VNC; Should also have SPICE agent channel: Channel spice or Channel spicevmc
-
+#
+# # Improve Graphics performance (e.g. video playback)
+# In VM hardware settings:
+# Video Virtio -> Model: Virtio; 3d acceleration check
+# Display Spice -> Type: Spice Server; Listen type: none; OpenGL: check; select the appropriate graphics adapter
 
 # # Set up openrgb for my LED keyboard:
 # Start openrgb
