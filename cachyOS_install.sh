@@ -248,13 +248,13 @@ curl -fsSL https://chatgpt.com/codex/install.sh | sh
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-# Sway workspace icon daemon
-conda_init
-cd ~/.linux_autosetup/program_installation
-conda create -n swayWorkspaceIcons python==3.12 -y
-conda activate swayWorkspaceIcons
-git clone https://github.com/David0tt/sway-workspace-icons/
-pip install sway-workspace-icons/
+# # Sway workspace icon daemon
+# conda_init
+# cd ~/.linux_autosetup/program_installation
+# conda create -n swayWorkspaceIcons python==3.12 -y
+# conda activate swayWorkspaceIcons
+# git clone https://github.com/David0tt/sway-workspace-icons/
+# pip install sway-workspace-icons/
 
 
 # VSCode programmatically install all extensions
