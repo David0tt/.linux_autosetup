@@ -5,45 +5,44 @@
 
 sudo pacman -Syu
 
-sudo pacman -S git
-sudo pacman -S code 
+packages=(
+    # basics
+    git code ncdu htop alacritty
+
+    # file managemers
+    dolphin kio pcmanfm
+
+    # Cloud Services
+    rclone opencloud-desktop nextcloud-client
+
+    # General Usage
+    keepassxc blender mpv libreoffice-still texlive-meta qbittorrent zotero thunderbird thunderbird-i18n-de
+
+    # Communication
+    teamspeak3 discord spotify-launcher
+    
+    # MISC
+    docker docker-compose
+    openrgb
+)
+
+sudo pacman -S --needed "${packages[@]}"
+
+# openrgb: To manage my LED keyboard
+# rclone: for google drive sync
 # paru -S visual-studio-code-bin # The microsoft distributed version
-sudo pacman -S keepassxc
-sudo pacman -S teamspeak3
-sudo pacman -S thunderbird thunderbird-i18n-de 
-sudo pacman -S discord
-sudo pacman -S spotify-launcher
-sudo pacman -S alacritty
-sudo pacman -S ncdu
-sudo pacman -S nextcloud-client
-sudo pacman -S dolphin # This should not be required, since it is already preinstalled on KDE plasma
-sudo pacman -S kio
-sudo pacman -S htop
-sudo pacman -S mpv
-sudo pacman -S blender
-sudo pacman -S libreoffice-still # could also use more up to date, less stable version libreoffice-fresh
-sudo pacman -S zotero
-sudo pacman -S texlive-meta
-sudo pacman -S qbittorrent # For downloading linux isos etc.
 # sudo pacman -S zed # alternative text editor
-sudo pacman -S rclone # for google drive sync
-sudo pacman -S opencloud-desktop # OpenCloud Desktop client
 # sudo pacman -S iotop # show disk usage
 # sudo pacman -S pdfarranger # Combine PDF document pages
 
 # File Manager options: thunar, PCManFM, dolphin
 # After some benchmarking, i found PCManFM and thunar are an order of magnitude faster than dolphin
 # PCManFin appears to be ~20% faster than thunar
-sudo pacman -S pcmanfm
-
-# Docker
-sudo pacman -S docker docker-compose
-sudo systemctl enable docker.socket # Note: docker.socket starts docker on use, while docker.service starts it at boot time
-sudo systemctl start docker.socket
-sudo usermod -a -G docker $USER
 
 
-# st terminal
+################################################################################
+###  st terminal
+################################################################################
 cd ~/.linux_autosetup
 mkdir -p program_installation
 cd ~/.linux_autosetup/program_installation
@@ -67,14 +66,26 @@ sudo make clean install
 
 
 
-# To manage my LED keyboard
-sudo pacman -S openrgb
-# Start openrgb
-# Set the profile as you want it
-# Save the profile  as "default_startup"
+# Python (miniforge)
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -u
+rm Miniforge3-$(uname)-$(uname -m).sh
+
+# Initialize shell
+~/miniforge3/bin/conda init
+~/miniforge3/bin/conda init fish
+
+# If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
 
 
+################################################################################
+###  General Settings
+################################################################################
 
+# Docker
+sudo systemctl enable docker.socket # Note: docker.socket starts docker on use, while docker.service starts it at boot time
+sudo systemctl start docker.socket
+sudo usermod -a -G docker $USER
 
 # Set my git credentials
 git config --global user.email "david.ott@uni-tuebingen.de"
@@ -83,8 +94,6 @@ git config --global user.name "David Ott"
 git config --global diff.tool vscode
 git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
 git config --global difftool.prompt false
-
-
 
 
 # Set Screen Scaling:
@@ -129,76 +138,48 @@ ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 
 
 
-
-# Python (miniforge)
-wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
-bash Miniforge3-$(uname)-$(uname -m).sh -b -u
-rm Miniforge3-$(uname)-$(uname -m).sh
-
-# Initialize shell
-~/miniforge3/bin/conda init
-~/miniforge3/bin/conda init fish
-
-# If conda startup is slow might want to wrap the conda initialization in a `function conda_init` and set the `alias mamab_init=conda_init`
-
-
-
 # Set alacritty as terminal:
 kwriteconfig6 --file kdeglobals --group General --key TerminalApplication alacritty
 kwriteconfig6 --file kdeglobals --group General --key TerminalService Alacritty.desktop
 kbuildsycoca6
 
-# # Check where the dolphin dektop file lies, then make it the default for opening directories
-# if test -f /usr/share/applications/org.kde.dolphin.desktop
-#   xdg-mime default org.kde.dolphin.desktop inode/directory
-# else if test -f /usr/share/applications/dolphin.desktop
-#   xdg-mime default dolphin.desktop inode/directory
-# end
 
-# Can set hotkeys manually using the settings -> shortcuts utility
-# Or use the symlinked config file:
-# Settings change too much between KDE versions -> One needs to manually set the shortcuts
-# rm ~/.config/kglobalshortcutsrc
-# ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalshortcutsrc
+################################################################################
+###  Sway installation
+################################################################################
+packages=(
+    sway
 
+    # sway basics
+    swaybg swayidle swaylock gtklock
 
+    # Status bar
+    waybar network-manager-applet blueman pavucontrol playerctl
 
+    # Alternative: i3status as status bar:
+    # i3status dex network-manager-applet brightnessctl flameshot
 
-# Sway
-sudo pacman -S sway 
-sudo pacman -S swaybg 
-sudo pacman -S swayidle swaylock
-sudo pacman -S gtklock
+    # Screenshots
+    grim slurp 
 
+    # clipboard
+    wl-clipboard cliphist wtype
 
-# Status bar
-# using i3status
-# sudo pacman -S i3status
+    j4-dmenu-desktop # Needed for st+fzf program search menu
+    bc # Needed for sway_grid.sh
+    dex # Used to automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/
+    qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
 
-# using waybar
-sudo pacman -S waybar network-manager-applet blueman pavucontrol playerctl
+    mako # notification daemon, alternative: dunst
 
-# sudo pacman -S i3status dex network-manager-applet brightnessctl flameshot
+    # External monitor brightness popup slider:
+    ddcutil yad
 
-sudo pacman -S grim slurp
-sudo pacman -S wl-clipboard cliphist
-sudo pacman -S wtype
-sudo pacman -S j4-dmenu-desktop # Needed for st+fzf program search menu
-sudo pacman -S bc # Needed for sway_grid.sh
-sudo pacman -S dex # Used to automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/
-sudo pacman -S qt5-wayland qt6-wayland # Install wayland plugins for qt, to make e.g. keepass start using wayland, not X11/XWayland
+)
 
-# Notification deamon
-sudo pacman -S mako
-# an alternative would be dunst
-# sudo pacman -Sy dunst
+sudo pacman -S --needed "${packages[@]}"
 
-# For external monitor brightness popup slider in Waybar
-sudo pacman -S ddcutil 
-sudo pacman -S yad
-# sudo pacman -S zenity # Less feature rich alternative to yad, but preinstalled
-
-# Sway
+# Sway config
 rm -r ~/.config/sway/
 # mkdir -p ~/.config/sway/
 ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
@@ -208,10 +189,10 @@ rm ~/.config/waybar/ -r
 # mkdir -p ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
-# # Copilot-Cli
-# curl -fsSL https://gh.io/copilot-install | bash
 
-
+################################################################################
+###  Fixes for Wayland
+################################################################################
 
 # Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
 # When started from terminal
@@ -223,13 +204,6 @@ mkdir -p ~/.config/environment.d/
 echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
 # rm ~/.config/environment.d/90-electron-wayland.conf # undo
 
-
-
-
-
-
-
-
 # Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
 mkdir -p ~/.local/bin
 printf '#!/usr/bin/env sh\nexec env -u DISPLAY /usr/bin/spotify-launcher "$@"\n' > ~/.local/bin/spotify-launcher
@@ -237,13 +211,19 @@ chmod +x ~/.local/bin/spotify-launcher
 
 
 
+
+
 ################################################################################
 ###  Manual Post Installation
 ################################################################################
 
+
+# # Copilot-Cli
+# curl -fsSL https://gh.io/copilot-install | bash
+
+
 # # Rust
 # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# 
 # source "$HOME/.cargo/env.fish" 
 
 
@@ -254,7 +234,6 @@ chmod +x ~/.local/bin/spotify-launcher
 # conda activate swayWorkspaceIcons
 # git clone https://github.com/David0tt/sway-workspace-icons/
 # pip install sway-workspace-icons/
-
 
 
 # # VSCode programmatically install all extensions
@@ -280,60 +259,58 @@ chmod +x ~/.local/bin/spotify-launcher
 # echo "All VSCode extensions installed."
 
 
-
-
-
-# # Paru dependent
+# # RustDesk
 # sudo pacman -S paru
-# # rustdesk
-# paru -S rustdesk # CARE: this does not work non-interactively, the first option has to be chosen by the user
-# 
-#
-# # Optional Benchmarking
+# paru -S rustdesk # CARE: this does not work non-interactively
+
+
+# # Phoronix Test Suite (Optional for Benchmarking)
 # paru -S phoronix-test-suite
 # phoronix-test-suite benchmark unigine-heaven
 
 
-# TODO after installation: 
-#
-# - you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
+################################################################################
+###  Post installation settings
+################################################################################
+# - KDE Plasma Settings
+#   - set alacritty as terminal shortcut in KDE: 
+#     - Mod -> Search "shortcuts" -> Add New -> alacritty -> set ctrl+alt+T
+#   - Enable HDR in KDE Plasma
+#     - on the desktop, right-click -> Display configuration -> check Enable HDR
+#     - calibrate HDR Brightness
+#   
+#   - Desktop setup:
+#     - right click on desktop -> Desktop and Wallpaper 
+#         -> Layout: Folder View
+#         -> Wallpaper type: Plain Color -> Black
+#   - Install KDE plasma integration in firefox:
+#     - https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/
+#   - Hotkeys in KDE Plasma
+#     - Can set hotkeys manually using the settings -> shortcuts utility
+#     - Or use the symlinked config file:
+#       - Settings change too much between KDE versions -> One needs to manually set the shortcuts
+#         - rm ~/.config/kglobalshortcutsrc
+#         - ln -s ~/.linux_autosetup/config_files/kde/kglobalshortcutsrc ~/.config/kglobalshortcutsrc
+#   - Optional: Krohnkite setup for tiling WM like behavior in KDE Plasma:
+#     - Search KWin Scripts -> Get New -> Krohnkite
+#     - Go to Krohnkite settings ("Configure")
+#       - Layouts: Set all to 0, except Binary Tree to 1
+#       - Geometry: Set all gaps to 6px
+# 
+# - Set up Zotero login / file storage
+# - Log into firefox account for sync
+# - Log into NextCloud / OpenCloud
+
+
+# # Correct Sway Startup:
+# you need to manually add the --unsupported-gpu flag to the Exec command to prevent the 
 # warning message, and you need to start with vulkan as renderer to enable HDR Win 
 # 
 #     sudo nano /usr/share/wayland-sessions/sway.desktop
 # 
 #     Exec=sway -> Exec=env WLR_RENDERER=vulkan sway --unsupported-gpu
 #
-# - Enable HDR in KDE Plasma
-#   - on the desktop, right-click -> Display configuration -> check Enable HDR
-#   - calibrate HDR Brightness
-# 
-# - Desktop setup:
-#   - right click on desktop -> Desktop and Wallpaper 
-#       -> Layout: Folder View
-#       -> Wallpaper type: Plain Color -> Black
-#
-# Install KDE plasma integration in firefox:
-#   - https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/
-# 
-# You need to manually set up zotero login / file storage
-#
-# You need to manually log into your firefox account for sync
-# 
-# Manually set alacritty as terminal shortcut in KDE: Mod -> Search "shortcuts" -> Add New -> alacritty -> set ctrl+alt+T
-#
-#
-# Optional: Krohnkite setup for tiling WM like behavior in KDE Plasma:
-# - Search KWin Scripts -> Get New -> Krohnkite
-# - Go to Krohnkite settings ("Configure")
-#   - Layouts: Set all to 0, except Binary Tree to 1
-#   - Geometry: Set all gaps to 6px
-#   - 
-#
-# You need to manually add the following lines at the end of ~/.vscode-oss/argv.json (or ~/.vscode/argv.json, if this different installation was used)
-# 
-# 	// Fix "An OS keyring couldn't be identified for storing the encryption related data in your current desktop environment"
-# 	// see also https://code.visualstudio.com/docs/configure/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
-# 	"password-store":"gnome-libsecret"
+
 
 # # On Surface Pro 9: Enable keyboard drivers at LUKS drive encryption unlock to enable keyboard input
 # sudo nano /etc/mkinitcpio.conf
@@ -343,31 +320,8 @@ chmod +x ~/.local/bin/spotify-launcher
 # # on next reboot it should work
 
 
-
-
-# # Meta Quest 3 Setup NOT YET WORKING!
-# # install steam
-# sudo pacman -S steam
-# 
-# # Then in steam, install SteamVR
-# 
-# 
-# # Install cuda (needed as alvr dependency)
-# sudo pacman -S cuda
-# 
-# # Install alvr
-# paru -S alvr-git
-
-
-
-# Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
-
-
-
-# sudo pacman -S udisks2 gvfs # Maybe this fixes NTFS drives automatically being detected and mounted
-
-
-# # WinApps (following github.com/winapps-org/winapps and https://github.com/winapps-org/winapps/blob/main/docs/docker.md)
+# # WinApps (for Windows office apps almost natively in linux)
+# # (following github.com/winapps-org/winapps and https://github.com/winapps-org/winapps/blob/main/docs/docker.md)
 # # Get windows Docker Container:
 # cd ~/.config/
 # git clone https://github.com/winapps-org/winapps.git
@@ -390,10 +344,7 @@ chmod +x ~/.local/bin/spotify-launcher
 # # RDP_FLAGS="/cert:tofu /sound /microphone +home-drive /a:drive,data,/data"
 
 
-
-# sudo pacman -S kio-gdrive # maybe Google drive integration in nautilus  -> Does not work right now, since google is always changing the API
-
-# Interactive Setup:
+# # rclone (for Google Drive mount)
 # rclone config
 # -> new remote
 # -> name: google_drive
@@ -402,34 +353,24 @@ chmod +x ~/.local/bin/spotify-launcher
 # # After the last step it will say that verification is needed, but this can be skipped and will produce a warning in the OAuth authentication later, which can be ignored
 # Then continue through the whole setup
 # Afterwards you can test the connection using: rclone lsd google_drive:
-
-# Create the local sync folder and clone: 
-#     mkdir -p ~/GoogleDrive
-
-# To just download everything:
+#
+# # Create the local sync folder and clone: 
+# mkdir -p ~/GoogleDrive
+#
+# # Just mount (this is like streaming mode)
+# rclone mount google_drive: ~/GoogleDrive
+#
+# # To just download everything:
 #     rclone sync gdrive: ~/GoogleDrive \
 #         --progress \
 #         --transfers 8 \
 #         --checkers 16
-
-
-# Just mount (this is like streaming mode)
-# rclone mount google_drive: ~/GoogleDrive
-
-# mkdir -p ~/GDriveMount
-# mkdir -p ~/GoogleDrive
-# # OR:  rclone mount google_drive: ~/GDriveMount
-
-# More elaborate setup for the syncing following https://chatgpt.com/c/6a18c686-4f10-83eb-a10d-a71c164b38d1
-# Maybe following this for automatic syncing: https://dev.to/arunkrish11/sync-any-linux-folder-to-google-drive-using-rclone-systemd-8d2
-# The daemon should maybe have a watcher "on file change" for most seamless interaction
-
+#
 # # Make this a persistent automatic mount at startup:
-# mkdir -p ~/GoogleDrive
 # mkdir -p ~/.config/systemd/user
 # nano ~/.config/systemd/user/rclone-google-drive.service
 # # Put this: 
-
+# 
 # [Unit]
 # Description=Google Drive rclone mount
 # Wants=network-online.target
@@ -450,11 +391,11 @@ chmod +x ~/.local/bin/spotify-launcher
 # 
 # [Install]
 # WantedBy=default.target
-
+# 
 # # Run:
 # systemctl --user daemon-reload
 # systemctl --user enable --now rclone-google-drive.service
-
+# 
 # Check: 
 # systemctl --user enable --now rclone-google-drive.service
 # ls ~/GoogleDrive
@@ -487,7 +428,7 @@ chmod +x ~/.local/bin/spotify-launcher
 # 
 # # launch virt-manager (Virtual Machine Manager)
 # # -> New Virtual Machine
-# # -> Go through all the setup, Maybe select a different location for the data
+# # -> Go through all the setup, Maybe select a different location for the virtual disk
 # 
 # # Fix: allow traffic from the vm through ufw
 # sudo ufw allow in on virbr0
@@ -511,7 +452,7 @@ chmod +x ~/.local/bin/spotify-launcher
 # # Add: 
 # # hostshare  /mnt/hostshare  virtiofs  defaults  0  0
 # sudo mount -a # test before rebooting
-
+# 
 # # Shared Clipboard
 # # in the VM:
 # sudo apt update
@@ -519,3 +460,25 @@ chmod +x ~/.local/bin/spotify-launcher
 # # Power off
 # # In VM settings (hardware configuration):
 # # Should have Display Spice, rather than VNC; Should also have SPICE agent channel: Channel spice or Channel spicevmc
+
+
+# # Set up openrgb for my LED keyboard:
+# Start openrgb
+# Set the profile as you want it
+# Save the profile  as "default_startup"
+
+
+# # Meta Quest 3 Setup NOT YET WORKING!
+# # install steam
+# sudo pacman -S steam
+# 
+# # Then in steam, install SteamVR
+# 
+# 
+# # Install cuda (needed as alvr dependency)
+# sudo pacman -S cuda
+# 
+# # Install alvr
+# paru -S alvr-git
+# 
+# Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
