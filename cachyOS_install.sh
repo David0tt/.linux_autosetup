@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # cd ~/
 # git clone https://github.com/David0tt/.linux_autosetup
 # Optional: switch to appropriate branch
@@ -7,7 +9,8 @@ sudo pacman -Syu
 
 packages=(
     # basics
-    git code ncdu htop alacritty
+    git code ncdu htop alacritty fish curl wget
+
 
     # file managemers
     dolphin kio pcmanfm
@@ -24,6 +27,9 @@ packages=(
     # MISC
     docker docker-compose
     openrgb
+
+    # Build dependencies for st
+    base-devel libx11 libxft fontconfig
 )
 
 sudo pacman -S --needed "${packages[@]}"
@@ -48,12 +54,10 @@ mkdir -p program_installation
 cd ~/.linux_autosetup/program_installation
 
 # (st) minimal terminal (always used for fzf program search (with mod+d))
-# sudo apt update
-# sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig1-dev libfreetype6-dev -y
 git clone https://git.suckless.org/st
 cd st
 
-set CONFIG_FILE 'config.def.h'
+CONFIG_FILE='config.def.h'
 # Change font size from 12 to 30
 sed -i 's/static char \*font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=10:antialias=true:autohint=true";/' "$CONFIG_FILE"
 # Change keybindings to allow zooming with ctrl +/-
@@ -85,7 +89,7 @@ rm Miniforge3-$(uname)-$(uname -m).sh
 # Docker
 sudo systemctl enable docker.socket # Note: docker.socket starts docker on use, while docker.service starts it at boot time
 sudo systemctl start docker.socket
-sudo usermod -a -G docker $USER
+sudo usermod -aG docker "$USER"
 
 # Set my git credentials
 git config --global user.email "david.ott@uni-tuebingen.de"
@@ -103,24 +107,27 @@ kscreen-doctor output.DP-2.scale.1.8
 
 
 # Settings:
-rm ~/.config/fish/config.fish
+mkdir -p ~/.config/fish
+rm -f ~/.config/fish/config.fish
 ln -s ~/.linux_autosetup/config_files/fish/config.fish ~/.config/fish/config.fish
 
 # Alacritty
-rm -r ~/.config/alacritty/
+mkdir -p ~/.config/alacritty/
+rm -rf ~/.config/alacritty/
 mkdir -p ~/.config/alacritty/
 ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 
 # Put the VSCode - OSS config files into the appropriate locations
-rm ~/.config/Code\ -\ OSS/User/keybindings.json
+mkdir -p ~/.config/Code\ -\ OSS/User
+rm -f ~/.config/Code\ -\ OSS/User/keybindings.json
 ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code\ -\ OSS/User/keybindings.json
-rm ~/.config/Code\ -\ OSS/User/settings.json
+rm -f ~/.config/Code\ -\ OSS/User/settings.json
 ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code\ -\ OSS/User/settings.json
 # Snippets:
-rm -r ~/.config/Code\ -\ OSS/User/snippets
+rm -rf ~/.config/Code\ -\ OSS/User/snippets
 ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code\ -\ OSS/User/snippets
 # Prompts:
-rm -r ~/.config/Code\ -\ OSS/User/prompts
+rm -rf ~/.config/Code\ -\ OSS/User/prompts
 ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User/prompts
 
 # # Put the VSCode config files into the appropriate locations
@@ -180,12 +187,12 @@ packages=(
 sudo pacman -S --needed "${packages[@]}"
 
 # Sway config
-rm -r ~/.config/sway/
+rm -rf ~/.config/sway/
 # mkdir -p ~/.config/sway/
 ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
 # cat ~/.Xresources >> ~/.Xdefaults
 
-rm ~/.config/waybar/ -r 
+rm -rf ~/.config/waybar/
 # mkdir -p ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
@@ -196,12 +203,12 @@ ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
 # Make programs more likely to start using Wayland instead of XWayland (e.g. discord)
 # When started from terminal
-set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
-# set -Ue ELECTRON_OZONE_PLATFORM_HINT # undo
+fish -c 'set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland'
+# fish -c 'set -Ue ELECTRON_OZONE_PLATFORM_HINT' # undo
 
 # When started from anywhere else
 mkdir -p ~/.config/environment.d/
-echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" >> ~/.config/environment.d/90-electron-wayland.conf
+echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" > ~/.config/environment.d/90-electron-wayland.conf
 # rm ~/.config/environment.d/90-electron-wayland.conf # undo
 
 # Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
@@ -214,49 +221,50 @@ chmod +x ~/.local/bin/spotify-launcher
 
 
 ################################################################################
-###  Manual Post Installation
+###  Development tools
 ################################################################################
 
 
 # # Copilot-Cli
 # curl -fsSL https://gh.io/copilot-install | bash
 
+# OpenAI Codex:
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
 
-# # Rust
-# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# source "$HOME/.cargo/env.fish" 
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+# Sway workspace icon daemon
+conda_init
+cd ~/.linux_autosetup/program_installation
+conda create -n swayWorkspaceIcons python==3.12 -y
+conda activate swayWorkspaceIcons
+git clone https://github.com/David0tt/sway-workspace-icons/
+pip install sway-workspace-icons/
 
 
-# # Sway workspace icon daemon
-# conda_init
-# cd ~/.linux_autosetup/program_installation
-# conda create -n swayWorkspaceIcons python==3.12 -y
-# conda activate swayWorkspaceIcons
-# git clone https://github.com/David0tt/sway-workspace-icons/
-# pip install sway-workspace-icons/
+# VSCode programmatically install all extensions
+# ms-python.black-formatter \
+extensions=(
+  ms-python.python
+  ms-python.pylint
+  charliermarsh.ruff
+  ms-vscode.cpptools
+  rust-lang.rust-analyzer
+  ms-toolsai.jupyter
+  james-yu.latex-workshop
+  yzhang.markdown-all-in-one
+  yzane.markdown-pdf
+  ms-vscode-remote.vscode-remote-extensionpack
+  eamodio.gitlens
+)
 
+for extension in "${extensions[@]}"; do
+    echo "Installing $extension..."
+    code --install-extension "$extension" --force
+done
 
-# # VSCode programmatically install all extensions
-# # ms-python.black-formatter \
-# set extensions \
-#   ms-python.python \
-#   ms-python.pylint \
-#   charliermarsh.ruff \
-#   ms-vscode.cpptools \
-#   rust-lang.rust-analyzer \
-#   ms-toolsai.jupyter \
-#   james-yu.latex-workshop \
-#   yzhang.markdown-all-in-one \
-#   yzane.markdown-pdf \
-#   ms-vscode-remote.vscode-remote-extensionpack \
-#   eamodio.gitlens
-# 
-# for extension in $extensions
-#     echo "Installing $extension..."
-#     code --install-extension $extension --force
-# end
-# 
-# echo "All VSCode extensions installed."
+echo "All VSCode extensions installed."
 
 
 # # RustDesk
