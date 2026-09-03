@@ -1,3 +1,8 @@
+# Sway may leave SWAYSOCK in the user environment after logout.
+if set -q SWAYSOCK; and not test -S "$SWAYSOCK"
+	set -e SWAYSOCK
+end
+
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 # overwrite greeting
