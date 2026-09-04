@@ -2,7 +2,6 @@
 ################################ Install script ################################
 ################################################################################
 
-
 echo "Make sure this repository is stored under ~/.linux_autosetup "
 
 echo "Before running this script, make sure that the appropriate graphics drivers are installed, e.g. by running"
@@ -19,18 +18,13 @@ echo '    sudo apt install nvidia-open'
 echo ''
 echo '    # Install CUDA Toolkit (https://developer.nvidia.com/cuda-downloads)'
 echo '    sudo apt-get -y install cuda-toolkit-12-9'
-
 ################################################################################
-########${1/(.*)/testtitle/}${1/(.*)/testtitle/}########
-################################################################################
-
 
 
 # Command tracing, to show the commands that are run
 set -x
 
 # Starting:
-# mkdir ~/system_installation
 cd ~/.linux_autosetup
 mkdir -p program_installation
 cd ~/.linux_autosetup/program_installation
@@ -148,6 +142,8 @@ sudo apt install thunar -y
 # Audio control:
 # sudo apt install pavucontrol -y # GUI, but shows too much stuff
 sudo apt install pulsemixer -y  # Minimal TUI
+# Control MPRIS-compatible media players from keyboard media keys.
+sudo apt install playerctl -y
 # flameshot (Screenshot Program)
 sudo apt install flameshot -y
 
@@ -212,26 +208,13 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y 
 # sudo docker run hello-world # verify
 
-# Conda + Python
-# wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-# bash Miniconda3-latest-Linux-x86_64.sh -b
-# ~/miniconda3/bin/conda init
-
-# Accept Conda TOS
-# conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
-# conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
-
 # Conda + Python using miniforge3
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
 bash Miniforge3-$(uname)-$(uname -m).sh -b -u
 rm Miniforge3-$(uname)-$(uname -m).sh
 
 # Rust
-# curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-# Verify
-# rustc --version
-# cargo --version
 
 
 ################################################################################
@@ -480,6 +463,3 @@ echo "TODO: replace xterm-color|*-256color) color_prompt=yes;; with     xterm-co
 # TODO maybe make optional installations via user prompt / command line arguments. Alternatively users can just manually comment out what they don't like from this file
 
 # TODO compare shortcuts with https://github.com/David0tt/MyShortcuts -> TODO make a check in the setup file, if we are under i3 make shortcuts using bindsym, otherwise make them using the dconf way (optionally make both, for dual desktop setups)
-# latex go to current location in pdf
-# bluetooth driver
-# TODO make alias to open file explorer at current location

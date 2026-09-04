@@ -47,6 +47,14 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# Media keys (commonly exposed by keyboards as Fn+F9 through Fn+F12).
+# playerctld remembers the most recently active MPRIS-compatible player.
+exec --no-startup-id playerctld daemon
+bindsym XF86AudioPrev exec --no-startup-id playerctl --player=playerctld previous
+bindsym XF86AudioStop exec --no-startup-id playerctl --player=playerctld stop
+bindsym XF86AudioPlay exec --no-startup-id playerctl --player=playerctld play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl --player=playerctld next
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -301,6 +309,8 @@ bindsym $mod+v exec --no-startup-id /usr/bin/diodon
 
 # Screenshot
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui
+# Print/Druck captures the full desktop to the clipboard.
+bindsym Print exec --no-startup-id flameshot full --clipboard
 
 
 # Open Different websites in Firefox on Workspace 9

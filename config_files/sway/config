@@ -209,21 +209,28 @@ bindsym $mod+r mode "resize"
 #
 # Utilities:
 #
-    # Use pactl to adjust volume in PulseAudio.
-    # set $refresh_i3status killall -SIGUSR1 i3status
-    # bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && $refresh_i3status
-    # bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && $refresh_i3status
-    # bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-    # bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+    # Hardware audio controls (including keyboard volume knobs). The --locked
+    # bindings also work while the screen is locked.
+    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume --limit 1.0 @DEFAULT_AUDIO_SINK@ 2%+
+    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
+    bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+    # Media keys (commonly exposed by keyboards as Fn+F9 through Fn+F12).
+    # playerctld remembers the most recently active MPRIS-compatible player.
+    bindsym --locked XF86AudioPrev exec playerctl --player=playerctld previous
+    bindsym --locked XF86AudioStop exec playerctl --player=playerctld stop
+    bindsym --locked XF86AudioPlay exec playerctl --player=playerctld play-pause
+    bindsym --locked XF86AudioNext exec playerctl --player=playerctld next
 
     # Special keys to adjust brightness via brightnessctl
-    # bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
-    # bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
     # Screenshot (flameshot 12+ supports Wayland natively)
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
-    # Default key to take a screenshot with grim
-    # bindsym Print exec grim | wl-copy
+    # Print/Druck captures the full desktop to the clipboard.
+    bindsym Print exec grim | wl-copy
 
 #
 # Autostart:
@@ -247,7 +254,7 @@ bindsym $mod+r mode "resize"
     exec wl-paste --watch cliphist store
     # exec copyq
 
-    exec playerctld daemon'
+    exec playerctld daemon
     exec ~/.config/sway/close_window_on_focus_loss.sh --daemon
 
     exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GNOME_KEYRING_CONTROL
@@ -526,4 +533,3 @@ bindsym $mod+Shift+o exec ~/.config/sway/cycle_display_layout.sh
 #    Xft.dpi: 140' >> ~/.Xresources
 #
 # TODO Maybe this will come in a future sway version
-
