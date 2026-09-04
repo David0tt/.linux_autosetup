@@ -348,6 +348,7 @@ ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/
 ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
 ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
 ln -s ~/.linux_autosetup/config_files/sway/cycle_display_layout.sh ~/.config/sway/cycle_display_layout.sh
+ln -s ~/.linux_autosetup/config_files/sway/full_screenshot.sh ~/.config/sway/full_screenshot.sh
 cat ~/.Xresources >> ~/.Xdefaults
 
 # rm -r ~/.config/alacritty/

@@ -229,8 +229,10 @@ bindsym $mod+r mode "resize"
 
     # Screenshot (flameshot 12+ supports Wayland natively)
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
-    # Print/Druck captures the full desktop to the clipboard.
-    bindsym Print exec grim | wl-copy
+    # Print/Druck copies a screenshot as a file for pasting into file managers.
+    # Ctrl+Print copies raw image data for pasting into editors, chats, etc.
+    bindsym Print exec ~/.config/sway/full_screenshot.sh
+    bindsym Control+Print exec ~/.config/sway/full_screenshot.sh image
 
 #
 # Autostart:

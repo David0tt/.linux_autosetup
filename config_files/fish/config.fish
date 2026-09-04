@@ -19,6 +19,9 @@ export TERMINAL=alacritty
 # Use the Vulkan renderer for Sway (required for HDR)
 set -gx WLR_RENDERER vulkan
 
+# Use KDE's Qt integration and the configured Breeze Dark palette outside Plasma.
+set -gx QT_QPA_PLATFORMTHEME KDE
+
 # Use fzf for reverse command search (ctrl+r)
 fzf --fish | source
 set -x FZF_CTRL_R_OPTS "--with-nth=3.." # Only show the commands (not the time-stamps)

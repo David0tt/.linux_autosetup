@@ -211,6 +211,9 @@ rm -rf ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
 
+# Set gwenview as default image viewer
+xdg-mime default org.kde.gwenview.desktop image/png image/jpeg image/gif image/webp image/avif image/svg+xml
+
 ################################################################################
 ###  Fixes for Wayland
 ################################################################################
@@ -224,6 +227,12 @@ fish -c 'set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland'
 mkdir -p ~/.config/environment.d/
 echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" > ~/.config/environment.d/90-electron-wayland.conf
 # rm ~/.config/environment.d/90-electron-wayland.conf # undo
+
+# Use KDE's platform integration for Qt applications. -> Makes KDE apps respect the KDE platform integration and spawn in dark mode
+fish -c 'set -Ux QT_QPA_PLATFORMTHEME KDE'
+
+# Make KDE/Qt applications use the KDE color scheme outside Plasma as well.
+ln -sf ~/.linux_autosetup/config_files/environment.d/91-kde-qt-theme.conf ~/.config/environment.d/91-kde-qt-theme.conf
 
 # Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
 mkdir -p ~/.local/bin
