@@ -196,9 +196,17 @@ packages=(
     # External monitor brightness popup slider:
     ddcutil yad
 
+    # Build dependencies for the custom multi-format clipboard helper
+    wayland wayland-protocols pkgconf
 )
 
 sudo pacman -S --needed "${packages[@]}"
+
+# wl-copy can publish only one MIME type. This repository's small helper uses
+# Sway's data-control protocol to publish image and file formats together.
+clipboard_helper_dir="${HOME}/.linux_autosetup/src/screenshot_clipboard"
+make -C "${clipboard_helper_dir}" clean all
+make -C "${clipboard_helper_dir}" install PREFIX="${HOME}/.local"
 
 # Sway config
 rm -rf ~/.config/sway/

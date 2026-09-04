@@ -4,39 +4,57 @@ set -euo pipefail
 
 screenshot_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/screenshots"
 screenshot_path="${screenshot_dir}/latest.png"
-clipboard_mode="${1:-file}"
+clipboard_helper="${HOME}/.local/bin/screenshot-clipboard"
+capture_mode="${1:-full}"
 
 mkdir -p -- "${screenshot_dir}"
 
-if grim "${screenshot_path}"; then
-    case "${clipboard_mode}" in
-        file)
-            # File managers expect a copied-file reference, not raw PNG bytes.
-            printf 'copy\nfile://%s\n' "${screenshot_path}" \
-                | wl-copy --type x-special/gnome-copied-files
-            notification_body="Full desktop copied as a file"
-            ;;
-        image)
-            wl-copy --type image/png < "${screenshot_path}"
-            notification_body="Full desktop copied as image data"
-            ;;
-        *)
-            printf 'Usage: %s [file|image]\n' "${0}" >&2
-            exit 2
-            ;;
-    esac
-
-    notify-send \
-        --app-name="Screenshot" \
-        --expire-time=5000 \
-        --icon="${screenshot_path}" \
-        "Screenshot captured" \
-        "${notification_body}"
-else
+if [[ ! -x "${clipboard_helper}" ]]; then
     notify-send \
         --urgency=critical \
         --app-name="Screenshot" \
         "Screenshot failed" \
-        "The full desktop could not be captured"
+        "Clipboard helper is not installed at ${clipboard_helper}"
     exit 1
 fi
+
+case "${capture_mode}" in
+    full)
+        capture_command=(grim "${screenshot_path}")
+        ;;
+    region)
+        # Cancelling the selection is intentional; keep the clipboard intact.
+        if ! geometry="$(slurp)" || [[ -z "${geometry}" ]]; then
+            exit 0
+        fi
+        capture_command=(grim -g "${geometry}" "${screenshot_path}")
+        ;;
+    *)
+        printf 'Usage: %s [full|region]\n' "${0}" >&2
+        exit 2
+        ;;
+esac
+
+if ! "${capture_command[@]}"; then
+    notify-send \
+        --urgency=critical \
+        --app-name="Screenshot" \
+        "Screenshot failed" \
+        "The screenshot could not be captured"
+    exit 1
+fi
+
+if ! "${clipboard_helper}" "${screenshot_path}"; then
+    notify-send \
+        --urgency=critical \
+        --app-name="Screenshot" \
+        "Screenshot failed" \
+        "The capture could not be copied to the clipboard"
+    exit 1
+fi
+
+notify-send \
+    --app-name="Screenshot" \
+    --expire-time=5000 \
+    --icon="${screenshot_path}" \
+    "Screenshot captured"

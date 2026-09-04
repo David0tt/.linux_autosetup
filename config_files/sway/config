@@ -227,12 +227,13 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-    # Screenshot (flameshot 12+ supports Wayland natively)
-    bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
-    # Print/Druck copies a screenshot as a file for pasting into file managers.
-    # Ctrl+Print copies raw image data for pasting into editors, chats, etc.
+    # Screenshots use both clipboard representations: image data and a file reference for file managers.
+    bindsym $mod+Shift+s exec ~/.config/sway/full_screenshot.sh region
     bindsym Print exec ~/.config/sway/full_screenshot.sh
-    bindsym Control+Print exec ~/.config/sway/full_screenshot.sh image
+    # Simpler Alternatives (however, they don't support pasting as a file, only as a PNG)
+    # bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+    # bindsym Print exec grim - | wl-copy
+
 
 #
 # Autostart:
