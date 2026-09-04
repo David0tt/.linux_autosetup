@@ -406,7 +406,8 @@ bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | fzf --
 
 # File explorer
 bindsym Control+Shift+Mod1+e exec pcmanfm
-bindsym $mod+e exec pcmanfm
+# bindsym $mod+e exec pcmanfm
+bindsym $mod+e exec dolphin
 
 # calculator
 bindsym $mod+c exec kcalc

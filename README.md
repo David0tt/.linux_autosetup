@@ -1,269 +1,238 @@
 # linux_autosetup
-The main point of this repository is to automatically install my whole setup on a ubuntu system by running one script 
+The goal of this repository is to automize the setup of a linux system and keep all my settings in one place, similar to a .dotfiles repo, but with a little bit more extended setup. 
 
-    cd ~
-    git clone https://github.com/David0tt/.linux_autosetup
-    cd .linux_autosetup
-    bash install_script.sh
+In the best of all worlds, this provides you with a nice, opinionated full computing environment. However, due to the nature of linux systems, you will occasionally run into situations where some computing expirience and tinkering is required to fix it.
 
-Before installing it might make sense to uncomment some installations in the `install_script.sh`
+This repo basically supports two setups:
+1. CachyOS with KDE Plasma and Sway
+2. Ubuntu with Gnome and i3
+
+# Usage
+
+## CachyOS with KDE Plasma and Sway
+1. Install CachyOS from an installation medium (https://wiki.cachyos.org/installation/installation_on_root/)
+   1. Select Limine as the bootloader
+   2. If wanted, enable disk encryption on installation
+   3. Select KDE Plasma as the desktop environment (don't select the optional sway!)
+2. Optional: comment or uncomment any wanted or unwanted steps in the installation script
+3. run the setup and installation script:
+```bash
+cd ~
+git clone https://github.com/David0tt/.linux_autosetup
+cd .linux_autosetup
+bash cachyOS_install.sh
+```
+4. Run all the post-installation that could not be automated
 
 
-# To only install the VSCode keybindings and snippets run:
+## Ubuntu with Gnome and i3
+1. Install Ubuntu from an installation medium (https://ubuntu.com/tutorials/install-ubuntu-desktop)
+2. Optional: comment or uncomment any wanted or unwanted steps in the installation script
+3. run the setup and installation script: 
+```bash
+cd ~
+git clone https://github.com/David0tt/.linux_autosetup
+cd .linux_autosetup
+bash install_script.sh
+```
+4. Run all the post-installation that could not be automated
 
-    # Put the VSCode config files into the appropriate locations
-    rm ~/.config/Code/User/keybindings.json
-    ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
-    rm ~/.config/Code/User/settings.json 
-    ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json 
-    # Snippets:
-    ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+TODO: instructions to install https://github.com/David0tt/MyShortcuts
 
+# What you get
+The goal of this repo is to provide a full desktop environment, set up to my particular liking, including 
+- installed programs
+- preferred settings
+- hotkey setup
 
+As a daily driver I now exclusively use CachyOS with Sway, mainly because CachyOS provides a great operating system experience out of the box and I like the efficiency, productivity and mental clarity of using a tiling window manager, where Sway provides great responsibility, high-dpi and hdr performance and is the future proof option being built on wayland. 
 
-# Components of this setup:
-- i3 window manager
-- config files to make everything to my liking
-- standard programs I use (firefox, thunderbird, ...)
-- modern replacements for some classical shell commands
-- 
+As a backup, KDE Plasma as a GUI desktop environment, since it is in some cases more stable (e.g. for screen sharing). 
+
+Ubuntu + Gnome + i3 is the alternative system which often works better with some legacy applications, in particular in my work and research context. So this is the system I use on my work computers. 
 
 
 # Design Philosophy
-- use as many standard tools as possible (-> compatability with many other setups)
-- make the installation as simple as possible (only one script, if possible use robust installations that are kept up to date, e.g. with apt-get upgrade)
-- require as little as possible manual or non-standard setup (i don't like many config files)
-- keep everything at one place
-- speed is a priority (e.g. when loading the shell)
-- Aesthetics are less important than standard compatability
-- compatability with other platforms is key (i want to change as little as possible of my workflow when i ssh into some server or use a docker image)
-- First: Programs i use and like
-- Then: shell features
-- Always reason from functionality i want to have and why, to how to get it with minimal setup, maximal standard adherance and minimal performance overhead
-- take your hands off the keyboard as little as possible
-- it should be intuitive where everything is (no searching for some open window
-- when i show people something, it should be comprehensible what i am doing, without much background knowledge
-- everything should be installed in such a way, that it is automatically updated when possible. So in most cases use apt or snap if available
+> _The system should get out of the way and provide mental clarity_
 
-Which shell to use?
-Main contenders are bash vs zsh vs fish
--> Bash is the standard, so i would like to use this. I can get all the features i want in bash, so this is preferred
-
-Which Tiling system to use?
-
-- tiling window manager (i3), terminator, tmux
-
-Notable Mentions and why i am not using them:
-
-- vim / neovim: i don't want to learn the commands,  i pick just the features i want for other editors, setup of VSCode is easier and with plugins i would say it is more powerful
-- 
-
-I want as little as possible in the taskbar, since this is all visual clutter (programs to launch should be in a searchable start menu)
+- functionality, usability and simplicity over aesthetics
+- visual minimalism. This is not about ricing
+- performance and speed is a priority. Everything needs to be responsive
+- compatability with other platforms is key 
+    - I want to change as little as possible of my workflow when I ssh into some server or use a docker image
+- Corollaries:
+    - if in doubt, use standard tools for compatability
+    - if in doubt, use standard hotkeys for compatability and to not be a fish out of the water when needing to work on another system
+    - require as little as possible manual or non-standard setup
+    - keep everything at one place
+    - system should require minimal management (-> use package manager installed programs with auto update)
+    - take your hands off the keyboard as little as possible
 
 
-# Other things that i could look into:
-- maybe also try Hyprland -> Probably not, is mostly nice ui focused and appears to have some bugs
-- also try awesome window manager -> felt more clunky and less supported for me
-- sway: would be a good replacement for i3 in the future. However right now, some apps don't work natively in sway, since they rely too much on x11 (e.g. snap installed discord, which causes a crash on start). Also, open-vm-tools is not well integrated with sway/wayland for now -> I will use i3 for now, i will switch when wayland/sway support is more mature, this switch should be rather simple, as configs generally are compatible (-> Note again, i don't want to depend on many other tools for this!)
-
-
-
-
-
-
-# Tiling window Manager features
-- Autotile, arrange (over all displays, over current display) -> DONE with custom script
-- switch between active window (in i3 is mod + arrow keys or mod + jklö)
-- split horizontally / vertically (in i3 is mod+v, mod+h before opening a window)
-- move/arrange window (mod+shift+arrow-keys / mod+shift+j/k/l/ö / ctrl+left mouse + move), toggle horizontal/vertical split mode: mod+e
-- make window fullscreen mod+f
-- switch between horizontal/vertical split mode, stacking mode and tabbed mode (not sure if I want this) - mod+e mod+s mod+w
-- close window (mod+shift+d) (mod+middle mouse)
-- toggle window floating (mod+shift+space / mod+right mouse)
-- switch between desktops/workspaces (mod+num)
-- move window to workspace (mod+shift+num)
-- resizing windows (mod+r, then arrow keys / use mouse on borders)
-- exit i3: mod+shift+e
+# Why I have chosen specific programs:
+- [CachyOS](https://cachyos.org/): provides a great [arch](https://archlinux.org/) installation out of the box. Compilation with architecture optimizations supposedly make it faster
+    - rolling release: most up to date programs
+    - many modern features
+    - generally very stable (in my experience)
+- [Sway](https://swaywm.org/): a tiling window manager provides very high efficiency for keyboard use, and even more importantly mental clarity about where program windows are
+    -  vs [i3](https://i3wm.org/): If possible, always use sway. It is the tool of the future, being built on wayland. Therefore it has better high-dpi and hdr support, better graphics accelerated performance and will receive better support and updates in the future. Use i3 only if there are issues with hardware support (gpu acceleration) on sway. 
+    -  the most important thing for me is the tiling wokrflow, which in principle could also be achieved in other ways (but sway is my preferred choice based on the tradeoffs). Alternatives:
+          -  [tmux](https://tmux.app/): terminal multiplexer. Can be a good even more minimal choice. However, it only works for terminal applications.
+          -  [terminator](https://gnome-terminator.org/): a tiling terminal emulator. also just works for terminal applications.
+          -  [hyprland](https://hypr.land/): Another Wayland window manager with good tiling support. It errs more on the side of aesthetics than performance and stability when compared to sway. 
+          -  [bspwm](https://github.com/baskerville/bspwm), [awesomewm](https://awesomewm.org/), [dwm](https://dwm.suckless.org/): minimal tiling window managers, however they all only have X and no Wayland support
+- [KDE Plasma](https://kde.org/plasma-desktop/): Robost, modern, feature rich desktop environment. Default on CachyOS, so it will probably get good support in the future.
+- [VSCode](https://code.visualstudio.com/): this is currently my editor of choice. It has a lot of customizability and functionality, with many extensions. There is an advantage of being to able to do everything (e.g. programming in different languages) in one environment. Also it is available everywhere with the remote development extension (e.g. into ssh servers or docker containers). My main drawback is, that it's startup is rather slow, and since it generally best as a big full screen application, it does not fit perfectly into the tiling environment. 
+    - Notable alternatives would be [zed](https://zed.dev/) and [neovim](https://neovim.io/), however zed currently does not have so many features, and neovim has a high initial setup overhead and I don't really want to learn vim motions
+- [alacritty](https://github.com/alacritty/alacritty): provides a very fast an minimal terminal emulator. From my testing it was the most performant. Notable alternatives include [terminator](https://gnome-terminator.org/), [kitty](https://github.com/kovidgoyal/kitty), [ghostty](https://ghostty.org/), [st](https://st.suckless.org/)
+- Shell:
+    - [fish](https://fishshell.com/): on CachyOS I use fish, since it is the default. It provides many good features out of the box: color highlighting, command autocomplete, command autocomplete based on history, notifications on long-running commands. Only drawback: it is not POSIX compliant, so its scripting language is significantly different from bash.
+    - [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) with [ble.sh](https://github.com/akinomyoga/ble.sh): I use this on ubuntu systems, since it is the default. Bash has the highest compatability since it is fully posix compliant. With ble.sh you get syntax highlighting and auto suggestions. 
+    - Notable contender: [zsh](https://www.zsh.org/) with [ohmyzsh](https://ohmyz.sh/) provides direct compatability with bash, however it requires more initial setup.
+- [dolphin](https://apps.kde.org/dolphin/): is the file manager shipped with KDE and has a lot of functionality out of the box. [pcmanfm](https://pcmanfm.com/) is an even faster, less feature rich alternative.
+- [micro](https://micro-editor.github.io/): a fast terminal text editor for quick notes
 
 
 
-# On different shells: 
-A different shell
-(bash, zsh, Fish)
-Fish -> better experience without modifications
-Zsh -> more modifications possible, see oh-my-zsh or zinit
-In the end, i want to be as compatible as possible, so i am choosing bash, since i can get all the functionality i need there with little modification (mainly by using ble.sh)
-What i want from my shell:
-- user@machine /Directory prompt -> modify PROMPT or PS1 variable
-- syntax highlighting -> ble.sh
-- command autosuggestions -> ble.sh i actually don't want this
-- autocomplete -> already built in
-- autocomplete preview -> ble.sh (but currently not working
-- fuzzy history search -> already from fzf
-- shared history across sessions [TODO!]
-- searchable history with ctrl+r (also fuzzy) -> already from fzf
-- smart case sensitivity
-- background job notifications
-- spelling correction proposals -> fuck [TODO!]
-- (fuzzy autocomplete)
-- (git-aware prompt)
-- Plus: Bash / scripting POSIX-compliant
-- Fish has great defaults, but is not POSIX compliant
-- See this for features that i might want: https://chatgpt.com/c/686acb3b-6e34-800c-a9b9-276aceb84fcc
-- Look into zsh + oh-my-zsh
-- in particular plugins:
-  - powerlevel10k
-  - zsh-autosuggestions
-  - zsh-syntax-highlighting
-  - fzf
-  - git
-  - history-substring-search
-- how can i make it most compatible with bash (e.g. for the setups that have been made in ~/.bashrc
-- alternative: make bash compliant with all these features
-- FINDING: I tried zsh, with some nice configs, e.g. from https://www.youtube.com/watch?v=ud7YxC33Z3w ; but i found that i could get the same functionality just in bash, which is more portable, ubiquitous and POSIX compliant, and also has faster startup times in my testing (oh-my-zsh was extremely slow, but even zinit was about 3 times slower than bash)
-
-autocomplete preview
-fuzzy autocomplete
-automatically propose corrected command ("did you mean..." and possibility to automatically execute it)
-
-
-# Vim vs. other code editors
-
-- many people swear by vim for speedup
-- however, i don't want to loose the comfort of a graphical interface in VSCode, especially with all the extensions its setup is very easy
-- to get a good vim config is quite some stuff to do
-- Also, Vim does not produce much of a speedup compared to using good "normal navigation"
-- Advantage is, that "normal" navigation works in almost all environments (Browser search bar, other textfields, ...). For the advanced navigation i have to set up the environment anyways. Going into some remote ssh server and having vim there is not really an argument, since here "normal" navigation still works, and if i want to do something extensive i want all my other stuff too (LSP, syntax highlighting, nice ide features), so i would need to install an environment anyways
-- I pick the features from vim i want
-- Other considerations:
-  - Speed / Startup speed: As long as it is not too slow, it is fine. Note, that you pay for features (e.g. if you want an LSP, syntax highlighting, ...); As a rule of thumb i would say that with similar features, startup times are similar across programs.
-  - when i show people something, it should be comprehensible what i am doing, without much background knowledge
-
-# Feature comparison:
-
-# Note: many of the "normal" navigations work in any kind of environment (e.g. Find in Browser)
-
-# Note: a straight forward comparison of keypresses is not possible, since it depends on whether or not we count the ESC presses for Vim. Also, Hand movements are not counted (e.g. jklö is closer to normal typing position than arrow keys, and POS1, END, DEL keys are quite far). For a fair comparison, we should look at the commands and keystrokes needed to do some standard text task.
-
-# Comparison along the lines of Vim Tutor: https://gist.github.com/hashrocketeer/852a4f878acd42abbf98f18278329bdc
-- Navigation (jklö vs. arrow keys); holding ctrl for faster navigation (jumping through words), POS1 and END keys
-- deleting stuff: words (ctrl+Backspace/Del) vs. (ESC,dw), to beginning/end of line: Shift+END/POS1,Del/Backspace vs (d$)
-- delete a number of objects (in vim: [number] d object / d [number] object) vs. (just clicking ctrl+backspace/Del mutliple times)
-- deleting line: ctrl+X in VSCode
-- clicking at some position in the text is sometimes quite fast, even faster than navigating there!
-- Switching between Normal / Insert / Command mode takes time
-- I would not use the "Advanced" features of vim so often, so finding a specific solution in that case or scripting is fine
-- Enclose in Braces: select with shift+(ctrl)+left/right and click ( / [ / { / " / '
-- Undo / redo (ctrl+z / ctrl+y) vs. u / U
-- redo commands (vim: ctrl+r) -> TODO find something like this?
-- putting (in vim, delete something, the p to put it) vs. (selecting, ctrl+x -> ctrl+v)
-- Replace Command (r)
-- Change Command (cw)
-- Search: / and ? vs. ctrl+f; Find + Replace, use find to jump to some location in the text
-- Matching Paranthesis search: % to find a matching ), ], } vs. syntax highlighting does this for me, [TODO] but jumping there would be nice -> exists, with ctrl+shift+^; selecting in current paranthesis/brackets/etc. can be done with smart select: shift+alt+left/right
-- Substitution - ctrl+f find and replace does this for me
-- External commands: I don't need this in my editor, i just have a terminal open (or ctrl+`)
-- Open Command: o vs. END+Enter
-- Append / Insert: a / i -> Not needed, when i have navigation
-- 
-
-# Mainly from VSCode:
-- Multiline Edits (win+alt+Up/Down, hold alt and click to multiple locations with mouse)
-- F2 for semantic rename
-- ctrl+. for code actions
-
-# Bonus: Remote compatability
-- vscode remote extension is extremely powerful
+# Notable alternatives: 
+- [hyprland](https://hypr.land/): if you want the even more bleeding edge experience for (tiling) window managers. Less stable than sway but more development on modern features, better for customization (ricing).
+- [Omarchy](https://omarchy.org/): an opinionated arch+hyprland+quickshell installation with lots of functionality out of the box.
 
 
 
+
+# Nifty details and features:
+- st + fzf program search
+- sway_grid.sh
+- screenshot hotkeys that allow pasting as image data, or as file, so they are working in both, applications or the file manager
+- many minor scripts for the waybar
+    - swayWorkspaceIconsDaemon
+    - Player controls
+    - audio control
+    - brightness control
+    - hdr toggle
+    - power saving mode toggle
+    - shutdown button
+    - close settings windows on mouse leave (audio, brightness, network, bluetooth)
 
 
 # TODO
-TODO maybe get all the shell completions using bashit
-TODO look at `jj`
-[TODO add alias to start a bash in the newest docker container]
-
-[TODO try https://github.com/google-gemini/gemini-cli ]
-
-[TODO make this a gist somewhere, that can simply be installed with wget ...  | sudo bash or something like that (also to install everything, or just the minimal features]
-
-[TODO find some efficient system wide keypass integration, so i dont always have to open the app]
-examine tmux
-- https://github.com/dreamsofcode-io/tmux
-- https://tmuxcheatsheet.com/
-- Why? more light-weight, more available in ssh sessions, more scriptable
-- needed tmux config: 
-  - TODO do tmux tutorial
-  - add mouse support
-  - allow find
-  - nicer layout
-  - allow copy & paste / yanking
-  - nice hotkeys for navigation (should match tiling window manager)
-  - predefined sessions
-[Hotkey to copy the current line from the shell]
-
-[alert for long running tasks]
-
-# TODO
-- change the bar sizes for resizing windows with mouse -> DONE
-- add x / minimize options on windows -> DONE: mod+middle mouse for closing and mod+right to toggle floating
-- auto-layout -> DONE
-- adjust taskbar -> DONE
-- start menu (ctrl) -> should show different graphical programs i might want to use, and a search bar to search -> Not solved for now, but st with fzf works fine
-- fzf program searach when clicking ctrl+d -> st with fzf
-- something to change the volume
-- vscode open folder in i3 -> DONE just go full screen / floating
-- custom scripts to start up my workspaces
-- allow setting audio by scrolling wheel on keyboard
-- VSCode Open File dialogue does not quite work, but making it a non floating window (mod+shift+space) or when VSCode is in fullscreen mode (mod+f) is fine
-- try if st would be a good terminal for everything (test images)
-- install yazi, with all dependencies https://yazi-rs.github.io/docs/installation/
-
-- For most works i want all relevant windows in one workspace (Standard development setup: ChatGPT, Firefox for Search, VSCode, Terminals)
-- Use different workspaces for different tasks (e.g. second coding task, with all the windows as above)
-- I don't think i will use many predefined workspaces, but lets see
-- A dedicated startup script to get the development environment would be nice
-- do i want the same window on multiple workspaces? -> Probably actually No!
-- add close button to windows -> No, mod+middle mouse works very well
-cron jobs
-
-pass highlighting through e.g. eza -> rg
-https://github.com/helix-editor/helix
-# [TODO] try VSCode snippets (e.g. enclose something with "#" border)
-# TODO set ctrl+shift+c / ctrl+shift+v hotkeys in vscode to be compatible with terminal copy-paste
-# [TODO] terminal set scrollback length (in best case infinite)
-# [TODO] fuzzy find in VSCode https://marketplace.visualstudio.com/items?itemName=rlivings39.fzf-quick-open
-
-hotkey für einkaufsliste
-hotkey für mitnehmliste
-- lock hotkey win+l (compatible with win, ubuntu)
-
-
-- navigate more in vscode with mouse-forward / backward
-- keepassXC browser integration (and other locations)
-- check whether i will ever use fdfind if i have fzf (however, it could be useful to replace find by fdfind for fzf for more speed)
-- tmux dotfile: https://github.com/elijahmanor/dotfiles/blob/lua/tmux/.tmux.conf
-
-use `cd -` more often
+- [ ] find some efficient system wide keypass integration, so i dont always have to open the app
+- [ ] Hotkey to copy the current line from the shell
 
 
 
+# Hotkeys
+In the following I will discuss all the hotkeys I use, which greatly increase my productivity and reduce the mental load when working with a computer. However I am not dogmatic about this, of course there are many applications where a mouse is better. 
+
+They are structured as follows: 
+- basic text navigation: keyboard controls that work in almost any environment
+- shortcuts to open programs: Shortcuts for my most used programs
+- Terminal navigation: controls specifically in the terminal
+- Tiling WM navigation: controls specifically for navigating a tiling window manager
+- Navigation in GUI desktops: Shortcuts to navigate a general desktop (no tiling window manager)
+- VSCode: Shortcuts for VSCode
+- Firefox: Shortcuts for Firefox
 
 
-# Considerations: 
-- I need to use Ubuntu for work, since
-    - It comes preinstalled and is the default for my work environment
-    - Many of the programs / packages I depend on don't work reliably on Arch / Wayland (esp. badly maintained scientific stuff)
-
-- I want to have the workflow/control of a tiling WM
-
-- In full desktop environments (e.g. Gnome, KDE), many things work better out of the box (e.g. HDR support, High-DPI display, ...)
-    - -> It is always useful, to install a full desktop environment alongside just to automatically install all these nice package dependencies
-
-- Solution / Current setup: 
-    - For work: Ubuntu with Gnome + i3
-    - At home: CachyOS with KDE + sway
+- basic text navigation: keyboard controls that work in almost any environment
+- Terminal navigation (ctrl+r, )
+- Tiling WM navigation
+- shortcuts to open programs I need
+- VSCode
+- Firefox
+- Navigation in GUI desktops (ctrl+win+left/right; win to move programs to workspaces)
 
 
-You can check whether a program is running on wayland or XWayland (X11 compatability layer) using xeyes. If you move your cursor over the window, and the eyes move, then it is using XWayland/X11
+
+- Tiling window Manager features / hotkeys
+    - Autotile, arrange (over all displays, over current display) -> DONE with custom script
+    - switch between active window (in i3 is mod + arrow keys or mod + jklö)
+    - split horizontally / vertically (in i3 is mod+v, mod+h before opening a window)
+    - move/arrange window (mod+shift+arrow-keys / mod+shift+j/k/l/ö / ctrl+left mouse + move), toggle horizontal/vertical split mode: mod+e
+    - make window fullscreen mod+f
+    - switch between horizontal/vertical split mode, stacking mode and tabbed mode (not sure if I want this) - mod+e mod+s mod+w
+    - close window (mod+shift+d) (mod+middle mouse)
+    - toggle window floating (mod+shift+space / mod+right mouse)
+    - switch between desktops/workspaces (mod+num)
+    - move window to workspace (mod+shift+num)
+    - resizing windows (mod+r, then arrow keys / use mouse on borders)
+    - exit i3: mod+shift+e
+
+
+
+Also see ~/Nextcloud/MyShortcuts which is https://github.com/David0tt/MyShortcuts
+
+Shortcuts can be added in GUI or in keybindings.json (`Preferences: Open Keyboard Shortcuts (JSON)`)
+Settings can be added in settings.json (`Preferences: Open User Settings (JSON)`), or only for the workspace (`Preferences: Open Workspace Settings (JSON)`)
+
+- VSCode (Hotkeys + Extensions can be automatically synced via github):
+    - `ctrl+left/right` move cursor by words
+    - `ctrl+shift+left/right` select by jumping through words
+    - `shift+alt+left/right` smart select, select in paranthesis / brackets / to next comma, etc.
+    - `Ctrl+K V` to open markdown preview to the side 
+    - `Ctrl+Alt+I` Toggle copilot chat panel
+    - `Ctrl+Shift+Alt+I` toggle Copilot edits panel
+    - `Ctrl+J` cursor accept partial edit
+    - `Ctrl+Shift+P` command palette
+    - `Alt+Z` toggle word-wrap
+    - `alt+c` toggle checkbox in markdown list
+    - `ctrl+enter` copilot suggestions
+    - `ctrl+p` search for file / go to file
+    - `ctrl+shift+f` search
+    - `ctrl+shift+e` open explorer tab
+    - `ctrl+.` quick fix
+    - `ctrl+k z` focus mode/zen mode (make editor full-screen)
+    - `ctrl+k ctrl+m` toggle maximize editor group
+    - ``ctrl+` `` (backtick) toggle the terminal in vscode
+    - `ctrl+shift+o` go to symbol in file, e.g. section header or function/class definition
+    - `ctrl+p / ctrl+t, #` go to symbol in the whole workspace
+    - `ctrl+1/2/3/...` switch between active editors
+    - `ctrl+w` close the active file
+    - `ctrl+tab / ctrl+shift+tab` Go through tabs (forward/backward)
+    - `shift+alt+f` Format Document (needs formatter for the current language installed, e.g. `ms-python.black-formatter`, `C++ Extension Pack` with clang)
+- Custom VSCode Shortcuts:
+    - `Ctrl+#` `Toggle Line Comment`
+    - `Ctrl+Y` `Redo`
+    - `Shift+Enter` Jupyter: Run Selection/Line in Interactive Window
+      - also have to edit when expression of shortcut `Jupyter: Run Selection/Line in Interactive Window` to:
+        - `editorTextFocus && isWorkspaceTrusted && !findInputFocussed && !isCompositeNotebook && !notebookEditorFocused && !replaceInputFocussed && editorLangId == 'python'`
+    - `ctrl+shift+enter`: Jupyter: Run To Line in Interactive Window (remove `Insert Code Cell Above` and `Insert Line Before`)
+    - `ctrl+shift+v` paste (to use same as in terminals)
+    - `ctrl+shift+c` copy (to use same as in terminals)
+    - `Ctrl+Shift+Alt+V` to open markdown preview (previously was `ctrl+shift+v`)
+- VSCode Copilot
+  - `ctrl+alt+i`: toggle chat
+  - `ctrl+shift+alt+i`: toggle editor chat
+  - `ctrl+i`: inline chat
+- VSCode Copilot Custom Hotkeys: 
+  - `ctrl+shift+i`: new chat (replaces `ctrl+l`) (`Chat: New Chat`, `Chat: New Edit Session`)
+  - `ctrl+l` add selection to context (`Github Copilot: Add Selection to Chat`, remove `Expand Line Selection`)
+      - `Github Copilot: Add Selection to Chat` When: editorFocus
+      - we would also like to use the following, but i have not found good "When" expressions to make this work. 
+          - `GitHub Copilot: Add Selection to Copilot Edits`
+              - Maybe something like: When: editorFocus && chatLocation == 'editing-session'
+          - `GitHub Copilot: Add Terminal Selection to Chat` When: terminalTextSelected PROBLEM: does conflict with ctrl+l for terminal clear
+- In Browsers / Most programs:
+    - `Ctrl+Tab`/`Ctrl+Shift+Tab` switch active tab
+- Firefox:
+    - `ctrl+t` new tab
+    - `ctrl+shift+t` reopen last closed tab
+    - `ctrl+n` new window
+    - `ctrl+shift+n` reopen last closed window
+    - `ctrl+shift+d` save all open tabs as bookmark folder
+- Windows Window management:
+    - `Win + Space` Switch between language keyboard input
+    - Switch between input keyboard: ?
+    - `Win + Left/Right/Up/Down` Align window left/right/maximize/minimize
+    - `Ctrl + Win + Left/Right` switch workspaces
+    - `Win + Number` start or switch to this program in the taskbar
+- Terminator: 
+    - `Ctrl+Shift+E` split window vertically
+    - `Ctrl+Shift+O` split window horizontally
+    - `Ctrl+Shift+W` close active window
+- Zotero:
+    - `Alt+Left/Right` to go back/forward after clicking hyperlinks (+ options in menu bar "Go -> Back")
+- KeePassXC:
+    - `Ctrl+b` copy username
+    - `Ctrl+c` copy password
