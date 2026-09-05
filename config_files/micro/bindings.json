@@ -1,4 +1,6 @@
 {
+    "Alt-Backspace": "DeleteWordLeft",
+    "Alt-d": "DeleteWordRight",
     "Ctrl-s": "lua:initlua.guiSave",
     "Ctrl-o": "lua:initlua.guiOpen",
     "ShiftF1": "lua:initlua.guiSaveAs"

@@ -176,6 +176,18 @@ key = "S"
 mods = "Control|Shift"
 chars = "\u001b[1;2P"
 
+# Send the conventional Meta-Backspace and Meta-d sequences for word deletion.
+# These work with both Micro's bindings and Readline-compatible shells.
+[[keyboard.bindings]]
+key = "Backspace"
+mods = "Control"
+chars = "\u001b\u007f"
+
+[[keyboard.bindings]]
+key = "Delete"
+mods = "Control"
+chars = "\u001bd"
+
 [[keyboard.bindings]]
 key = "B"
 mods = "Control|Shift"
