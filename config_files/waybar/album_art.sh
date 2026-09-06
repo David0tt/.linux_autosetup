@@ -3,7 +3,7 @@
 set -eu
 
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-media"
-cover_path="$cache_dir/cover"
+cover_path="$cache_dir/cover-square.png"
 url_path="$cache_dir/art-url"
 
 art_url=$(playerctl --player=playerctld -s metadata mpris:artUrl 2>/dev/null || true)
@@ -22,19 +22,33 @@ if [ -f "$url_path" ]; then
 fi
 
 if [ "$art_url" != "$current_url" ] || [ ! -s "$cover_path" ]; then
-    tmp_path="$cover_path.tmp"
+    source_tmp="$cache_dir/cover-source.$$"
+    cover_tmp="$cache_dir/cover-square.$$.png"
+
+    trap 'rm -f "$source_tmp" "$cover_tmp"' EXIT HUP INT TERM
 
     case "$art_url" in
         file://*)
-            cp "${art_url#file://}" "$tmp_path"
+            cp "${art_url#file://}" "$source_tmp"
             ;;
         *)
-            curl -fsSL "$art_url" -o "$tmp_path"
+            curl -fsSL "$art_url" -o "$source_tmp"
             ;;
     esac
 
-    mv "$tmp_path" "$cover_path"
+    # Waybar preserves the image's aspect ratio. Crop it to a centered square
+    # first so wide cover art fills the entire media-art module.
+    magick "$source_tmp[0]" \
+        -auto-orient \
+        -resize '256x256^' \
+        -gravity center \
+        -extent 256x256 \
+        "$cover_tmp"
+
+    mv "$cover_tmp" "$cover_path"
     printf '%s' "$art_url" > "$url_path"
+    rm -f "$source_tmp"
+    trap - EXIT HUP INT TERM
 fi
 
 printf '%s\n' "$cover_path"
