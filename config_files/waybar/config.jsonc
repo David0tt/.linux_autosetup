@@ -1,0 +1,329 @@
+// -*- mode: jsonc -*-
+
+// My Config for waybar. 
+// One particular functionality is the integration of a player controls
+// These are still very much in a prototype phase, until now i have only tested them with Spotify and YouTube. For example, for some reason they don't work with mpv
+
+{
+    // "layer": "top", // Waybar at top layer
+    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 32, // Waybar height (to> be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 4, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode",
+        "sway/scratchpad"
+    ],
+    "modules-center": [
+        // "sway/window",
+        "image#media-art",
+        "custom/media-prev",
+        "custom/media-play-pause",
+        "custom/media-next",
+        "mpris"
+
+    ],
+        "modules-right": [
+        "pulseaudio/slider",
+        "pulseaudio",
+        "tray",
+        // "mpd",
+        // "idle_inhibitor",
+        // "temperature",
+        "custom/brightness",
+        "custom/hdr",
+        // "keyboard-state",
+        // "sway/language",
+        "battery",
+        // "battery#bat2",
+        "power-profiles-daemon",
+        "network",
+        "cpu",
+        "memory",
+        "clock", 
+        "custom/power"
+    ],
+    // Modules configuration
+    // "sway/workspaces": {
+    //     "disable-scroll": true,
+    //     "all-outputs": true,
+    //     "warp-on-scroll": false,
+    //     "format": "{name}: {icon}",
+    //     "format-icons": {
+    //         "1": "",
+    //         "2": "",
+    //         "3": "",
+    //         "4": "",
+    //         "5": "",
+    //         "urgent": "",
+    //         "focused": "",
+    //         "default": ""
+    //     }
+    // },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": false,
+        "format-icons": [
+            "",
+            ""
+        ],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 5,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+        // "icons": {
+        //   "blueman": "bluetooth",
+        //   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+        // }
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "format": "{:%d.%m.%Y  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+        // "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": true
+
+            
+
+
+    },
+    "memory": {
+        "format": "{}% ",
+        "tooltip-format": "{used:0.1f} GiB of {total:0.1f} GiB used"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": [
+            "󰉬",
+            "",
+            "󰉪"
+        ]
+    },
+    "custom/brightness": {
+        "exec": "$HOME/.config/waybar/monitor_brightness.sh",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 10,
+        "format": "{text} {icon}",
+        "tooltip": true,
+        // Icon options: 󰖨 󰃟
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃝",
+            "󰃠"
+        ],
+        // call it as a background thread with &, as to not block the updates of this waybar item
+        "on-click": "$HOME/.config/waybar/monitor_brightness.sh popup &"
+    },
+    "custom/hdr": {
+        "exec": "$HOME/.config/waybar/hdr_status.sh",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 11,
+        "format": "{text}",
+        "tooltip": true,
+        "on-click": "$HOME/.config/waybar/hdr_status.sh toggle"
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰃨",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "interval": 1,
+        // "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-wifi": "{signalStrength}% ",
+        "format-ethernet": "󰈀", // alternative symbol 🖧
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "format-linked": "{ifname} (No IP) 󰊗",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}  ↓ {bandwidthDownBytes}  ↑ {bandwidthUpBytes}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon}    {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": "󰅶 {icon} {format_source}",
+        "format-muted": "󰅶 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "min-length": 14,
+        "tooltip-format": "&#160;&#160;&#160;&#160;{desc}\n&#160;&#160;&#160;&#160;&#160;{source_desc}",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰂑",
+            "headset": "󰂑",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol"
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 130,
+        "orientation": "horizontal"
+    },
+    // Responsiveness of the following is solved in a hacky way, using interrupt signals 8 / 9 on the appropriate changes (onclick), 
+    // which are sent using pkill -RTMIN+8 and -RTMIN+9
+    // This ensures fast responsiveness, without needing many repolls using a small interval.
+    "image#media-art": {
+        "exec": "$HOME/.config/waybar/album_art.sh",
+        "size": 32,
+        "interval": 5,
+        "signal": 8,
+        "tooltip": true,
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+    },
+    "custom/media-prev": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "sh -c 'playerctl --player=playerctld previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+    },
+    "custom/media-play-pause": {
+        "exec": "$HOME/.config/waybar/media_play_pause_icon.sh",
+        "interval": 5,
+        "signal": 9,
+        "format": "{}",
+        "tooltip": false,
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+    },
+    "custom/media-next": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "sh -c 'playerctl --player=playerctld next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'"
+    },
+    "mpris": {
+        "player": "playerctld",
+        "ignored-players": [
+            "mpd"
+        ],
+        "on-click": "sh -c 'playerctl --player=playerctld play-pause >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-middle": "sh -c 'playerctl --player=playerctld previous >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "on-click-right": "sh -c 'playerctl --player=playerctld next >/dev/null 2>&1 || true; pkill -RTMIN+8 waybar >/dev/null 2>&1 || true; pkill -RTMIN+9 waybar >/dev/null 2>&1 || true'",
+        "format": "{player_icon}    {title} - {artist}",
+        "format-paused": "{status_icon} {title} - {artist}",
+        "format-stopped": " No media",
+        "title-len": 24,
+        "artist-len": 14,
+        "ellipsis": "...",
+        "tooltip-format": "{player}: {title}\n{artist}\n{album}",
+        "player-icons": {
+            "spotify": "",
+            "firefox": "",
+            "plasma-browser-integration": "", // fix, since this can be the second name for the firefox application
+            "default": ""
+        },
+        "status-icons": {
+            "paused": "",
+            "playing": "",
+            "stopped": ""
+        }
+    },
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+        "menu-actions": {
+            "shutdown": "systemctl poweroff",
+            "reboot": "systemctl reboot",
+            "suspend": "systemctl suspend",
+            "logout": "swaymsg exit"
+            // "hibernate": "systemctl hibernate"
+        }
+    }
+}
