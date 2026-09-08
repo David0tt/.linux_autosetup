@@ -199,4 +199,5 @@
     "sound": "on"
   },
   "chat.permissions.default": "autoApprove",
+  "security.workspace.trust.untrustedFiles": "open",
 }

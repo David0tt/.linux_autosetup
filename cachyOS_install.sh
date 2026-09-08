@@ -247,6 +247,10 @@ fish -c 'set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland'
 # When started from anywhere else
 mkdir -p ~/.config/environment.d/
 echo "ELECTRON_OZONE_PLATFORM_HINT=wayland" > ~/.config/environment.d/90-electron-wayland.conf
+echo "# The following is to make firefox correctly inhibit idle screen timeout." >> ~/.config/environment.d/90-electron-wayland.conf
+echo "# It could become unnecessary in the future, if this precedence changes: https://bugzilla.mozilla.org/show_bug.cgi?id=2017575" >> ~/.config/environment.d/90-electron-wayland.conf
+echo "MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit" >> ~/.config/environment.d/90-electron-wayland.conf
+echo 'export MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit' >> ~/.profile
 # rm ~/.config/environment.d/90-electron-wayland.conf # undo
 
 # Use KDE's platform integration for Qt applications. -> Makes KDE apps respect the KDE platform integration and spawn in dark mode

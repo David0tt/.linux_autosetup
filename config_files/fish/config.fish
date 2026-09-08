@@ -74,3 +74,7 @@ alias mamba_init=conda_init
 # conda_init
 
 fish_add_path "$HOME/bin"
+
+# Ruby Stuff
+fish_add_path "$HOME/.local/share/gem/ruby/3.4.0/bin"
+set -x GEM_HOME "$HOME/gems"
