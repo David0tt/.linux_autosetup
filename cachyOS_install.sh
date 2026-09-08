@@ -539,3 +539,8 @@ echo "All VSCode extensions installed."
 # paru -S alvr-git
 # 
 # Add ~/.local/share/Steam/steamapps/common/SteamVR/bin/vrmonitor.sh %command% to the launch options of SteamVR (SteamVR -> Manage/Right Click -> Properties -> General -> Launch Options).
+
+
+# # Installing Games
+# sudo pacman -S heroic-games-launcher
+# - install to ~/Games/GOG/cyberpunk2077
