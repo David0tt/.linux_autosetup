@@ -361,7 +361,9 @@ for_window [class="^Pavucontrol$"] floating enable, resize set 45 ppt 70 ppt, mo
 for_window [title="^Volume Control$"] floating enable, resize set 45 ppt 70 ppt, move position 55 ppt 0 ppt
 
 # Monitor Brightness Slider
-for_window [title="monitor_brightness_slider"] floating enable, resize set 400 100, move position 75 ppt 0 px
+# for_window [title="monitor_brightness_slider"] floating enable, resize set 400 100, move position 75 ppt 0 px
+
+for_window [title="monitor_brightness_slider"] floating enable, border pixel 1, resize set 400 100, move position cursor, move down 30 px
 
 ################################################################################
 ###  Mouse Commands

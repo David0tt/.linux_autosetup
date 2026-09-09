@@ -34,6 +34,7 @@
         // "temperature",
         "custom/brightness",
         "custom/hdr",
+        "custom/night-light",
         // "keyboard-state",
         // "sway/language",
         "battery",
@@ -180,6 +181,15 @@
         "format": "{text}",
         "tooltip": true,
         "on-click": "$HOME/.config/waybar/hdr_status.sh toggle"
+    },
+    "custom/night-light": {
+        "exec": "$HOME/.config/waybar/night_light.sh status",
+        "return-type": "json",
+        "interval": 10,
+        "signal": 12,
+        "format": "{text}",
+        "tooltip": true,
+        "on-click": "$HOME/.config/waybar/night_light.sh toggle"
     },
     "battery": {
         "states": {

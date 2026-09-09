@@ -87,6 +87,20 @@ box.module:hover {
     color: #888888;
 }
 
+#custom-night-light {
+    padding: 0 12px;
+    font-size: 24px;
+}
+
+#custom-night-light.on {
+    color: #ffb347;
+}
+
+#custom-night-light.off,
+#custom-night-light.unavailable {
+    color: #888888;
+}
+
 /* It would be nice to have the buttons of the tray icons be a little larger, but i could not get it to work  */
 #tray > .active,
 #tray > .passive,
