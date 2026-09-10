@@ -37,7 +37,8 @@
         "custom/night-light",
         // "keyboard-state",
         // "sway/language",
-        "battery",
+        "custom/battery",
+        // "battery",
         // "battery#bat2",
         "power-profiles-daemon",
         "network",
@@ -190,6 +191,13 @@
         "format": "{text}",
         "tooltip": true,
         "on-click": "$HOME/.config/waybar/night_light.sh toggle"
+    },
+    "custom/battery": {
+        "exec": "$HOME/.config/waybar/battery_status.sh",
+        "return-type": "json",
+        "interval": 30,
+        "format": "{text}",
+        "tooltip": true
     },
     "battery": {
         "states": {
