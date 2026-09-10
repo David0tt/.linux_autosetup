@@ -231,6 +231,10 @@ rm -rf ~/.config/waybar/
 # mkdir -p ~/.config/waybar/
 ln -s ~/.linux_autosetup/config_files/waybar/ ~/.config/
 
+# Mako notification daemon
+mkdir -p ~/.config/mako
+ln -sfn ~/.linux_autosetup/config_files/mako/config ~/.config/mako/config
+
 
 # Set gwenview as default image viewer
 xdg-mime default org.kde.gwenview.desktop image/png image/jpeg image/gif image/webp image/avif image/svg+xml

@@ -1,0 +1,4 @@
+# Ignore routine OpenCloud file synchronization activity. Keep other
+# OpenCloud notifications, such as connection or authentication errors.
+[desktop-entry=opencloud summary="Sync Activity"]
+on-notify=dismiss --no-history
