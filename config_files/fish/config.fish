@@ -78,3 +78,6 @@ fish_add_path "$HOME/bin"
 # Ruby Stuff
 fish_add_path "$HOME/.local/share/gem/ruby/3.4.0/bin"
 set -x GEM_HOME "$HOME/gems"
+
+# Set the GCR SSH agent authsock (since for some reason fish does not inherit this)
+set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gcr/ssh"

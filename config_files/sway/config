@@ -244,11 +244,6 @@ bindsym $mod+r mode "resize"
     # Start XDG autostart: automatically start programs specified in ~/.config/autostart/ and /etc/xdg/autostart/ , while respecting rules like OnlyShowIn
     exec dex --autostart --environment sway
 
-    # Start gnome-keyring-daemon for password management and ssh-agent support.
-    exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11
-    exec /usr/bin/gnome-keyring-daemon --start --components=secrets
-    exec /usr/bin/gnome-keyring-daemon --start --components=ssh
-
     # Clipboard Manager: cliphist
     # Beware: Passwords could potentially also be stored are also stored in the cliboard History
     # The correct way to fix this is using the x-kde-passwordManagerHint mime type to indicate them as passwords. (e.g. by calling wl-copy with --sensitive: wl-copy --sensitive "some-secret")

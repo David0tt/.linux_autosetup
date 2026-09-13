@@ -318,6 +318,10 @@ done
 echo "All VSCode extensions installed."
 
 
+# enable GCR SSH agent
+systemctl --user enable --now gcr-ssh-agent.socket
+
+
 # # RustDesk
 # sudo pacman -S paru
 # paru -S rustdesk # CARE: this does not work non-interactively
