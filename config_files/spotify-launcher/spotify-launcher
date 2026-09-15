@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Spotify's Chromium/CEF backend prefers X11 whenever DISPLAY is available,
+# even in a Wayland session.  Hiding DISPLAY makes it connect to Wayland.
+exec env -u DISPLAY /usr/bin/spotify-launcher "$@"

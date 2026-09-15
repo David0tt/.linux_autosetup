@@ -13,7 +13,7 @@ sudo pacman -Syu
 
 packages=(
     # basics
-    git code ncdu htop alacritty micro fish curl wget
+    git ncdu htop alacritty micro fish curl wget # code
 
 
     # file managemers
@@ -35,6 +35,9 @@ packages=(
 
     # Build dependencies for st
     base-devel libx11 libxft fontconfig
+
+    # Be careful instlling any untrusted applications from the AUR!
+    paru
 )
 
 sudo pacman -S --needed "${packages[@]}"
@@ -49,6 +52,10 @@ sudo pacman -S --needed "${packages[@]}"
 # File Manager options: thunar, PCManFM, dolphin
 # After some benchmarking, i found PCManFM and thunar are an order of magnitude faster than dolphin
 # PCManFin appears to be ~20% faster than thunar
+
+# Install the microsoft branded vscode, since the remote development extensions are proprietary and only work there
+# Otherwise, the pacman districbuted code (Code - OSS) should be preferred!
+paru -S visual-studio-code-bin
 
 
 ################################################################################
@@ -155,14 +162,14 @@ rm -rf ~/.config/Code\ -\ OSS/User/prompts
 ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code\ -\ OSS/User/prompts
 
 # # Put the VSCode config files into the appropriate locations
-# rm ~/.config/Code/User/keybindings.json
-# ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
-# rm ~/.config/Code/User/settings.json
-# ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json
-# # Snippets:
-# ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
-# # Prompts:
-# ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
+rm -f ~/.config/Code/User/keybindings.json
+ln -s ~/.linux_autosetup/config_files/VSCode/vscode_linux_keybindings.json ~/.config/Code/User/keybindings.json
+rm -f ~/.config/Code/User/settings.json
+ln -s ~/.linux_autosetup/config_files/VSCode/settings.json ~/.config/Code/User/settings.json
+# Snippets:
+ln -s ~/.linux_autosetup/config_files/VSCode/snippets ~/.config/Code/User/snippets
+# Prompts:
+ln -s ~/.linux_autosetup/config_files/VSCode/prompts ~/.config/Code/User/prompts
 
 
 # enable ctrl+backspace removal of words
@@ -263,10 +270,10 @@ fish -c 'set -Ux QT_QPA_PLATFORMTHEME KDE'
 # Make KDE/Qt applications use the KDE color scheme outside Plasma as well.
 ln -sf ~/.linux_autosetup/config_files/environment.d/91-kde-qt-theme.conf ~/.config/environment.d/91-kde-qt-theme.conf
 
-# Force spotify to run on wayland (for this the DISPLAY env variable neetds to be unset)
+# Force Spotify to run on Wayland. Its Chromium/CEF backend prefers X11 when
+# DISPLAY is set, even if WAYLAND_DISPLAY and XDG_SESSION_TYPE say Wayland.
 mkdir -p ~/.local/bin
-printf '#!/usr/bin/env sh\nexec env -u DISPLAY /usr/bin/spotify-launcher "$@"\n' > ~/.local/bin/spotify-launcher
-chmod +x ~/.local/bin/spotify-launcher
+ln -sfn ~/.linux_autosetup/config_files/spotify-launcher/spotify-launcher ~/.local/bin/spotify-launcher
 
 
 
@@ -297,11 +304,12 @@ python3 -m venv ~/.local/share/workspace-icon-daemon/venv
 # VSCode programmatically install all extensions
 # ms-python.black-formatter \
 # jeanp413.open-remote-ssh
+# vadimcn.vscode-lldb
+# ms-vscode.cpptools
 extensions=(
   ms-python.python
   ms-python.pylint
   charliermarsh.ruff
-  ms-vscode.cpptools
   rust-lang.rust-analyzer
   ms-toolsai.jupyter
   james-yu.latex-workshop
