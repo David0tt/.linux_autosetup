@@ -32,6 +32,7 @@ packages=(
     docker docker-compose
     openrgb
     xorg-xeyes
+    gammastep # To enable custom night-light toggle
 
     # Build dependencies for st
     base-devel libx11 libxft fontconfig
