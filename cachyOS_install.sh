@@ -296,6 +296,7 @@ python3 -m venv ~/.local/share/workspace-icon-daemon/venv
 
 # VSCode programmatically install all extensions
 # ms-python.black-formatter \
+# jeanp413.open-remote-ssh
 extensions=(
   ms-python.python
   ms-python.pylint
@@ -320,6 +321,17 @@ echo "All VSCode extensions installed."
 
 # enable GCR SSH agent
 systemctl --user enable --now gcr-ssh-agent.socket
+
+
+# Install NVIDIA container runtime:
+sudo pacman -S nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+# verify: docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
+
+# CUDA:
+sudo pacman -S cuda
+
 
 
 # # RustDesk

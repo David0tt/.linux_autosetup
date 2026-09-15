@@ -81,3 +81,7 @@ set -x GEM_HOME "$HOME/gems"
 
 # Set the GCR SSH agent authsock (since for some reason fish does not inherit this)
 set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/gcr/ssh"
+
+# cuda path [optional]
+fish_add_path /opt/cuda/bin
+set -Ux LD_LIBRARY_PATH /opt/cuda/lib64 $LD_LIBRARY_PATH
