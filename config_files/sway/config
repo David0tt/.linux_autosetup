@@ -518,7 +518,7 @@ bindsym Control+Shift+Mod1+3 output DP-2 toggle
 
 
 # Cycle through all left-to-right arrangements of the active displays
-bindsym $mod+Shift+o exec ~/.config/sway/cycle_display_layout.sh
+bindsym $mod+Shift+d exec ~/.config/sway/cycle_display_layout.sh
 
 
 # To change the display layout:
