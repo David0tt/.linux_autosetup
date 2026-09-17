@@ -202,7 +202,7 @@ Mouse controls
 
 Setup
 - `mod+alt+1/2/3`: Turn off monitor 1 / 2 / 3 (monitors need to be correctly named in the config)
-- `mod+shift+o`: cycle through the display layouts (when using multiple monitors)
+- `mod+shift+d`: cycle through the display layouts (when using multiple monitors)
 - `mod+shift+c`: reload the Sway configuration
 
 Not used often:
