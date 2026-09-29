@@ -353,6 +353,14 @@ sudo pacman -S cuda
 # phoronix-test-suite benchmark unigine-heaven
 
 
+# # CUPS pdf printer for print-to-pdf functionality
+# sudo pacman -S cups cups-pdf
+# sudo systemctl enable --now cups.service
+# # Navigate to http://localhost:631
+# # -> Administration -> Enter username + pw -> Add Printer -> Select PDF printer
+# # -> Make: generic, Model: Generic CUPS-PDF Printer (no options) (en)
+
+
 ################################################################################
 ###  Post installation settings
 ################################################################################
@@ -420,7 +428,8 @@ sudo pacman -S cuda
 # bash
 # bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
 # # Now in the RDP client (noVNC browser window), install Office365
-# # Run application discovery again
+# # Run application discovery again: 
+# winapps-setup --user --add-apps
 # # To add additional folder locations edit the following line in ~/.config/winapps/winapps.conf
 # # (e.g. i have added the mount for /data)
 # # RDP_FLAGS="/cert:tofu /sound /microphone +home-drive /a:drive,data,/data"
