@@ -15,7 +15,8 @@ set $mod Mod4
 set $term alacritty
 # Your preferred application launcher
 # inspired by https://www.reddit.com/r/i3wm/comments/assux8/using_i3dmenudesktop_with_fzf/kz
-set $menu st -t fzf_launcher -e sh -c 'swaymsg exec "$(j4-dmenu-desktop --dmenu="fzf --prompt=\"Run: \"" --no-exec)"'
+# set $menu st -t fzf_launcher -e sh -c 'swaymsg exec "$(j4-dmenu-desktop --dmenu="fzf --prompt=\"Run: \"" --no-exec)"'
+set $menu fuzzel
 # set $menu wofi --show drun
 
 

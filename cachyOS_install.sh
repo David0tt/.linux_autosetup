@@ -55,7 +55,7 @@ sudo pacman -S --needed "${packages[@]}"
 
 # File Manager options: thunar, PCManFM, dolphin
 # After some benchmarking, i found PCManFM and thunar are an order of magnitude faster than dolphin
-# PCManFin appears to be ~20% faster than thunar
+# PCManFM appears to be ~20% faster than thunar
 
 # Install the microsoft branded vscode, since the remote development extensions are proprietary and only work there
 # Otherwise, the pacman districbuted code (Code - OSS) should be preferred!
@@ -236,6 +236,11 @@ make -C "${clipboard_helper_dir}" install PREFIX="${HOME}/.local"
 rm -rf ~/.config/sway/
 # mkdir -p ~/.config/sway/
 ln -s ~/.linux_autosetup/config_files/sway/ ~/.config/
+
+# Fuzzel application launcher
+mkdir -p ~/.config/fuzzel
+ln -sfn ~/.linux_autosetup/config_files/fuzzel/fuzzel.ini ~/.config/fuzzel/fuzzel.ini
+
 # cat ~/.Xresources >> ~/.Xdefaults
 
 rm -rf ~/.config/waybar/
