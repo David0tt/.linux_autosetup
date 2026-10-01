@@ -37,7 +37,10 @@ packages=(
     # Build dependencies for st
     base-devel libx11 libxft fontconfig
 
-    # Be careful instlling any untrusted applications from the AUR!
+    # screenshare
+    pipewire pipewire-pulse wireplumber xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk fuzzel
+
+    # Be careful installing any untrusted applications from the AUR!
     paru
 )
 
@@ -340,6 +343,17 @@ sudo systemctl restart docker
 
 # CUDA:
 sudo pacman -S cuda
+
+
+# Screenshare
+# Set up fuzzel for screen selection
+mkdir -p ~/.config/xdg-desktop-portal-wlr
+cat > "$HOME/.config/xdg-desktop-portal-wlr/config" <<'EOF'
+[screencast]
+chooser_type=simple
+chooser_cmd=sh -c "swaymsg -t get_outputs -r | jq -r '.[] | select(.active) | \"Monitor: \(.name)\"' | fuzzel --dmenu"
+EOF
+
 
 
 
