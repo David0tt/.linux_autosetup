@@ -599,5 +599,20 @@ EOF
 
 
 # # Installing Games
-# sudo pacman -S heroic-games-launcher
-# - install to ~/Games/GOG/cyberpunk2077
+# Install cachyOS gaming meta packages (includes wine/proton + steam and heroic game launcher)
+# sudo pacman -S cachyos-gaming-meta cachyos-gaming-applications
+# 
+# Then just open steam and install games.
+# Sometimes troubleshooting (e.g. launch options, proton version) is required, but normally the launcher should just take care of this
+#
+# To make sure the game is run in the appropriate resolution on wayland, with HDR: 
+# - Use the cachyOS proton (this one implements HDR features not implemented in the other proton options yet)
+#   -> Game launch options -> Compatability -> "Force use of a specific steam play compatability tool" -> cachyOS-proton
+# - Add this to the launch options:
+#   PROTON_ENABLE_WAYLAND=1 DXVK_HDR=1 mangohud %command%
+#
+# If everything is set up correctly, HDR should be available in the game options, and screen resolution should match the true resolution
+# 
+#
+# - To get a FPS performance hud, you can use mangohud: 
+#   PROTON_ENABLE_WAYLAND=1 DXVK_HDR=1 mangohud %command%
