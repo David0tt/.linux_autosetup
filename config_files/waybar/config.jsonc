@@ -42,8 +42,8 @@
         // "battery#bat2",
         "power-profiles-daemon",
         "network",
-        "cpu",
-        "custom/memory", // Note: this tooltip requirs some resources to run...
+        "custom/cpu", // Note: this tooltip requires some resources to run...
+        "custom/memory", // Note: this tooltip requires some resources to run...
         "clock", 
         "custom/power"
     ],
@@ -137,6 +137,13 @@
         "format": "{usage}% ",
         "tooltip": true,
         "interval": 1
+    },
+    "custom/cpu": {
+        "exec": "python3 \"$HOME/.config/waybar/cpu_status.py\"",
+        "return-type": "json",
+        "format": "{text}% ",
+        "tooltip": true,
+        "restart-interval": 5
     },
     "custom/memory": {
         "exec": "sh \"$HOME/.config/waybar/memory_status.sh\"",

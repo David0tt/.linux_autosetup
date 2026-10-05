@@ -1,4 +1,5 @@
 #!/bin/sh
+# NOTE: THIS IS PURELY AI CODED AND NOT MANUALLY CHECKED (ALTHOUGH THE CODE APPEARS TO WORK)
 # Sum resident memory by ps command name. Shared pages count in each process,
 # so program RSS totals are not additive with the system used-memory total.
 export LC_ALL=C
