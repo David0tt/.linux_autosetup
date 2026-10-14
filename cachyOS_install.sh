@@ -42,6 +42,9 @@ packages=(
 
     # Be careful installing any untrusted applications from the AUR!
     paru
+
+    # Fixes
+    jre17-openjdk # LibreOffice depends on this
 )
 
 sudo pacman -S --needed "${packages[@]}"
