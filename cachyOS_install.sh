@@ -22,8 +22,14 @@ packages=(
     # Cloud Services
     rclone opencloud-desktop nextcloud-client
 
+    # Backups
+    restic
+
     # General Usage
     keepassxc blender mpv libreoffice-still texlive-meta qbittorrent zotero thunderbird thunderbird-i18n-de
+    
+    # Optional general usage
+    musescore
 
     # Communication
     teamspeak3 discord spotify-launcher
