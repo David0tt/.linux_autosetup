@@ -29,7 +29,7 @@ packages=(
     keepassxc blender mpv libreoffice-still texlive-meta qbittorrent zotero thunderbird thunderbird-i18n-de
     
     # Optional general usage
-    musescore kamoso
+    musescore plasma-camera
 
     # Communication
     teamspeak3 discord spotify-launcher
