@@ -193,11 +193,13 @@
     "https://github.com/ut-austin-rpl": true
   },
   "chat.editing.confirmEditRequestRemoval": false,
-  "chat.viewSessions.orientation": "stacked",
   "editor.inlineSuggest.enabled": false, // Disable Copilot inline suggestions
   "accessibility.signals.terminalBell": {
     "sound": "on"
   },
   "chat.permissions.default": "autoApprove",
+  "chat.viewSessions.orientation": "stacked",
+  "terminal.integrated.initialHint": false,
   "security.workspace.trust.untrustedFiles": "open",
+  "explorer.confirmDelete": false,
 }
