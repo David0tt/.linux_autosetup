@@ -362,11 +362,7 @@ sudo pacman -S cuda
 # Screenshare
 # Set up fuzzel for screen selection
 mkdir -p ~/.config/xdg-desktop-portal-wlr
-cat > "$HOME/.config/xdg-desktop-portal-wlr/config" <<'EOF'
-[screencast]
-chooser_type=simple
-chooser_cmd=sh -c "swaymsg -t get_outputs -r | jq -r '.[] | select(.active) | \"Monitor: \(.name)\"' | fuzzel --dmenu"
-EOF
+ln -sfn ~/.linux_autosetup/config_files/xdg-desktop-portal-wlr/config ~/.config/xdg-desktop-portal-wlr/config
 
 
 

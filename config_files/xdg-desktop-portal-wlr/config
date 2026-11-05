@@ -1,0 +1,4 @@
+[screencast]
+chooser_type=simple
+# Keep the picker open when Teams' sharing controls take keyboard focus.
+chooser_cmd=sh -c "swaymsg -t get_outputs -r | jq -r '.[] | select(.active) | \"Monitor: \(.name)\"' | fuzzel --dmenu --no-exit-on-keyboard-focus-loss"
