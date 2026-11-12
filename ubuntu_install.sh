@@ -135,28 +135,164 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 # Set the standard terminal emulator 
 # this also makes the open terminal here dialogue in thunar work correctly:
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
+# sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
 sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty # TODO or select different terminal emulator
 # sudo update-alternatives --config x-terminal-emulator # to show the currently chosen terminal-emulator
 sudo apt install xfce4-settings -y 
 # this also allows running `xfce4-settings-manager`
 
 
-################################################################################
-###  i3 window manager specific
-################################################################################
-# Install i3-wm
-sudo apt install i3 -y 
-# thunar (File Manager):
-sudo apt install thunar -y 
-# Audio control:
-# sudo apt install pavucontrol -y # GUI, but shows too much stuff
-sudo apt install pulsemixer -y  # Minimal TUI
-# Control MPRIS-compatible media players from keyboard media keys.
-sudo apt install playerctl -y
-# flameshot (Screenshot Program)
-sudo apt install flameshot -y
+# ################################################################################
+# ###  i3 window manager specific
+# ################################################################################
+# # Install i3-wm
+# sudo apt install i3 -y 
+# # thunar (File Manager):
+# sudo apt install thunar -y 
+# # Audio control:
+# # sudo apt install pavucontrol -y # GUI, but shows too much stuff
+# sudo apt install pulsemixer -y  # Minimal TUI
+# # Control MPRIS-compatible media players from keyboard media keys.
+# sudo apt install playerctl -y
+# # flameshot (Screenshot Program)
+# sudo apt install flameshot -y
 
+
+################################################################################
+###  sway window manager specific
+################################################################################
+sudo apt install software-properties-common -y
+sudo add-apt-repository -y universe
+sudo apt update
+sway_packages=(
+    sway swaybg swayidle swaylock gtklock xwayland
+    waybar fuzzel mako-notifier
+    network-manager-gnome blueman pavucontrol playerctl
+    pipewire pipewire-pulse wireplumber power-profiles-daemon
+    grim slurp wl-clipboard cliphist wtype
+    jq bc dex brightnessctl ddcutil i2c-tools yad gammastep
+    alacritty dolphin pcmanfm kcalc micro
+    qtwayland5 qt6-wayland polkit-kde-agent-1
+    xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk
+    dbus-user-session dbus-x11 libnotify-bin xdg-utils
+    imagemagick fontconfig fonts-liberation fonts-font-awesome
+    build-essential pkg-config libwayland-dev libwayland-bin wayland-protocols
+)
+sudo apt install -y "${sway_packages[@]}"
+
+# Allow the Waybar brightness slider to control external displays through DDC/CI.
+sudo modprobe i2c-dev
+echo i2c-dev | sudo tee /etc/modules-load.d/i2c-dev.conf > /dev/null
+sudo usermod -aG i2c "$USER"
+
+# st and the current fzf are installed in the Terminal section above.
+# Waybar's supplementary-plane icons need Nerd Fonts in addition to Font Awesome.
+mkdir -p ~/.local/share/fonts
+curl -fL https://github.com/ryanoasis/nerd-fonts/raw/v3.4.0/patched-fonts/NerdFontsSymbolsOnly/SymbolsNerdFont-Regular.ttf \
+    -o ~/.local/share/fonts/SymbolsNerdFont-Regular.ttf
+fc-cache -f ~/.local/share/fonts
+
+# Back up existing configuration, then link all helpers (including new ones).
+# Sway's main config and a few older-package adaptations are generated below.
+for config_name in sway waybar fuzzel mako xdg-desktop-portal-wlr; do
+    config_dir="$HOME/.config/$config_name"
+    if [[ -e "$config_dir" || -L "$config_dir" ]]; then
+        mv -- "$config_dir" "${config_dir}.backup.$(date +%s%N)"
+    fi
+    mkdir -p "$config_dir"
+    for config_file in "$HOME/.linux_autosetup/config_files/$config_name/"*; do
+        ln -sfn "$config_file" "$config_dir/"
+    done
+done
+
+# Ubuntu installs the KDE PolicyKit agent in an architecture-specific libexec
+# directory. Generate a local config without changing the shared CachyOS config.
+polkit_agent=$(dpkg -L polkit-kde-agent-1 | sed -n '\|/polkit-kde-authentication-agent-1$|p' | head -n 1)
+rm -f ~/.config/sway/config
+sed -e "s|/usr/lib/polkit-kde-authentication-agent-1|$polkit_agent|" \
+    -e 's|exec dbus-update-activation-environment|exec env XDG_CURRENT_DESKTOP=sway dbus-update-activation-environment|' \
+    -e 's|^    exec openrgb .*|    # Install OpenRGB separately to enable the keyboard LED profile.|' \
+    ~/.linux_autosetup/config_files/sway/config > ~/.config/sway/config
+
+# ext-data-control was introduced in Sway 1.11. Older Ubuntu Sway versions
+# can copy screenshots as PNGs, but cannot use our multi-format helper.
+sway_version=$(sway --version | awk '{print $3}')
+clipboard_helper_dir="$HOME/.linux_autosetup/src/screenshot_clipboard"
+if dpkg --compare-versions "$sway_version" ge 1.11 && \
+        [[ -f /usr/share/wayland-protocols/staging/ext-data-control/ext-data-control-v1.xml ]]; then
+    make -C "$clipboard_helper_dir" clean all && \
+        make -C "$clipboard_helper_dir" install PREFIX="$HOME/.local"
+else
+    sed -i \
+        -e 's|exec ~/.config/sway/full_screenshot.sh region|exec sh -c '\''geometry=$(slurp) \&\& grim -g "$geometry" - \| wl-copy --type image/png'\''|' \
+        -e 's|exec ~/.config/sway/full_screenshot.sh$|exec sh -c '\''grim - \| wl-copy --type image/png'\''|' \
+        ~/.config/sway/config
+fi
+
+# Fuzzel 1.9 (Ubuntu 24.04) lacks several options in our newer shared config.
+if dpkg --compare-versions "$(dpkg-query -W -f='${Version}' fuzzel)" lt 1.12; then
+    rm -f ~/.config/fuzzel/fuzzel.ini
+    sed -e '/^match-mode=/d' -e '/^anchor=/d' \
+        -e '/^prompt=/d' -e '/^input=/d' \
+        -e '/^placeholder=/d' -e '/^selection-radius=/d' \
+        ~/.linux_autosetup/config_files/fuzzel/fuzzel.ini > ~/.config/fuzzel/fuzzel.ini
+fi
+
+# Use wlr for screen sharing and GTK for file choosers, only in Sway sessions.
+mkdir -p ~/.config/xdg-desktop-portal
+cat > ~/.config/xdg-desktop-portal/sway-portals.conf <<'EOF'
+[preferred]
+default=gtk
+org.freedesktop.impl.portal.ScreenCast=wlr
+org.freedesktop.impl.portal.Screenshot=wlr
+EOF
+
+# Ubuntu 24.04 uses ImageMagick 6, whose executable is called convert.
+if ! command -v magick >/dev/null 2>&1; then
+    rm -f ~/.config/waybar/album_art.sh
+    sed 's/^    magick /    convert /' \
+        ~/.linux_autosetup/config_files/waybar/album_art.sh > ~/.config/waybar/album_art.sh
+    chmod +x ~/.config/waybar/album_art.sh
+fi
+
+# Waybar 0.9 lacks the power-profile module and newer popup menu API.
+# Keep the other modules, and use Fuzzel for the power menu on those versions.
+if dpkg --compare-versions "$(dpkg-query -W -f='${Version}' waybar)" lt 0.10; then
+    rm -f ~/.config/waybar/config.jsonc
+    sed '/^        "power-profiles-daemon",/d' \
+        ~/.linux_autosetup/config_files/waybar/config.jsonc > ~/.config/waybar/config.jsonc
+    cat > ~/.config/waybar/power_menu.sh <<'EOF'
+#!/bin/sh
+choice=$(printf 'Lock\nSuspend\nLogout\nReboot\nShutdown\n' | fuzzel --dmenu)
+case "$choice" in
+    Lock) gtklock -d ;;
+    Suspend) systemctl suspend ;;
+    Logout) swaymsg exit ;;
+    Reboot) systemctl reboot ;;
+    Shutdown) systemctl poweroff ;;
+esac
+EOF
+    sed -i '/"menu": "on-click",/a\        "on-click": "sh $HOME/.config/waybar/power_menu.sh",' \
+        ~/.config/waybar/config.jsonc
+fi
+
+# Prefer native Wayland for Electron apps and Firefox idle inhibition.
+mkdir -p ~/.config/environment.d
+cat > ~/.config/environment.d/90-electron-wayland.conf <<'EOF'
+ELECTRON_OZONE_PLATFORM_HINT=wayland
+MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit
+EOF
+# Sway sessions started by a display manager also need these in their login environment.
+for setting in 'export ELECTRON_OZONE_PLATFORM_HINT=wayland' \
+        'export MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit'; do
+    grep -qxF "$setting" ~/.profile || echo "$setting" >> ~/.profile
+done
+
+# Select "Sway" from the login screen's session menu after logging out.
+# Display names/modes/scaling in ~/.config/sway/config are machine-specific:
+# inspect them with swaymsg -t get_outputs and adjust the DP-2/DP-3/eDP-1 blocks.
+# Stock Ubuntu Sway does not provide CachyOS's HDR extensions.
+# NVIDIA users may need sway --unsupported-gpu; do not force a renderer globally.
 
 
 
@@ -353,14 +489,7 @@ ln -s ~/.linux_autosetup/config_files/i3/open_website_in_firefox.sh ~/.config/i3
 ln -s ~/.linux_autosetup/config_files/i3/run_docker_workspace.sh ~/.config/i3/run_docker_workspace.sh
 ln -s ~/.linux_autosetup/config_files/i3/attach_docker_workspace.sh ~/.config/i3/attach_docker_workspace.sh
 
-rm -r ~/.config/sway/
-mkdir -p ~/.config/sway/
-ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
-ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
-ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
-ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
-ln -s ~/.linux_autosetup/config_files/sway/cycle_display_layout.sh ~/.config/sway/cycle_display_layout.sh
-ln -s ~/.linux_autosetup/config_files/sway/full_screenshot.sh ~/.config/sway/full_screenshot.sh
+# Sway, Waybar, Fuzzel, Mako, and portal configs are linked in the Sway section.
 cat ~/.Xresources >> ~/.Xdefaults
 
 # rm -r ~/.config/alacritty/
