@@ -385,11 +385,10 @@ bindsym $mod+Shift+g exec ~/.config/sway/sway_grid.sh
 
 
 # Clipboard manager
-# Clipboard history picker in st + fzf.
-bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | fzf --layout=reverse | cliphist decode | wl-copy && swaymsg exec "wtype -s 150 -M ctrl -k v -m ctrl"'
+bindsym $mod+v exec st -t cliphist_fzf -e sh -c 'cliphist list | ~/.fzf/bin/fzf --layout=reverse | cliphist decode | wl-copy && swaymsg exec "wtype -s 150 -M ctrl -k v -m ctrl"'
 
 # Delete from history
-bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
+bindsym $mod+Shift+v exec st -t cliphist_delete -e sh -c 'cliphist list | ~/.fzf/bin/fzf --layout=reverse --prompt=\"Delete From Clipboard: \" | cliphist delete'
 
 # Other considerations
 # Sadly diodon does not work on wayland
@@ -486,10 +485,16 @@ bar {
 
 include /etc/sway/config.d/*
 
+# Override the system wallpaper with a solid black background.
+output * bg #000000 solid_color
 
 
 # Get outputs, available resolutions, etc.:
 # swaymsg -t get_outputs
+
+# Default desktop layout, left to right: DP-4, DP-5.
+output DP-4 position 0 0
+output DP-5 position 1920 0
 
 # Change Screen Scaling and Enable HDR:
 output DP-3 {

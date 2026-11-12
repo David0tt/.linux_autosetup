@@ -92,7 +92,7 @@ git clone https://git.suckless.org/st
 cd st
 
 CONFIG_FILE=config.def.h
-# Change font size from 12 to 30
+# Change font size
 sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/' "$CONFIG_FILE"
 # Change keybindings to allow zooming with ctrl +/-
 sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"
@@ -175,6 +175,9 @@ sudo apt install -y \
     dbus-user-session libnotify-bin xdg-utils \
     imagemagick fontconfig fonts-liberation fonts-font-awesome \
     pkg-config libwayland-dev libwayland-bin wayland-protocols
+
+# KDE theme integration for Dolphin outside Plasma
+sudo apt install -y --no-install-recommends plasma-integration kde-style-breeze libkf6config-bin
 
 # Back up existing configuration, then symlink configs and helpers.
 mkdir -p ~/.config
@@ -500,6 +503,12 @@ gtk-application-prefer-dark-theme = true' > ~/.config/gtk-4.0/settings.ini
 # Also set using gsettings
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+
+# KDE/Qt applications need their own palette and platform integration under Sway.
+mkdir -p ~/.config/environment.d
+ln -sf ~/.linux_autosetup/config_files/environment.d/91-kde-qt-theme.conf ~/.config/environment.d/91-kde-qt-theme.conf
+kwriteconfig6 --file kdeglobals --group General --key ColorScheme BreezeDark
+kwriteconfig6 --file kdeglobals --group KDE --key widgetStyle Breeze
 
 # enable ctrl+backspace removal of words
 echo '"\C-h": backward-kill-word' >> ~/.inputrc 

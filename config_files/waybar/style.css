@@ -1,4 +1,6 @@
 * {
+    /* Prefer Nerd Font glyphs over Ubuntu's fallback fonts for private-use icons. */
+    font-family: "Symbols Nerd Font", sans-serif;
     border: none;
     border-radius: 0;
     min-height: 0;
@@ -13,9 +15,13 @@ window#waybar {
     padding: 0 5px;
     background: transparent;
     color: #cfcfcf;
-    font-family: "WorkspaceIconDaemon", monospace;
     font-size: 20px;
     letter-spacing: 3px;
+}
+
+/* The global * rule also matches labels, overriding the button's inherited font. */
+#workspaces button label {
+    font-family: "WorkspaceIconDaemon", "Symbols Nerd Font", monospace;
 }
 
 #workspaces button.focused {

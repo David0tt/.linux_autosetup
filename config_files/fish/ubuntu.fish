@@ -6,6 +6,7 @@ end
 
 fish_add_path "$HOME/bin" "$HOME/.local/bin" "$HOME/.fzf/bin"
 set -gx TERMINAL alacritty
+set -gx QT_QPA_PLATFORMTHEME KDE
 
 function fish_greeting
 end

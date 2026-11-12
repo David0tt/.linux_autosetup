@@ -298,3 +298,4 @@ Many of the following shortcuts are the defaults, although some need to be manua
 - [ ] find some efficient system wide keypass integration, so i dont always have to open the app
 - [ ] Hotkey to copy the current line from the shell
 - [ ] there is some inconsistency, whether dolphin or pcmanfm is used as file manager. This should be cleaned up, so only one is used.
+- [ ] There should be a nicer way of managing machine specific settings. Maybe chezmoi? Maybe a git branch for each machine
