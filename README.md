@@ -5,7 +5,7 @@ In the best of all worlds, this provides you with a nice, opinionated full compu
 
 This repo basically supports two setups:
 1. CachyOS with KDE Plasma and Sway
-2. Ubuntu with Gnome and i3
+2. Ubuntu with GNOME and Sway
 
 ## Installation
 
@@ -14,25 +14,39 @@ This repo basically supports two setups:
    1. Select Limine as the bootloader
    2. If wanted, enable disk encryption on installation
    3. Select KDE Plasma as the desktop environment (don't select the optional sway!)
+2. run the setup and installation script:
+```bash
+cd ~
+git clone https://github.com/David0tt/.linux_autosetup
+cd .linux_autosetup
+# OPTIONAL: comment or uncomment any wanted or unwanted steps in the installation script
+bash cachyOS_install.sh
+```
+3. Run all the post-installation that could not be automated
+
+
+### Ubuntu with GNOME and Sway
+1. Install Ubuntu (>= 26.04) from an installation medium (https://ubuntu.com/tutorials/install-ubuntu-desktop)
+2. run the setup and installation script:
+```bash
+cd ~
+git clone https://github.com/David0tt/.linux_autosetup
+cd .linux_autosetup
+# OPTIONAL: comment or uncomment any wanted or unwanted steps in the installation script
+bash ubuntu_install.sh
+```
+3. Run all the post-installation that could not be automated
+4. install my custom shortcuts following https://github.com/David0tt/MyShortcuts
+
+### Ubuntu with GNOME and i3 (not actively supported anymore)
+1. Install Ubuntu from an installation medium (https://ubuntu.com/tutorials/install-ubuntu-desktop)
 2. Optional: comment or uncomment any wanted or unwanted steps in the installation script
 3. run the setup and installation script:
 ```bash
 cd ~
 git clone https://github.com/David0tt/.linux_autosetup
 cd .linux_autosetup
-bash cachyOS_install.sh
-```
-4. Run all the post-installation that could not be automated
-
-
-### Ubuntu with Gnome and i3
-1. Install Ubuntu from an installation medium (https://ubuntu.com/tutorials/install-ubuntu-desktop)
-2. Optional: comment or uncomment any wanted or unwanted steps in the installation script
-3. run the setup and installation script: 
-```bash
-cd ~
-git clone https://github.com/David0tt/.linux_autosetup
-cd .linux_autosetup
+# IMPORTANT: Comment out the section sway in the `ubuntu_install.sh` and remove the comments from the section for i3
 bash ubuntu_install.sh
 ```
 4. Run all the post-installation that could not be automated
@@ -113,11 +127,6 @@ Ubuntu + Gnome + i3 is the alternative system which often works better with some
     - shutdown button with gui Logout | Suspend | Shutdown | Reboot selection 
     - automatically close settings windows on mouse leave (audio, brightness, network, bluetooth)
     - all interactive elements use interrupt signals to trigger instant reloads of the waybar UI elements on click/modification
-
-
-## TODO
-- [ ] find some efficient system wide keypass integration, so i dont always have to open the app
-- [ ] Hotkey to copy the current line from the shell
 
 
 
@@ -285,3 +294,7 @@ Many of the following shortcuts are the defaults, although some need to be manua
     - `Ctrl+Shift+W` close active window
 
 
+## TODO
+- [ ] find some efficient system wide keypass integration, so i dont always have to open the app
+- [ ] Hotkey to copy the current line from the shell
+- [ ] there is some inconsistency, whether dolphin or pcmanfm is used as file manager. This should be cleaned up, so only one is used.

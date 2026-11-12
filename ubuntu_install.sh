@@ -91,7 +91,7 @@ sudo apt install build-essential libx11-dev libxft-dev libxext-dev libfontconfig
 git clone https://git.suckless.org/st
 cd st
 
-set CONFIG_FILE 'config.def.h'
+CONFIG_FILE=config.def.h
 # Change font size from 12 to 30
 sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/' "$CONFIG_FILE"
 # Change keybindings to allow zooming with ctrl +/-
@@ -135,28 +135,121 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 # Set the standard terminal emulator 
 # this also makes the open terminal here dialogue in thunar work correctly:
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
+# sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty # TODO or select different terminal emulator
 sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty # TODO or select different terminal emulator
 # sudo update-alternatives --config x-terminal-emulator # to show the currently chosen terminal-emulator
 sudo apt install xfce4-settings -y 
 # this also allows running `xfce4-settings-manager`
 
 
-################################################################################
-###  i3 window manager specific
-################################################################################
-# Install i3-wm
-sudo apt install i3 -y 
-# thunar (File Manager):
-sudo apt install thunar -y 
-# Audio control:
-# sudo apt install pavucontrol -y # GUI, but shows too much stuff
-sudo apt install pulsemixer -y  # Minimal TUI
-# Control MPRIS-compatible media players from keyboard media keys.
-sudo apt install playerctl -y
-# flameshot (Screenshot Program)
-sudo apt install flameshot -y
+# ################################################################################
+# ###  i3 window manager specific
+# ################################################################################
+# # Install i3-wm
+# sudo apt install i3 -y
+# # thunar (File Manager):
+# sudo apt install thunar -y
+# # Audio control:
+# # sudo apt install pavucontrol -y # GUI, but shows too much stuff
+# sudo apt install pulsemixer -y  # Minimal TUI
+# # Control MPRIS-compatible media players from keyboard media keys.
+# sudo apt install playerctl -y
+# # flameshot (Screenshot Program)
+# sudo apt install flameshot -y
 
+
+################################################################################
+###  sway window manager specific
+################################################################################
+sudo apt update
+sudo apt install -y \
+    sway swayidle gtklock xwayland \
+    waybar fuzzel mako-notifier \
+    network-manager-gnome blueman pavucontrol playerctl \
+    pipewire pipewire-pulse wireplumber power-profiles-daemon \
+    grim slurp wl-clipboard cliphist wtype \
+    jq bc dex brightnessctl ddcutil i2c-tools yad gammastep \
+    dolphin pcmanfm kcalc micro fish \
+    qtwayland5 qt6-wayland policykit-1-gnome \
+    xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk \
+    dbus-user-session libnotify-bin xdg-utils \
+    imagemagick fontconfig fonts-liberation fonts-font-awesome \
+    pkg-config libwayland-dev libwayland-bin wayland-protocols
+
+# Back up existing configuration, then symlink configs and helpers.
+mkdir -p ~/.config
+for config_name in sway waybar fuzzel mako xdg-desktop-portal-wlr; do
+    config_dir="$HOME/.config/$config_name"
+    if [[ -e "$config_dir" || -L "$config_dir" ]]; then
+        mv -- "$config_dir" "${config_dir}.backup.$(date +%s%N)"
+    fi
+    ln -sT "$HOME/.linux_autosetup/config_files/$config_name" "$config_dir"
+done
+
+# Use Fish in Sway terminals and Bash/ble.sh in GNOME, without changing the login shell.
+mkdir -p ~/.config/fish
+if [[ -e ~/.config/fish/config.fish || -L ~/.config/fish/config.fish ]]; then
+    mv -- ~/.config/fish/config.fish "$HOME/.config/fish/config.fish.backup.$(date +%s%N)" || exit 1
+fi
+ln -sT ~/.linux_autosetup/config_files/fish/ubuntu.fish ~/.config/fish/config.fish
+# Install the same Pure prompt used by CachyOS.
+fish --no-config -c 'curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher install jorgebucaran/fisher pure-fish/pure'
+# Keep this machine-specific Alacritty edit in the repo.
+if ! grep -q '^\[terminal.shell\]' ~/.linux_autosetup/config_files/alacritty/alacritty.toml; then
+    cat >> ~/.linux_autosetup/config_files/alacritty/alacritty.toml <<'EOF'
+
+[terminal.shell]
+program = "/bin/sh"
+args = ["-c", 'case ":${XDG_CURRENT_DESKTOP:-}:" in *:sway:*) exec fish;; *) exec bash;; esac']
+EOF
+fi
+
+# Allow the Waybar brightness slider to control external displays through DDC/CI.
+sudo modprobe i2c-dev
+echo i2c-dev | sudo tee /etc/modules-load.d/i2c-dev.conf > /dev/null
+sudo usermod -aG i2c "$USER"
+
+# Waybar's supplementary-plane icons need Nerd Fonts in addition to Font Awesome.
+mkdir -p ~/.local/share/fonts
+curl -fL https://github.com/ryanoasis/nerd-fonts/raw/v3.4.0/patched-fonts/NerdFontsSymbolsOnly/SymbolsNerdFont-Regular.ttf \
+    -o ~/.local/share/fonts/SymbolsNerdFont-Regular.ttf
+fc-cache -f ~/.local/share/fonts
+
+# Use Ubuntu's GNOME PolicyKit agent for authentication dialogs in Sway.
+# Edit the repository source so ~/.config/sway/config remains symlinked.
+polkit_agent=$(dpkg -L policykit-1-gnome | sed -n '\|/polkit-gnome-authentication-agent-1$|p' | head -n 1)
+if [[ ! -x "$polkit_agent" ]]; then
+    echo "GNOME PolicyKit agent not found; check that policykit-1-gnome installed successfully." >&2
+    exit 1
+fi
+sed -i -E -e "s|^([[:space:]]*exec[[:space:]]+)[^[:space:]]*/polkit-(kde\|gnome)-authentication-agent-1[[:space:]]*$|\1$polkit_agent|" \
+    -e '/^[[:space:]]*exec openrgb /d' \
+    ~/.linux_autosetup/config_files/sway/config
+
+clipboard_helper_dir="$HOME/.linux_autosetup/src/screenshot_clipboard"
+make -C "$clipboard_helper_dir" clean all && \
+    make -C "$clipboard_helper_dir" install PREFIX="$HOME/.local"
+
+# Use wlr for screen sharing and GTK for file choosers, only in Sway sessions.
+mkdir -p ~/.config/xdg-desktop-portal
+cat > ~/.config/xdg-desktop-portal/sway-portals.conf <<'EOF'
+[preferred]
+default=gtk
+org.freedesktop.impl.portal.ScreenCast=wlr
+org.freedesktop.impl.portal.Screenshot=wlr
+EOF
+
+# Prefer native Wayland for Electron apps and Firefox idle inhibition.
+mkdir -p ~/.config/environment.d
+cat > ~/.config/environment.d/90-electron-wayland.conf <<'EOF'
+ELECTRON_OZONE_PLATFORM_HINT=wayland
+MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit
+EOF
+# Sway sessions started by a display manager also need these in their login environment.
+for setting in 'export ELECTRON_OZONE_PLATFORM_HINT=wayland' \
+        'export MOZ_WAKE_LOCK_TYPE=WaylandIdleInhibit'; do
+    grep -qxF "$setting" ~/.profile || echo "$setting" >> ~/.profile
+done
 
 
 
@@ -353,19 +446,14 @@ ln -s ~/.linux_autosetup/config_files/i3/open_website_in_firefox.sh ~/.config/i3
 ln -s ~/.linux_autosetup/config_files/i3/run_docker_workspace.sh ~/.config/i3/run_docker_workspace.sh
 ln -s ~/.linux_autosetup/config_files/i3/attach_docker_workspace.sh ~/.config/i3/attach_docker_workspace.sh
 
-rm -r ~/.config/sway/
-mkdir -p ~/.config/sway/
-ln -s ~/.linux_autosetup/config_files/sway/config ~/.config/sway/config
-ln -s ~/.linux_autosetup/config_files/sway/open_website_in_firefox.sh ~/.config/sway/open_website_in_firefox.sh
-ln -s ~/.linux_autosetup/config_files/sway/i3status.conf ~/.config/sway/i3status.conf
-ln -s ~/.linux_autosetup/config_files/sway/sway_grid.sh ~/.config/sway/sway_grid.sh
-ln -s ~/.linux_autosetup/config_files/sway/cycle_display_layout.sh ~/.config/sway/cycle_display_layout.sh
-ln -s ~/.linux_autosetup/config_files/sway/full_screenshot.sh ~/.config/sway/full_screenshot.sh
+# Sway, Waybar, Fuzzel, Mako, and portal configs are linked in the Sway section.
 cat ~/.Xresources >> ~/.Xdefaults
 
-# rm -r ~/.config/alacritty/
-mkdir -p ~/.config/alacritty/
-ln -s ~/.linux_autosetup/config_files/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+mkdir -p ~/.config
+if [[ -e ~/.config/alacritty || -L ~/.config/alacritty ]]; then
+    mv -- ~/.config/alacritty "$HOME/.config/alacritty.backup.$(date +%s%N)" || exit 1
+fi
+ln -sT ~/.linux_autosetup/config_files/alacritty ~/.config/alacritty
 
 # Put the VSCode config files into the appropriate locations
 rm ~/.config/Code/User/keybindings.json
