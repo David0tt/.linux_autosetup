@@ -185,6 +185,13 @@ key = "S"
 mods = "Control|Shift"
 chars = "\u001b[1;2P"
 
+# Send Ctrl+# directly as a CSI-u sequence (35 = '#', 5 = Control).
+[[keyboard.bindings]]
+key = "#"
+mods = "Control"
+mode = "Alt"
+chars = "\u001b[35;5u"
+
 # Send the conventional Meta-Backspace and Meta-d sequences for word deletion.
 # These work with both Micro's bindings and Readline-compatible shells.
 [[keyboard.bindings]]

@@ -1,7 +1,9 @@
 {
+    "Alt-/": "lua:comment.comment",
     "Alt-Backspace": "DeleteWordLeft",
     "Alt-d": "DeleteWordRight",
-    "Ctrl-s": "lua:initlua.guiSave",
     "Ctrl-o": "lua:initlua.guiOpen",
+    "Ctrl-s": "lua:initlua.guiSave",
+    "CtrlUnderscore": "lua:comment.comment",
     "ShiftF1": "lua:initlua.guiSaveAs"
 }
