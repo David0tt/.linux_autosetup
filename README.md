@@ -33,7 +33,7 @@ bash cachyOS_install.sh
 cd ~
 git clone https://github.com/David0tt/.linux_autosetup
 cd .linux_autosetup
-bash install_script.sh
+bash ubuntu_install.sh
 ```
 4. Run all the post-installation that could not be automated
 5. install my custom shortcuts following https://github.com/David0tt/MyShortcuts
