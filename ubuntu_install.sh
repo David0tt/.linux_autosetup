@@ -92,7 +92,7 @@ git clone https://git.suckless.org/st
 cd st
 
 CONFIG_FILE=config.def.h
-# Change font size from 12 to 30
+# Change font size
 sed -i 's/static char \*font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";/static char *font = "Liberation Mono:pixelsize=18:antialias=true:autohint=true";/' "$CONFIG_FILE"
 # Change keybindings to allow zooming with ctrl +/-
 sed -i 's/{ TERMMOD, XK_Prior, zoom, {.f = +1} },/{ ControlMask, XK_plus, zoom, {.f = +1} },/' "$CONFIG_FILE"

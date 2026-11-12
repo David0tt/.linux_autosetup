@@ -223,3 +223,7 @@ action = "ResetFontSize"
 # [general]
 # live_config_reload = true
 # working_directory = "None"
+
+[terminal.shell]
+program = "/bin/sh"
+args = ["-c", 'case ":${XDG_CURRENT_DESKTOP:-}:" in *:sway:*) exec fish;; *) exec bash;; esac']
