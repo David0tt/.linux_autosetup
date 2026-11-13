@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Diodon
+Exec=diodon
+Terminal=false
+OnlyShowIn=GNOME;

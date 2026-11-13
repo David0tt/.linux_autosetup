@@ -61,6 +61,10 @@ git config --global mergetool.vscode.cmd 'code --wait --merge $REMOTE $LOCAL $BA
 sudo apt install gparted -y 
 # Diodon (Clipboard Manager)
 sudo apt install diodon -y
+# Override Ubuntu's system autostart entry: start Diodon only in GNOME.
+mkdir -p ~/.config/autostart
+ln -sfnT ~/.linux_autosetup/config_files/autostart/diodon-autostart.desktop \
+    ~/.config/autostart/diodon-autostart.desktop
 set +x 
 echo "YOU MANUALLY HAVE TO EDIT THE DIODON SETTINGS"
 echo "In Diodon Preferences: (Diodon Hotkey->Preferences)"
