@@ -294,6 +294,11 @@ Many of the following shortcuts are the defaults, although some need to be manua
     - `Ctrl+Shift+W` close active window
 
 
+## Notes:
+
+- To set default programs, the xdg-mime config can be used, e.g. with a gui, running: `xfce4-mime-settings`, or with the `xdg-mime` command
+
+
 ## TODO
 - [ ] find some efficient system wide keypass integration, so i dont always have to open the app
 - [ ] Hotkey to copy the current line from the shell
