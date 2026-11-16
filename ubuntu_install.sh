@@ -556,6 +556,17 @@ HISTCONTROL=ignoredups:ignorespace' >> ~/.bashrc
 
 
 ################################################################################
+### Fixes:
+################################################################################
+# Fix dolphin using the appropriate applications as default
+sudo apt install kde-cli-tools
+mkdir -p ~/.config/menus
+ln -s /etc/xdg/menus/gnome-applications.menu ~/.config/menus/applications.menu
+kbuildsycoca6 --noincremental
+
+
+
+################################################################################
 ###  Post Installation TODO message
 ################################################################################
 set +x
