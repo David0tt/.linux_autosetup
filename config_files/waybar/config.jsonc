@@ -48,6 +48,9 @@
         "custom/power"
     ],
     // Modules configuration
+    "sway/workspaces": {
+        "cursor": true // Hand cursor for the clickable workspace buttons.
+    },
     // "sway/workspaces": {
     //     "disable-scroll": true,
     //     "all-outputs": true,
@@ -120,6 +123,7 @@
         }
     },
     "tray": {
+        "cursor": true,
         "icon-size": 18,
         "spacing": 10
         // "icons": {
@@ -279,6 +283,7 @@
         "on-click": "pavucontrol"
     },
     "pulseaudio/slider": {
+        "cursor": true,
         "min": 0,
         "max": 130,
         "orientation": "horizontal"

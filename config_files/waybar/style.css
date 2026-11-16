@@ -29,9 +29,12 @@ window#waybar {
     color: #ffffff;
 }
 
+/* Waybar 0.16 custom modules put hover on the box, but .module on its label. */
 #workspaces button:hover,
 label.module:hover,
-box.module:hover {
+box:hover > label.module,
+box.module:hover,
+#pulseaudio-slider:hover {
     background: rgba(90, 90, 90, 0.45);
     color: #ffffff;
 }
