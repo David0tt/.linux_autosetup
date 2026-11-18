@@ -148,6 +148,11 @@ mkdir -p ~/.config/fish
 rm -f ~/.config/fish/config.fish
 ln -s ~/.linux_autosetup/config_files/fish/config.fish ~/.config/fish/config.fish
 
+# mpv
+mkdir -p ~/.config/mpv/
+ln -s ~/.linux_autosetup/config_files/mpv/input.conf ~/.config/mpv/input.conf
+
+
 # Alacritty
 mkdir -p ~/.config/alacritty/
 rm -rf ~/.config/alacritty/

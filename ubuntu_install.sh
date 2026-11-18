@@ -185,7 +185,7 @@ sudo apt install -y --no-install-recommends plasma-integration kde-style-breeze 
 
 # Back up existing configuration, then symlink configs and helpers.
 mkdir -p ~/.config
-for config_name in sway waybar fuzzel mako xdg-desktop-portal-wlr; do
+for config_name in sway waybar fuzzel mako xdg-desktop-portal-wlr mpv; do
     config_dir="$HOME/.config/$config_name"
     if [[ -e "$config_dir" || -L "$config_dir" ]]; then
         mv -- "$config_dir" "${config_dir}.backup.$(date +%s%N)"
