@@ -39,6 +39,7 @@ packages=(
     openrgb
     xorg-xeyes
     gammastep # To enable custom night-light toggle
+    hunspell-de hyphen-de mythes-de # libreoffice german language support
 
     # Build dependencies for st
     base-devel libx11 libxft fontconfig
