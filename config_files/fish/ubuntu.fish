@@ -13,6 +13,7 @@ end
 
 set -g pure_symbol_prompt ">"
 set -g pure_symbol_reverse_prompt "<"
+source ~/.linux_autosetup/config_files/fish/alacritty_copy.fish
 set -gx FZF_CTRL_R_OPTS "--with-nth=3.." # Hide history entry numbers and timestamps.
 
 # Open the supplied paths, or the current directory, in PCManFM.

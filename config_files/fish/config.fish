@@ -12,6 +12,7 @@ end
 
 set -g pure_symbol_prompt ">"
 set -g pure_symbol_reverse_prompt "<"
+source ~/.linux_autosetup/config_files/fish/alacritty_copy.fish
 
 
 export TERMINAL=alacritty

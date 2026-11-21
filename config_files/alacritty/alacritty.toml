@@ -220,6 +220,95 @@ key = "Key0"
 mods = "Control"
 action = "ResetFontSize"
 
+# At an empty two-line Fish/Pure prompt, Ctrl+Shift+Y copies the last command.
+# Alacritty runs matching bindings in order. The blank separator above each
+# prompt contains the searchable marker emitted by alacritty_copy.fish.
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "ClearSelection"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "First"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "Up"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "First"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "Up"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "SemanticSearchBackward"
+
+# Start the selection just below the previous marker.
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "Down"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "ToggleLineSelection"
+
+# Extend it to the line just above the current marker and copy it.
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "SearchPrevious"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "Up"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "ClearSelection"
+
+[[keyboard.bindings]]
+key = "Y"
+mods = "Control|Shift"
+mode = "~Alt|~Vi|~Search"
+action = "ToggleViMode"
+
 # [general]
 # live_config_reload = true
 # working_directory = "None"
