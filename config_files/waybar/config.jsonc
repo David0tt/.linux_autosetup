@@ -28,6 +28,7 @@
         "modules-right": [
         "pulseaudio/slider",
         "pulseaudio",
+        "custom/audio-output",
         "tray",
         // "mpd",
         // "idle_inhibitor",
@@ -281,6 +282,16 @@
             ]
         },
         "on-click": "pavucontrol"
+    },
+    "custom/audio-output": {
+        "exec": "sh \"$HOME/.config/waybar/audio_output.sh\" status",
+        "return-type": "json",
+        "interval": 2,
+        "signal": 13,
+        "format": "{text}",
+        "tooltip": true,
+        "cursor": true,
+        "on-click": "sh \"$HOME/.config/waybar/audio_output.sh\" toggle"
     },
     "pulseaudio/slider": {
         "cursor": true,

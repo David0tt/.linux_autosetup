@@ -52,6 +52,10 @@ box.module:hover,
     padding: 0 8px 0 4px;
 }
 
+#custom-audio-output.unavailable {
+    color: #888888;
+}
+
 /* #pulseaudio {
     font-variant-numeric: tabular-nums;
 } */
