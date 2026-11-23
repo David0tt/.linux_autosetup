@@ -627,3 +627,10 @@ ln -sfn ~/.linux_autosetup/config_files/xdg-desktop-portal-wlr/config ~/.config/
 #
 # - To get a FPS performance hud, you can use mangohud: 
 #   PROTON_ENABLE_WAYLAND=1 DXVK_HDR=1 mangohud %command%
+
+
+# Edu VPN
+# following arch instructions from https://docs.eduvpn.org/client/linux/installation.html#arch-unofficial
+# 
+#     curl https://app.eduvpn.org/linux/v4/deb/app+linux@eduvpn.org.asc | gpg --import -
+#     paru -S python-eduvpn-client
