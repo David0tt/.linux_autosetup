@@ -40,6 +40,7 @@ packages=(
     xorg-xeyes
     gammastep # To enable custom night-light toggle
     hunspell-de hyphen-de mythes-de # libreoffice german language support
+    # isoimagewriter # To write iso images to devices, e.g. for OS installs
 
     # Build dependencies for st
     base-devel libx11 libxft fontconfig
