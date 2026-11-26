@@ -57,6 +57,7 @@ git config --global difftool.vscode.cmd 'code --wait --diff "$LOCAL" "$REMOTE"'
 git config --global difftool.prompt false
 git config --global merge.tool vscode
 git config --global mergetool.vscode.cmd 'code --wait --merge $REMOTE $LOCAL $BASE $MERGED'
+git config --global init.defaultBranch main
 # gparted (partition manager, easily allows partitioning in a graphical interface)
 sudo apt install gparted -y 
 # Diodon (Clipboard Manager)
